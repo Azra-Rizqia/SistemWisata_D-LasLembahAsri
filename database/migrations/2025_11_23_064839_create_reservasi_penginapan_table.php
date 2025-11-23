@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('metode_pembayaran_reservasi');
             $table->text('catatan_user_reservasi')->nullable();
             $table->foreignId('id_fasilitas')->nullable()->constrained('fasilitas')->nullOnDelete();
-            $table->foreignId('id_user')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('id_penginapan')->constrained('penginapan')->cascadeOnDelete();
+            $table->foreignId('id_user')->constrained('users')->nullOnDelete();
+            $table->foreignId('id_penginapan')->constrained('penginapan')->nullOnDelete();
             $table->timestamps();
         });
     }

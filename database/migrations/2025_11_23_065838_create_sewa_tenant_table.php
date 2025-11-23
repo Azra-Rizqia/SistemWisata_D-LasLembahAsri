@@ -18,10 +18,8 @@ return new class extends Migration
             $table->enum('status_pembayaran_tenant', ['Menunggu', 'Dibayar', 'Dibatalkan'])->default('Menunggu');
             $table->text('catatan_publik')->nullable();
             // FK
-            $table->unsignedBigInteger('id_tenant');
-            $table->unsignedBigInteger('id_user');
-            $table->foreignId('id_tenant')->constrained('tenant')->cascadeOnDelete();
-            $table->foreignId('id_user')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('id_tenant')->constrained('tenant')->nullOnDelete();
+            $table->foreignId('id_user')->constrained('users')->nullOnDelete();
 
             $table->timestamps();
         });
