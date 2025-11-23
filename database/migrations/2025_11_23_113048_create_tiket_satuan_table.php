@@ -11,18 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tiket_paket', function (Blueprint $table) {
-            $table->id('id_tiket_paket');
-            $table->string('nama_tiket_paket');
+        Schema::create('tiket_satuan', function (Blueprint $table) {
+            $table->id('id_tiket_satuan');
+
+            $table->string('nama_tiket');
             $table->text('deskripsi_tiket');
-            $table->integer('harga_tiket_weekday');
-            $table->integer('harga_tiket_weekend');
-            $table->boolean('status_tiket')->default(true);
-            $table->string('qr_tiket');
-            $table->timestamps();
-            //fk
+            $table->Integer('harga_tiket');
+
             $table->foreignId('id_wahana')->nullable()->constrained('wahana')->nullOnDelete();
-            
+            $table->timestamps();
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tiket_paket');
+        Schema::dropIfExists('tiket_satuan');
     }
 };
