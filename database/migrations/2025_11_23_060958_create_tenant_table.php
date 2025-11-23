@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('tenant', function (Blueprint $table) {
             $table->id('id_tenant');
             $table->string('lokasi_tenant')->nullable();
-            $table->integer('harga_sewa_tenant', 12, 2)->default(0);
             $table->timestamps();
         });
     }
