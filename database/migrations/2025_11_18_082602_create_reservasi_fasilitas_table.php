@@ -11,8 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservasi', function (Blueprint $table) {
-            $table->id();
+        Schema::create('reservasi_fasilitas', function (Blueprint $table) {
+            $table->id('id_reservasi_fasilitas');
+            $table->string('kode_reservasi_fasilitas', 20)->unique();
+            $table->string('kategori_reservasi');
+            $table->date('tanggal_reservasi');
+            $table->integer('total_harga_reservasi');
+            $table->string('status_reservasi');
+            $table->string('metode_pembayaran_reservasi');
+            $table->text('catatan_user_reservasi')->nullable();
+            $table->foreignId('id_fasilitas')->nullable()->constrained('fasilitas')->nullOnDelete();
+            $table->foreignId('id_user')->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
