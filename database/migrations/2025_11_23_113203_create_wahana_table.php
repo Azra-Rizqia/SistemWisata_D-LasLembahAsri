@@ -18,8 +18,8 @@ return new class extends Migration
             $table->text('deskripsi_wahana');
             $table->string('pengelola_wahana')->nullable();
             $table->enum('status_wahana', ['Tersedia', 'Tidak Tersedia'])->default('Tersedia');
-            $table->Integer('harga_tiket_wahana_wd')->default(0); 
-            $table->Integer('harga_tiket_wahana_we')->default(0); 
+            $table->Integer('harga_tiket_wahana')->default(0);
+            $table->Integer('jumlah')->default(0);
 
             $table->foreignId('id_gambar')->nullable()->constrained('gambar')->nullonDelete();
             $table->timestamps();

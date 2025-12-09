@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('nama_tiket');
             $table->text('deskripsi_tiket');
             $table->Integer('harga_tiket');
-
+            
+            $table->foreignId('id_gambar')->nullable()->constrained('gambar')->nullonDelete();
             $table->foreignId('id_wahana')->nullable()->constrained('wahana')->nullOnDelete();
             $table->timestamps();
         });
