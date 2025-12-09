@@ -11,8 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservasi', function (Blueprint $table) {
-            $table->id();
+        Schema::create('tiket_satuan', function (Blueprint $table) {
+            $table->id('id_tiket_satuan');
+
+            $table->string('nama_tiket');
+            $table->text('deskripsi_tiket');
+            $table->Integer('harga_tiket');
+
+            $table->foreignId('id_wahana')->nullable()->constrained('wahana')->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -22,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservasi');
+        Schema::dropIfExists('tiket_satuan');
     }
 };

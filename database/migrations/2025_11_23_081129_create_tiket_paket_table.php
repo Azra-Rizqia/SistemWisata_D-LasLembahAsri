@@ -22,7 +22,6 @@ return new class extends Migration
             $table->timestamps();
             //fk
             $table->foreignId('id_wahana')->nullable()->constrained('wahana')->nullOnDelete();
-            $table->foreignId('id_user')->nullable()->constrained('users')->nullOnDelete();
             
         });
     }
