@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pesan_tiket_satuan', function (Blueprint $table) {
-            $table->id('id_pesan_tiket_satuan'); 
+            $table->id(); 
 
             $table->Integer('jumlah_tiket')->default(1);
             $table->Integer('harga_pesanan')->default(0);
             $table->enum('status_pesanan', ['Pending', 'Dibayar', 'Dibatalkan', 'Gagal'])->default('Pending');      
             $table->string('qr_tiket')->nullable()->unique();
 
-            $table->foreignId('id_tiket_satuan')->constrained('tiket_satuan')->nullonDelete(); 
-            $table->foreignId('id_user')->constrained('pengunjung')->nullonDelete(); 
+            $table->foreignId('id_tiket_satuan')->nullable()->constrained('tiket_satuan')->nullonDelete(); 
+            $table->foreignId('id_user')->nullable()->constrained('users')->nullonDelete(); 
             $table->timestamps();
         });
     }

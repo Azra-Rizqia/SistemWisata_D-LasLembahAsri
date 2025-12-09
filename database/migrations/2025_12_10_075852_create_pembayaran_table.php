@@ -6,18 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('pembayaran', function (Blueprint $table) {
-            $table->id('id_pembayaran');
-            $table->foreignId('id_transaksi')->constrained('transaksi')->cascadeOnDelete();
-            $table->foreignId('id_user')->constrained('users')->cascadeOnDelete();
+            $table->engine = 'InnoDB';
+
+            $table->id();
+            $table->foreignId('id_transaksi')->nullable()->constrained('transaksi')->nullonDelete();
+            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->enum('metode_pembayaran', ['tunai', 'qris', 'transfer', 'ewallet']);
-            $table->string('provider_payment')->nullable(); // contoh: BCA, Mandiri, OVO, Gopay
-            $table->string('payment_gateway_id')->nullable(); // untuk integrasi midtrans
+            $table->string('provider_payment')->nullable();
+            $table->string('payment_gateway_id')->nullable();
             $table->decimal('total_dibayar', 12, 2);
             $table->enum('status_pembayaran', ['menunggu', 'sukses', 'gagal'])->default('menunggu');
             $table->timestamp('tanggal_pembayaran')->nullable();
@@ -25,9 +24,6 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('pembayaran');

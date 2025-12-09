@@ -12,8 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pesan_tiket_paket', function (Blueprint $table) {
-            $table->id('jumlah_tiket');
+            $table->id();
+            $table->text('deskripsi_tiket');
             $table->integer('harga_pesanan');
+            $table->integer('jumlah_tiket');
             $table->boolean('status_pesanan')->default(true);;
             $table->string('qr_tiket');
             //fk
