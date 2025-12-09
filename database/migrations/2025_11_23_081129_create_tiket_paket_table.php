@@ -12,18 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tiket_paket', function (Blueprint $table) {
-            $table->id('id_tiket_paket');
+            $table->id('id');
             $table->string('nama_tiket_paket');
             $table->text('deskripsi_tiket');
+            $table->string('pengelola_wahana');
             $table->integer('harga_tiket_weekday');
             $table->integer('harga_tiket_weekend');
-            $table->boolean('status_tiket')->default(true);
+            $table->enum('status_tiket', allowed: ['Tersedia','Tidak Tersedia'])->default('Tersedia');
             $table->string('qr_tiket');
             $table->timestamps();
-            //fk
-            $table->foreignId('id_wahana')->nullable()->constrained('wahana')->nullOnDelete();
-            
+
+            // Fk
+            $table->foreignId('id_wahana')
+                ->nullable()
+                ->constrained('wahana')
+                ->nullOnDelete();
         });
+
     }
 
     /**
