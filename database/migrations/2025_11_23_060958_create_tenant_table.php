@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tenant', function (Blueprint $table) {
             $table->id('id_tenant');
             $table->string('lokasi_tenant')->nullable();
+            $table->enum('status_tenant', ['Ditempati','Belum Dibayar','Tidak Digunakan','Perbaikan'])->default('Tidak Digunakan');
             $table->timestamps();
         });
     }

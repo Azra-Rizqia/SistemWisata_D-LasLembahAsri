@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('sewa_tenant', function (Blueprint $table) {
             $table->id('id_sewa_tenant');
             $table->date('tanggal_mulai_sewa');
-            $table->enum('status_pembayaran_tenant', ['Menunggu', 'Dibayar', 'Dibatalkan'])->default('Menunggu');
-            $table->text('catatan_publik')->nullable();
+            $table->date('tanggal_selesai_sewa');
+            $table->enum('status_pembayaran_tenant', ['Menunggu','Dibayar','Dibatalkan'])->default('Menunggu');
+            $table->enum('Metode Pembayaran', ['Debit','QRIS'])->default('QRIS');
             $table->integer('harga_sewa_tenant');
             // FK
             $table->foreignId('id_tenant')->constrained('tenant')->nullOnDelete();
