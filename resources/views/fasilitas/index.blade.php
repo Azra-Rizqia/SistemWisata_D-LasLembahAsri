@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-@section('title', 'Daftar Fasilitas')
-
 @section('content')
     <div class="container">
         <h1 class="mb-4">Daftar Fasilitas</h1>
@@ -60,7 +58,7 @@
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-            Launch demo modal
+            Launch demo modal hsaahahahahahaahha
         </button>
 
         <!-- Modal -->
