@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('status_reservasi');
             $table->string('metode_pembayaran_reservasi');
             $table->text('catatan_user_reservasi')->nullable();
-            $table->foreignId('id_gambar')->nullable()->constrained('daftar_gambar')->nullOnDelete();
+            $table->foreignId('id_fasilitas')->nullable()->constrained('fasilitas')->nullOnDelete();
             $table->foreignId('id_user')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });

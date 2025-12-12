@@ -17,9 +17,9 @@ return new class extends Migration
             $table->text('deskripsi_penginapan')->nullable();
             $table->integer('harga_weekend');
             $table->integer('harga_weekday');
-            $table->text('perlengkapan')->nullable();
+            $table->json('fasilitas_tersedia')->nullable();
             $table->boolean('status_tersedia')->default(true);
-            $table->foreignId('id_gambar')->nullable()->constrained('daftar_gambar')->nullOnDelete();
+            $table->string('url_gambar_penginapan')->nullable();
             $table->timestamps();
         });
     }
