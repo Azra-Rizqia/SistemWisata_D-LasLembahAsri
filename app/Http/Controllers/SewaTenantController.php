@@ -10,10 +10,13 @@ class SewaTenantController extends Controller
     // Nampilkan semua data
     public function index()
     {
-        return response()->json(
-            SewaTenant::with(['tenant', 'user'])->get()
-        );
+        $sewaTenants = SewaTenant::with(['tenant', 'user'])->get();
+        $totalPendapatan = SewaTenant::sum('harga_sewa_tenant');
+        $totalData = SewaTenant::count('id_tenant');
+
+        return view('sewa_kios.index', compact('sewaTenants', 'totalPendapatan', 'totalData'));
     }
+
 
     // Membuat sewa tenant
     public function store(Request $request)
