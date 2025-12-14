@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class SewaTenant extends Model
 {
+    use HasFactory;
     protected $table = 'sewa_tenant';
-    protected $primaryKey = 'id_sewa_tenant';
+    protected $primaryKey = 'id';
+    public $incrementing = true;
+    protected $keyType = 'int';
 
     protected $fillable = [
         'tanggal_mulai_sewa',
@@ -18,6 +21,11 @@ class SewaTenant extends Model
         'id_tenant',
         'id_user',
     ];
+
+    // public function getRouteKeyName()
+    // {
+    //     return 'id_sewa_tenant';
+    // }
 
     // relasi ke tenant
     public function tenant()
