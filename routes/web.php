@@ -16,6 +16,11 @@ Route::prefix('admin')->group(function () {
         [admin_tiket_paket_controller::class, 'index']
     );
 
+    Route::get('/admin/tiket-paket', function () {
+    return view('admin.tiket_paket.index');
+});
+
+
     Route::get('/pengunjung', [admin_pengunjung_controller::class, 'index']);
 }); 
 
