@@ -1,6 +1,5 @@
 body{
     display: flex;
-    width: 1440px;
     padding: 26px var(--Section-Horizontal-section, 52px) var(--Padding-Padding-SM, 16px) var(--Section-Horizontal-section, 52px);
     flex-direction: column;
     align-items: flex-start;
