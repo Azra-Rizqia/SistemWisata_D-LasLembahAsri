@@ -24,9 +24,4 @@ class admin_tiket_paket extends Model
         'qr_tiket',
         'id_wahana'
     ];
-
-    public function wahana()
-    {
-        return $this->belongsTo(Wahana::class, 'id_wahana');
-    }
 }
