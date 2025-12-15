@@ -79,7 +79,7 @@
                     </div>
                     <div class="list-information">
                         <label class="form-label">Harga Sewa</label>
-                        <input type="text" id="harga_sewa" class="value-item"
+                        <input type="text" id="harga_sewa" class="value-item" style="border: none; width: fit-content;"
                             readonly>
                         <input type="hidden" name="harga_sewa_tenant" id="harga_sewa_hidden">
                     </div>
