@@ -57,7 +57,7 @@
                         @forelse ($sewa_kio as $item)
                             <tr>
                                 <td><p class="font-T5-Regular data-table">#{{ $item->id }}</p></td>
-                                <td><p class="font-T5-Regular data-table">{{ $item->user->name ?? '-' }}</p></td>
+                                <td><p class="font-T5-Regular data-table">{{ $item->user->nama_user ?? '-' }}</p></td>
                                 <td><p class="font-T5-Regular data-table">{{ $item->tenant->lokasi_tenant ?? '-' }}</p></td>
                                 <td><p class="font-T5-Regular data-table">{{ \Carbon\Carbon::parse($item->tanggal_mulai_sewa)->format('d M Y') }}</p></td>
                                 <td><p class="font-T5-Regular data-table">{{ \Carbon\Carbon::parse($item->tanggal_selesai_sewa)->format('d M Y') }}</p></td>

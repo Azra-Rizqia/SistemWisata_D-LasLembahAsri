@@ -6,24 +6,6 @@ body {
     background: #F9F9F9;
 }
 
-
-th{
-    background : #FFFFFF;
-    color: #787878;
-    border-bottom: 1px solid;
-}
-
-tr{
-    background : #FFFFFF;
-    border-bottom: 1px solid #E8E8E8;
-    height : 68px;
-}
-
-thead{
-    background : #FFFFFF;
-    border-bottom: 1px solid var(--Neutral-Gray-Line, #E8E8E8);
-}
-
 .container {
   display: flex;
   flex-direction: column;
