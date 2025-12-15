@@ -10,6 +10,17 @@
     padding: 0;
 }
 
+.font-h7 {
+    font-family: Inter;
+    font-size: 24px;   
+    font-style: normal;
+    font-weight: 600;  
+    line-height: 140%; /* 33.6px */
+    letter-spacing: -0.6px;
+    text-transform: capitalize;
+    color: var(--Neutral-Black, #101010);
+}
+
 .font-T1-SemiBold{
     /* T1/Semi Bold */
     font-family: Inter;
