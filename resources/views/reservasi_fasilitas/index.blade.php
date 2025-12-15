@@ -6,7 +6,7 @@
             <h1 class="font-h1">Reservasi Fasilitas</h1>
             <p class="font-T3-Regular">Kelola Reservasi Fasilitas dari pengunjung</p>
         </div>
-        <a href="{{ route('reservasi_fasilitas.create') }}" class="btn btn-primary mb-3 align-items-center"><i
+        <a href="{{ route('reservasi_fasilitas.create') }}" class="btn btn-primary mb-3 d-flex align-items-center"><i
                 class="ph ph-plus icon icon-sm"></i>
             Tambah Reservasi
         </a>
@@ -104,14 +104,13 @@
                                 <a href="{{ route('reservasi_fasilitas.edit', $item->id) }}" class="btn btn-sm"><i
                                         class="ph ph-pencil-line icon icon-sm"></i>
                                 </a>
-                                <form action="{{ route('reservasi_fasilitas.destroy', $item->id) }}" method="POST"
-                                    class="d-inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#staticBackdrop"><i
-                                            class="ph ph-trash icon icon-sm icon-danger"></i>
-                                    </button>
-                                </form>
+                                <button class="btn btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#delete-{{ $item->id }}">
+                                    <i class="ph ph-trash icon icon-sm icon-danger"></i>
+                                </button>
+                                <x-modal-delete id="delete-{{ $item->id }}"
+                                    action="{{ route('reservasi_fasilitas.destroy', $item->id) }}" title="Apakah Anda Yakin Untuk Menghapus?"
+                                    message="Jika anda menghapus pesanan ini, maka anda tidak dapat memulihkannya lagi" />
                             </td>
                         </tr>
                     @empty
@@ -123,27 +122,6 @@
                     @endforelse
                 </tbody>
             </table>
-        </div>
-    </div>
-
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content" style="border-radius: 24px; padding: 20px;">
-                <div class="modal-header d-flex justify-content-center">
-                    <div class="icon-card-delete items-center"><i class="ph ph-trash icon icon-md icon-danger"></i>
-                    </div>
-                </div>
-                <div class="modal-body d-flex flex-column text-center gap-3">
-                    <h1 class="font-T1-SemiBold">Apakah Anda Yakin Untuk Menghapus?</h1>
-                    <p class="font-T3-Regular">Jika anda menghapus pesanan ini, maka anda tidak dapat memulihkannya lagi
-                    </p>
-                </div>
-                <div class="modal-footer font-T4-Regular">
-                    <button type="button" class="btn btn-secondary flex-fill" data-bs-dismiss="modal">Kembali</button>
-                    <button type="button" class="btn btn-danger flex-fill">Hapus</button>
-                </div>
-            </div>
         </div>
     </div>
 @endsection

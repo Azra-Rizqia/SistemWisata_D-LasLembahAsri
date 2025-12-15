@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="">
         <form action="{{ route('reservasi_fasilitas.store') }}" method="POST">
             @csrf
 
@@ -34,21 +34,21 @@
                     <div class="kolom-input">
                         <div class="input-item">
                             <label class="form-label">Kategori Reservasi</label>
-                            <input type="text" name="kategori_reservasi" class="form-control"
-                                value="{{ old('kategori_reservasi', 'Fasilitas') }}" required>
+                            <input type="text" name="kategori_reservasi" class="form-control" placeholder="Masukan Kategori Reservasi"
+                                value="{{ old('kategori_reservasi') }}" style="border-radius : 32px" required>
                         </div>
                         <div class="input-item">
                             <label class="form-label">Tanggal Reservasi</label>
                             <input type="date" name="tanggal_reservasi" class="form-control"
-                                value="{{ old('tanggal_reservasi') }}" required>
+                                value="{{ old('tanggal_reservasi') }}" style="border-radius : 32px" required>
                         </div>
                     </div>
 
                     <div class="kolom-input">
                         <div class="input-item">
                             <label class="form-label">Fasilitas</label>
-                            <select name="id_fasilitas" id="fasilitas" class="form-select">
-                                <option value="">-- Pilih Fasilitas --</option>
+                            <select name="id_fasilitas" id="fasilitas" class="form-select" style="border-radius : 32px" required>
+                                <option value="">Pilih Fasilitas</option>
                                 @foreach ($fasilitas as $item)
                                     <option value="{{ $item->id }}" data-harga="{{ $item->harga_fasilitas }}"
                                         {{ old('id_fasilitas') == $item->id ? 'selected' : '' }}>
@@ -59,8 +59,8 @@
                         </div>
                         <div class="input-item">
                             <label class="form-label">Nama Pemesan</label>
-                            <select name="id_user" class="form-select">
-                                <option value="">-- Pilih User --</option>
+                            <select name="id_user" class="form-select" style="border-radius : 32px" required>
+                                <option value="">Pilih User</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}"
                                         {{ old('id_user') == $user->id ? 'selected' : '' }}>
@@ -73,28 +73,23 @@
 
                     <div class="input-item">
                         <label class="form-label">Status Reservasi</label>
-                        <select name="status_reservasi" class="form-select" required>
+                        <select name="status_reservasi" class="form-select" style="border-radius : 32px" required>
                             <option value="Proses">Proses</option>
                             <option value="Selesai">Selesai</option>
                             <option value="Dibatalkan">Dibatalkan</option>
                         </select>
                     </div>
-
-                    <div class="mt-4 mb-3">
-                        <h6>Fasilitas Tambahan (Area Opsional)</h6>
-                        <div class="card p-3 shadow-sm border">Tambahkan logika fasilitas tambahan di sini...</div>
-                    </div>
-
                 </div>
 
                 <div class="subsection-info">
                     <div class="input-item">
                         <label class="form-label">Metode Pembayaran</label>
-                        <select name="metode_pembayaran_reservasi" class="form-select" required>
+                        <select name="metode_pembayaran_reservasi" class="form-select" style="border-radius : 32px" required>
                             <option value="Debit">Debit</option>
                             <option value="QRIS">QRIS</option>
                         </select>
                     </div>
+
                     <div class="list-information">
                         <label class="form-label">Harga Sewa</label>
                         <input type="text" id="harga_reservasi_view" class="value-item" readonly value="Rp-">
