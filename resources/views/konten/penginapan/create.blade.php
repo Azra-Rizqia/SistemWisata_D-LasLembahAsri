@@ -22,26 +22,26 @@
         <div class="bg-white p-4 rounded-4 shadow-sm d-flex flex-column gap-4">
             
             <div class="row g-4">
-                <div class="col-md-4">
-                    <label class="form-label font-T5-Medium">Nama Penginapan</label>
+                <div class="col-md-4" style="gap: 10px;">
+                    <label class="form-label font-T4-Regular">Nama Penginapan</label>
                     <input type="text" name="nama_penginapan" class="form-input-style font-T4-Regular" placeholder="Masukan nama" value="{{ old('nama_penginapan') }}">
                     @error('nama_penginapan') <small class="text-danger font-T5-Regular">{{ $message }}</small> @enderror
                 </div>
 
-                <div class="col-md-3">
-                    <label class="form-label font-T5-Medium">Harga /malam (Weekday)</label>
+                <div class="col-md-3" style="gap: 10px;">
+                    <label class="form-label font-T4-Regular">Harga /malam (Weekday)</label>
                     <input type="number" name="harga_weekday" class="form-input-style font-T4-Regular" placeholder="Rp 0" value="{{ old('harga_weekday') }}">
                     @error('harga_weekday') <small class="text-danger font-T5-Regular">{{ $message }}</small> @enderror
                 </div>
 
-                <div class="col-md-3">
-                    <label class="form-label font-T5-Medium">Harga /malam (Weekend)</label>
+                <div class="col-md-3" style="gap: 10px;">
+                    <label class="form-label font-T4-Regular">Harga /malam (Weekend)</label>
                     <input type="number" name="harga_weekend" class="form-input-style font-T4-Regular" placeholder="Rp 0" value="{{ old('harga_weekend') }}">
                     @error('harga_weekend') <small class="text-danger font-T5-Regular">{{ $message }}</small> @enderror
                 </div>
 
-                <div class="col-md-2">
-                    <label class="form-label font-T5-Medium">Status</label>
+                <div class="col-md-2" style="gap: 10px;">
+                    <label class="form-label font-T4-Regular">Status</label>
                     <div class="position-relative">
                         <select name="status_tersedia" class="form-input-style font-T4-Regular">
                             <option value="1">Tersedia</option>
@@ -51,13 +51,13 @@
                 </div>
             </div>
 
-            <div>
-                <label class="form-label font-T5-Medium">Deskripsi Singkat</label>
+            <div style="gap: 10px;">
+                <label class="form-label font-T4-Regular">Deskripsi Singkat</label>
                 <input type="text" name="deskripsi_singkat" class="form-input-style font-T4-Regular" placeholder="Tambahkan deskripsi singkat" value="{{ old('deskripsi_singkat') }}">
             </div>
 
-            <div>
-                <label class="form-label font-T5-Medium">Tentang Penginapan</label>
+            <div style="gap: 10px;">
+                <label class="form-label font-T4-Regular">Tentang Penginapan</label>
                 <textarea name="deskripsi_penginapan" rows="4" class="form-input-style font-T4-Regular" placeholder="Tambahkan tentang penginapan">{{ old('deskripsi_penginapan') }}</textarea>
                 @error('deskripsi_penginapan') <small class="text-danger font-T5-Regular">{{ $message }}</small> @enderror
             </div>
@@ -65,7 +65,7 @@
             <hr class="border-light opacity-50">
 
             <div>
-                <label class="form-label font-T5-Medium mb-3">Fasilitas Tersedia</label>
+                <label class="form-label font-T4-Regular mb-3">Fasilitas Tersedia</label>
 
                 <div class="d-flex flex-wrap gap-3 align-items-start">
                     <div id="fasilitas-container" class="d-flex flex-wrap gap-3">
@@ -93,7 +93,7 @@
             <hr class="border-light opacity-50">
 
             <div>
-                <label class="form-label font-T5-Medium mb-3">Foto Utama</label>
+                <label class="form-label font-T4-Regular mb-3">Foto Utama</label>
                 <div class="d-flex gap-3 flex-wrap">
                     <label for="uploadFoto" class="cursor-pointer d-flex flex-column align-items-center justify-content-center border rounded-4 bg-white" style="width: 150px; height: 150px; border-style: dashed !important; border-color: #d1d5db !important; transition: all 0.2s;">
                         <div class="text-center">
