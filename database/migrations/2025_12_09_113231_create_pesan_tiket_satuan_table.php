@@ -19,8 +19,8 @@ return new class extends Migration
             $table->enum('status_pesanan', ['Pending', 'Dibayar', 'Dibatalkan', 'Gagal'])->default('Pending');      
             $table->string('qr_tiket')->nullable()->unique();
 
-            $table->foreignId('id_tiket_satuan')->nullable()->constrained('tiket_satuan')->nullonDelete(); 
-            $table->foreignId('id_user')->nullable()->constrained('users')->nullonDelete(); 
+            $table->foreignId('id_wahana')->nullable()->constrained('wahana')->nullOnDelete(); 
+            $table->foreignId('id_user')->nullable()->constrained('users')->nullOnDelete(); 
             $table->timestamps();
         });
     }
