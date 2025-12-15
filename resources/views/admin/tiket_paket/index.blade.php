@@ -1,5 +1,7 @@
 @extends('admin.layouts.app')
 
+@section('title', 'Tiket Paket')
+
 @section('content')
 
 <div class="header">
@@ -42,6 +44,7 @@
                 <th>Aksi</th>
             </tr>
         </thead>
+
         <tbody>
             <tr>
                 <td>8291</td>
@@ -51,7 +54,26 @@
                 <td>Rp40.000</td>
                 <td><span class="badge proses">Proses</span></td>
                 <td>18 Agustus 08:21</td>
-                <td>✏️ 👁️ 🗑️</td>
+                <td class="aksi">
+                    <a href="#" class="btn-aksi btn-edit" title="Edit">✏️</a>
+                    <a href="#" class="btn-aksi btn-view" title="Detail">👁️</a>
+                    <a href="#" class="btn-aksi btn-delete" title="Hapus">🗑️</a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>8292</td>
+                <td>Dianne Russell</td>
+                <td>Paket Hemat B</td>
+                <td>1</td>
+                <td>Rp25.000</td>
+                <td><span class="badge selesai">Selesai</span></td>
+                <td>18 Agustus 09:10</td>
+                <td class="aksi">
+                    <a href="#" class="btn-aksi btn-edit">✏️</a>
+                    <a href="#" class="btn-aksi btn-view">👁️</a>
+                    <a href="#" class="btn-aksi btn-delete">🗑️</a>
+                </td>
             </tr>
         </tbody>
     </table>

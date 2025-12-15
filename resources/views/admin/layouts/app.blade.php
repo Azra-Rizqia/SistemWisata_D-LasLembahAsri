@@ -2,26 +2,13 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Admin DLAS</title>
-    <link rel="stylesheet" href="{{ asset('css/tiket_paket.css') }}">
+    <title>@yield('title')</title>
+    <link rel="stylesheet" href="{{ asset('assets/css/tiket_paket.css') }}">
 </head>
 <body>
 
-    {{-- NAVBAR --}}
-    <nav class="navbar">
-        <div class="logo">DLAS</div>
-        <ul class="menu">
-            <li>Dashboard</li>
-            <li>Tiket Satuan</li>
-            <li class="active">Tiket Paket</li>
-            <li>Penginapan</li>
-            <li>Fasilitas</li>
-            <li>Sewa Kios</li>
-            <li>Pengunjung</li>
-        </ul>
-    </nav>
+    @include('admin.layouts.navbar')
 
-    {{-- CONTENT --}}
     <main class="container">
         @yield('content')
     </main>
