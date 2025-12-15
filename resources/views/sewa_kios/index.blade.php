@@ -20,14 +20,14 @@
         <div class="main-content">
             <div class="statistics">
                 <div class="card-statistic">
-                    <div class="icon-card-statistic1">Icon</div>
+                    <div class="icon-card-statistic1"><i class="ph-fill ph-money-wavy icon icon-md icon-primary"></i></div>
                     <div class="content-text-card">
                         <p class="font-T5-Regular" style="color: #727272">Pendapatan Penyewaan Kios</p>
                         <p class="font-T1-SemiBold">Rp{{ number_format($totalPendapatan,0,',','.') }}</p>
                     </div>
                 </div>
                 <div class="card-statistic">
-                    <div class="icon-card-statistic2">Icon</div>
+                    <div class="icon-card-statistic2"><i class="ph-fill ph-calendar-check icon icon-md icon-warning"></i></div>
                     <div class="content-text-card">
                         <p class="font-T5-Regular" style="color: #727272">Jumlah Penyewa</p>
                         <p class="font-T1-SemiBold">{{ $totalData }}</p>
@@ -72,22 +72,20 @@
                                 <td><p class="font-T5-Regular">{{ $item->created_at ? $item->created_at->format('d M Y') : '-' }}</p></td>
 
                                 <td>
-                                    <a href="{{ route('sewa_kios.show', $item->id) }}"
-                                        class="btn btn-info btn-sm">
-                                        Detail
+                                    <a href="{{ route('sewa_kios.show', $item->id) }}" class="btn btn-sm"><i
+                                            class="ph ph-eye icon icon-sm"></i>
                                     </a>
 
-                                    <a href="{{ route('sewa_kios.edit', $item->id) }}"
-                                        class="btn btn-warning btn-sm">
-                                        Edit
+                                    <a href="{{ route('sewa_kios.edit', $item->id) }}" class="btn btn-sm"><i
+                                            class="ph ph-pencil-line icon icon-sm"></i>
                                     </a>
-                                    <form action="{{ route('sewa_kios.destroy', $item->id) }}"
-                                        method="POST" class="d-inline">
+                                    <form action="{{ route('sewa_kios.destroy', $item->id) }}" method="POST"
+                                        class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Yakin hapus data sewa?')">
-                                            Delete
+                                        <button class="btn btn-sm" data-bs-toggle="modal"
+                                            data-bs-target="#staticBackdrop"><i
+                                                class="ph ph-trash icon icon-sm icon-danger"></i>
                                         </button>
                                     </form>
                                 </td>
@@ -102,6 +100,24 @@
                     </tbody>
                 </table>
 
+            </div>
+        </div>
+        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Understood</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
