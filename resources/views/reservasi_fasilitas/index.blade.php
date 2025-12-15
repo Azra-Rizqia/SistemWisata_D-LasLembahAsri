@@ -56,7 +56,7 @@
                 </p>
             </div>
 
-            <table class="table">
+            <table class="table font-T4-Regular">
                 <thead class="table-head">
                     <tr>
                         <th>No Reservasi</th>
@@ -126,19 +126,13 @@
         </div>
     </div>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-        Launch static backdrop modal
-    </button>
-
-    <!-- Modal -->
     <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content" style="border-radius: 24px; padding: 20px;">
                 <div class="modal-header d-flex justify-content-center">
                     <div class="icon-card-delete items-center"><i class="ph ph-trash icon icon-md icon-danger"></i>
-                    </div>
+                    </div> 
                 </div>
                 <div class="modal-body d-flex flex-column text-center gap-3">
                     <h1 class="font-T1-SemiBold">Apakah Anda Yakin Untuk Menghapus?</h1>

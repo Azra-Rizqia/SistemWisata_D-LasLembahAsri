@@ -25,25 +25,22 @@
     <link rel="stylesheet" href="{{ asset('css/badge.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
     <link rel="stylesheet" href="{{ asset('css/input.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/input.css') }}">
 
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     @stack('styles')
 </head>
 
-<body>
-    {{-- Navbar Opsional --}}
-    {{-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">My App</a>
-        </div>
-    </nav> --}}
+<body class="d-flex flex-column min-vh-100">
+    <x-navbar />
 
     <div class="container">
         @yield('content')
     </div>
 
+    <x-footer />
+
     @stack('scripts')
 </body>
+
 
 </html>

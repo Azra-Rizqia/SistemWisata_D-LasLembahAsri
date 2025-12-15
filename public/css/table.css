@@ -1,16 +1,19 @@
 th{
     background : #FFFFFF;
     color: #787878;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid #E8E8E8 !important;
+    vertical-align: middle;
 }
 
 tr{
+    color: black !important;
     background : #FFFFFF;
-    border-bottom: 1px solid #E8E8E8;
+    border-bottom: 1px solid #E8E8E8 !important;
     height : 68px;
+    vertical-align: middle;
 }
 
 thead{
     background : #FFFFFF;
-    border-bottom: 1px solid var(--Neutral-Gray-Line, #E8E8E8);
+    border-bottom: 1px solid var(--Neutral-Gray-Line, #E8E8E8) !important;
 }
