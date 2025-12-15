@@ -49,7 +49,7 @@ class ReservasiFasilitasController extends Controller
             'kategori_reservasi' => 'required|string',
             'tanggal_reservasi' => 'required|date',
             'total_harga_reservasi' => 'required|integer',
-            'status_reservasi' => 'required|in:Menunggu,Dibayar,Dibatalkan',
+            'status_reservasi' => 'required|in:Proses,Selesai,Dibatalkan',
             'metode_pembayaran_reservasi' => 'required|in:Debit,QRIS',
             'catatan_user_reservasi' => 'nullable|string',
             'id_fasilitas' => 'nullable|exists:fasilitas,id',
