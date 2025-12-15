@@ -1,83 +1,128 @@
-
 @extends('layouts.app')
 
-@section('title', 'Tiket Paket')
-
 @section('content')
-
-<div class="header">
-    <div>
-        <h2>Pembelian Tiket Paketan</h2>
-        <p>Kelola pembelian tiket dari pengunjung</p>
+<div class="container">
+    <div class="head-page">
+        <div class="headline">
+            <h1 class="font-h1">Pesan Tiket Paket</h1>
+            <p class="font-T3-Regular">Kelola data paket tiket yang tersedia</p>
+        </div>
+        <a href="{{ route('pesan_tiket_paket.create') }}" class="btn btn-primary mb-3">
+            Tambah Tiket Paket
+        </a>
     </div>
-    <button class="btn-primary">+ Tambah Pembelian</button>
+
+    @if (session('success'))
+        <div class="alert alert-success alert-dismissible fade show">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    @endif
+
+    <div class="main-content">
+
+        {{-- STATISTIK --}}
+        <div class="statistics">
+            <div class="card-statistic">
+                <div class="icon-card-statistic1">
+                    <i class="ph-fill ph-money-wavy icon icon-md icon-primary"></i>
+                </div>
+                <div class="content-text-card">
+                    <p class="font-T5-Regular" style="color:#727272">Total Nilai Tiket</p>
+                    <p class="font-T1-SemiBold">
+                       Rp{{ number_format($totalPendapatan, 0, ',', '.') }}
+                    </p>
+                </div>
+            </div>
+
+            <div class="card-statistic">
+                <div class="icon-card-statistic2">
+                    <i class="ph-fill ph-ticket icon icon-md icon-warning"></i>
+                </div>
+                <div class="content-text-card">
+                    <p class="font-T5-Regular" style="color:#727272">Jumlah Paket Tiket</p>
+                    <p class="font-T1-SemiBold">{{ $totalData ?? 0 }}</p>
+                </div>
+            </div>
+        </div>
+
+        {{-- TABLE --}}
+        <div class="view-data">
+            <div class="content-text-card">
+                <p class="font-T1-SemiBold">Daftar Tiket Paket</p>
+                <p class="font-T5-Regular" style="color:#727272">
+                    Data paket tiket yang tersedia
+                </p>
+            </div>
+
+            <table class="table">
+                <thead class="table-head">
+                    <tr>
+                        <th>Nama Paket</th>
+                        <th>Deskripsi</th>
+                        <th>Pengelola Wahana</th>
+                        <th>Harga Weekday</th>
+                        <th>Harga Weekend</th>
+                        <th>Status</th>
+                        <th>Tanggal Dibuat</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @forelse ($pesanan as $item)
+                        <tr>
+                            <td>{{ $item->tiketPaket->nama_tiket_paket ?? '-' }}</td>
+                            <td>{{ Str::limit($item->deskripsi_tiket, 50) }}</td>
+                            <td>{{ $item->tiketPaket->pengelola_wahana ?? '-' }}</td>
+                            <td>Rp{{ number_format($item->harga_pesanan,0,',','.') }}</td>
+                            <td>{{ $item->jumlah_tiket }}</td>
+                            <td>
+                                <span class="badge {{ $item->status === 'Tersedia' ? 'bg-success' : 'bg-danger' }}">
+                                    {{ $item->status }}
+                                </span>
+                            </td>
+                            <td>{{ \Carbon\Carbon::parse($item->tanggal_pembelian)->format('d M Y') }}</td>
+                            <td>
+                                <a href="{{ route('pesan_tiket_paket.show',$item->id) }}" class="btn btn-sm">
+                                    👁
+                                </a>
+                                <a href="{{ route('pesan_tiket_paket.edit',$item->id) }}" class="btn btn-sm">
+                                    ✏
+                                </a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="8" class="text-center">Belum ada pesanan tiket</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{-- MODAL DELETE --}}
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Hapus Data</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Yakin ingin menghapus data tiket paket ini?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Batal
+                    </button>
+                    <button type="button" class="btn btn-danger">
+                        Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-{{-- CARD INFO --}}
-<div class="cards">
-    <div class="card">
-        <p>Pendapatan Tiket Paket</p>
-        <h3>Rp220.872.000</h3>
-    </div>
-    <div class="card">
-        <p>Total Tiket Terjual</p>
-        <h3>720</h3>
-    </div>
-</div>
-
-{{-- TABLE --}}
-<div class="table-box">
-    <div class="table-header">
-        <h3>Transaksi Terakhir</h3>
-        <input type="text" placeholder="Cari transaksi">
-    </div>
-
-    <table>
-        <thead>
-            <tr>
-                <th>No Reservasi</th>
-                <th>Nama Pemesan</th>
-                <th>Nama Paket</th>
-                <th>Jumlah</th>
-                <th>Total</th>
-                <th>Status</th>
-                <th>Tanggal</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            <tr>
-                <td>8291</td>
-                <td>Kristin Watson</td>
-                <td>Paket Hemat A</td>
-                <td>2</td>
-                <td>Rp40.000</td>
-                <td><span class="badge proses">Proses</span></td>
-                <td>18 Agustus 08:21</td>
-                <td class="aksi">
-                    <a href="#" class="btn-aksi btn-edit" title="Edit">✏️</a>
-                    <a href="#" class="btn-aksi btn-view" title="Detail">👁️</a>
-                    <a href="#" class="btn-aksi btn-delete" title="Hapus">🗑️</a>
-                </td>
-            </tr>
-
-            <tr>
-                <td>8292</td>
-                <td>Dianne Russell</td>
-                <td>Paket Hemat B</td>
-                <td>1</td>
-                <td>Rp25.000</td>
-                <td><span class="badge selesai">Selesai</span></td>
-                <td>18 Agustus 09:10</td>
-                <td class="aksi">
-                    <a href="#" class="btn-aksi btn-edit">✏️</a>
-                    <a href="#" class="btn-aksi btn-view">👁️</a>
-                    <a href="#" class="btn-aksi btn-delete">🗑️</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
 @endsection

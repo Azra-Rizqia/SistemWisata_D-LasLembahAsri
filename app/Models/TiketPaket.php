@@ -2,17 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Wahana;
 
-class admin_tiket_paket extends Model
+class TiketPaket extends Model
 {
-    use HasFactory;
-
     protected $table = 'tiket_paket';
-
-    protected $primaryKey = 'id';
 
     protected $fillable = [
         'nama_tiket_paket',
@@ -24,4 +18,9 @@ class admin_tiket_paket extends Model
         'qr_tiket',
         'id_wahana'
     ];
+
+    public function pesanTiketPaket()
+    {
+        return $this->hasMany(PesanTiketPaket::class, 'id_tiket_paket');
+    }
 }
