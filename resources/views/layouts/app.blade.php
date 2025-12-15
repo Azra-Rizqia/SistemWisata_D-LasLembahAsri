@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/button.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/input.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 

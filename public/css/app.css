@@ -8,28 +8,28 @@ body {
 }
 
 
-th{
-    background : #FFFFFF;
+th {
+    background: #FFFFFF;
     color: #787878;
     border-bottom: 1px solid;
 }
 
-tr{
-    background : #FFFFFF;
+tr {
+    background: #FFFFFF;
     border-bottom: 1px solid #E8E8E8;
-    height : 68px;
+    height: 68px;
 }
 
-thead{
-    background : #FFFFFF;
+thead {
+    background: #FFFFFF;
     border-bottom: 1px solid var(--Neutral-Gray-Line, #E8E8E8);
 }
 
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 42px;
-  max-width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    gap: 42px;
+    max-width: 100% !important;
 }
 
 .head-page {
@@ -39,7 +39,7 @@ thead{
     align-self: stretch;
 }
 
-.main-content{
+.main-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -56,14 +56,14 @@ thead{
     flex: 1 0 0;
 }
 
-.statistics{
+.statistics {
     display: flex;
     align-items: center;
     gap: var(--Spacing-Gap-SS, 16px);
     align-self: stretch;
 }
 
-.card-statistic{
+.card-statistic {
     display: flex;
     padding: var(--Padding-Padding-SS, 12px);
     flex-direction: row;
@@ -74,7 +74,7 @@ thead{
     background: #FFF;
 }
 
-.content-text-card{
+.content-text-card {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -82,7 +82,7 @@ thead{
     flex: 1 0 0;
 }
 
-.icon-card-statistic1{
+.icon-card-statistic1 {
     display: flex;
     width: 50px;
     height: 50px;
@@ -94,7 +94,7 @@ thead{
     background: var(--Brand-Green-Soft, rgba(35, 131, 2, 0.10));
 }
 
-.icon-card-statistic2{
+.icon-card-statistic2 {
     display: flex;
     width: 50px;
     height: 50px;
@@ -106,7 +106,7 @@ thead{
     background: var(--Brand-Orange-Soft, rgba(254, 133, 7, 0.10));
 }
 
-.view-data{
+.view-data {
     display: flex;
     padding: 24px 20px;
     flex-direction: column;
@@ -114,4 +114,13 @@ thead{
     align-self: stretch;
     border-radius: 32px;
     background: var(--Neutral-White, #FEFEFE);
+}
+
+.footer {
+    display: flex;
+    width: 1336px;
+    padding: 42px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
 }
