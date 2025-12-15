@@ -16,6 +16,8 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
     </script>
 
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/button.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font.css') }}">
@@ -23,16 +25,16 @@
 </head>
 
 <body>
-    {{-- Navbar Opsional --}}
-    {{-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">My App</a>
-        </div>
-    </nav> --}}
+    {{-- Navbar --}}
+    <x-navbar />
 
+    {{-- Content --}}
     <div class="container">
         @yield('content')
     </div>
+
+    {{-- Footer --}}
+    <x-footer />
 
     @stack('scripts')
 </body>
