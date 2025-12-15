@@ -48,7 +48,7 @@
             </div>
         </div>
 
-        <div class="view-data">
+        <div class="view-data table-responsive">
             <div class="content-text-card">
                 <p class="font-T1-SemiBold">Reservasi Terakhir</p>
                 <p class="font-T4-Regular" style="color:#727272">
@@ -56,10 +56,10 @@
                 </p>
             </div>
 
-            <table class="table font-T4-Regular">
+            <table class="table font-T4-Regular table-borderless table-hover">
                 <thead class="table-head">
                     <tr>
-                        <th>No Reservasi</th>
+                        <th>ID Reservasi</th>
                         <th>Nama Pemesan</th>
                         <th>Nama Fasilitas</th>
                         <th>Tanggal Penggunaan</th>
@@ -74,7 +74,7 @@
                 <tbody>
                     @forelse ($reservasi as $item)
                         <tr>
-                            <td>#{{ $item->kode_reservasi_fasilitas }}</td>
+                            <td>#{{ $item->id }}</td>
                             <td>{{ $item->user->nama_user ?? '-' }}</td>
                             <td>{{ $item->fasilitas->nama_fasilitas ?? '-' }}</td>
                             <td>{{ \Carbon\Carbon::parse($item->tanggal_reservasi)->locale('id')->translatedFormat('d F Y') }}
@@ -132,7 +132,7 @@
             <div class="modal-content" style="border-radius: 24px; padding: 20px;">
                 <div class="modal-header d-flex justify-content-center">
                     <div class="icon-card-delete items-center"><i class="ph ph-trash icon icon-md icon-danger"></i>
-                    </div> 
+                    </div>
                 </div>
                 <div class="modal-body d-flex flex-column text-center gap-3">
                     <h1 class="font-T1-SemiBold">Apakah Anda Yakin Untuk Menghapus?</h1>

@@ -2,30 +2,39 @@
 
 @section('content')
     <div class="container">
-        <form action="{{ route('sewa_kios.store') }}" method="POST">
-            <div class="head-page-breadcrumb">
-                {{-- Breadcrumb --}}
-                <nav aria-label="breadcrumb" class="mb-4">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="{{ route('sewa_kios.index') }}">Sewa Kios</a>
-                        </li>
-                        <li class="breadcrumb-item active">Tambah Sewa</li>
-                    </ol>
-                </nav>
-                <button type="submit" class="btn btn-primary">
-                    Simpan
-                </button>
+
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('sewa_kios.index') }}">Sewa Kios</a>
+                </li>
+                <li class="breadcrumb-item active">Tambah Sewa</li>
+            </ol>
+        </nav>
+
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Tambah Sewa Tenant</h5>
             </div>
 
-            <div class="section-detail">
-                <div class="subsection-main">
-
+            <div class="card-body">
+                <form action="{{ route('sewa_kios.store') }}" method="POST">
                     @csrf
-                    <div class="kolom-input">
-                        <div class="input-item">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul class="mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">Tenant / Nomor Kios</label>
-                            <select name="id_tenant" class="form-select" style="border-radius : 32px" required>
+
+                            <select name="id_tenant" class="form-select" required>
                                 <option value="">-- Pilih kios --</option>
 
                                 @foreach ($tenants as $tenant)
@@ -35,9 +44,10 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="input-item">
+
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">Nama Pemesan</label>
-                            <select name="id_user" class="form-select" style="border-radius : 32px" required>
+                            <select name="id_user" class="form-select" required>
                                 <option value="">-- Pilih User --</option>
 
                                 @foreach ($users as $user)
@@ -47,59 +57,71 @@
                                 @endforeach
                             </select>
                         </div>
-                    </div>
-                    <div class="kolom-input">
-                        <div class="input-item">
+
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">Tanggal Mulai</label>
                             <input type="date" name="tanggal_mulai_sewa" class="form-control"
-                                value="{{ old('tanggal_mulai_sewa') }}" style="border-radius : 32px" required>
+                                value="{{ old('tanggal_mulai_sewa') }}" required>
                         </div>
-                        <div class="input-item">
+
+                        <div class="col-md-6 mb-3">
                             <label class="form-label">Tanggal Selesai</label>
                             <input type="date" name="tanggal_selesai_sewa" class="form-control"
-                                value="{{ old('tanggal_selesai_sewa') }}" style="border-radius : 32px" required>
+                                value="{{ old('tanggal_selesai_sewa') }}" required>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Metode Pembayaran</label>
+                            <select name="metode_pembayaran" class="form-select" required>
+                                <option value="Debit">Debit</option>
+                                <option value="QRIS">QRIS</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Status Pembayaran</label>
+                            <select name="status_pembayaran_tenant" class="form-select">
+                                <option value="Menunggu">Menunggu</option>
+                                <option value="Dibayar">Dibayar</option>
+                                <option value="Dibatalkan">Dibatalkan</option>
+                            </select>
                         </div>
                     </div>
-                    <div class="input-item">
-                        <label class="form-label">Status Pembayaran</label>
-                        <select name="status_pembayaran_tenant" class="form-select" style="border-radius : 32px">
-                            <option value="Menunggu">Menunggu</option>
-                            <option value="Dibayar">Dibayar</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="subsection-info">
-                    <div class="input-item">
-                        <label class="form-label">Metode Pembayaran</label>
-                        <select name="metode_pembayaran" class="form-select" style="border-radius : 32px" required>
-                            <option value="Debit">Debit</option>
-                            <option value="QRIS">QRIS</option>
-                        </select>
-                    </div>
-                    <div class="list-information">
-                        <label class="form-label">Harga Sewa</label>
-                        <input type="text" id="harga_sewa" class="value-item" style="border: none; width: fit-content;"
-                            readonly>
-                        <input type="hidden" name="harga_sewa_tenant" id="harga_sewa_hidden">
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Harga Sewa</label>
+                            <input type="text" id="harga_sewa" class="form-control" readonly>
+                            <input type="hidden" name="harga_sewa_tenant" id="harga_sewa_hidden">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Pajak (10%)</label>
+                            <input type="text" id="pajak" class="form-control" readonly>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label fw-bold">Total</label>
+                            <input type="text" id="total" class="form-control fw-bold text-success" readonly>
+                        </div>
                     </div>
 
-                    <div class="list-information">
-                        <label class="form-label">Pajak (10%)</label>
-                        <input type="text" id="pajak" class="value-item"
-                            readonly>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <a href="{{ route('sewa_kios.index') }}" class="btn btn-secondary">
+                            Kembali
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            Simpan
+                        </button>
                     </div>
 
-                    <div class="list-information">
-                        <label class="form-label fw-bold">Total</label>
-                        <input type="text" id="total" class="value-item fw-bold text-success" readonly>
-                    </div>
-                </div>
-        </form>
-    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    {{-- SCRIPT HITUNG --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const tarifPerMinggu = 10000;

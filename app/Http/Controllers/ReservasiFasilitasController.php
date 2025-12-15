@@ -116,8 +116,8 @@ class ReservasiFasilitasController extends Controller
      */
     public function destroy(ReservasiFasilitas $reservasi_fasilitas)
     {
+        $reservasi_fasilitas = ReservasiFasilitas::findOrFail($reservasi_fasilitas->id);
         $reservasi_fasilitas->delete();
-
         return redirect()
             ->route('reservasi_fasilitas.index')
             ->with('success', 'Reservasi fasilitas berhasil dihapus');

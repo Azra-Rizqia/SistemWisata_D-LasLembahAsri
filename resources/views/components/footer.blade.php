@@ -1,4 +1,4 @@
-<footer class="py-4 mt-auto">
+<footer class="pb-4  mt-auto">
     <hr class="border-secondary opacity-25 mb-4">
     <div class="d-flex justify-content-between align-items-center">
 

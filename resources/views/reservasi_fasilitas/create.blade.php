@@ -2,55 +2,50 @@
 
 @section('content')
     <div class="container">
+        <form action="{{ route('reservasi_fasilitas.store') }}" method="POST">
+            @csrf
 
-        {{-- Breadcrumb --}}
-        <nav aria-label="breadcrumb" class="mb-4">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item">
-                    <a href="{{ route('reservasi_fasilitas.index') }}">Reservasi Fasilitas</a>
-                </li>
-                <li class="breadcrumb-item active">Tambah Reservasi</li>
-            </ol>
-        </nav>
-
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Tambah Reservasi Fasilitas</h5>
+            <div class="head-page-breadcrumb">
+                <nav aria-label="breadcrumb" class="mb-4">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a href="{{ route('reservasi_fasilitas.index') }}">Reservasi Fasilitas</a>
+                        </li>
+                        <li class="breadcrumb-item active">Tambah Reservasi</li>
+                    </ol>
+                </nav>
+                <button type="submit" class="btn btn-primary">
+                    Simpan
+                </button>
             </div>
 
-            <div class="card-body">
-                <form action="{{ route('reservasi_fasilitas.store') }}" method="POST">
-                    @csrf
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul class="mb-0">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-                    {{-- Error --}}
-                    @if ($errors->any())
-                        <div class="alert alert-danger">
-                            <ul class="mb-0">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
-
-                    <div class="row">
-
-                        {{-- Kategori --}}
-                        <div class="col-md-6 mb-3">
+            <div class="section-detail">
+                <div class="subsection-main">
+                    <div class="kolom-input">
+                        <div class="input-item">
                             <label class="form-label">Kategori Reservasi</label>
                             <input type="text" name="kategori_reservasi" class="form-control"
-                                value="{{ old('kategori_reservasi') }}" required>
+                                value="{{ old('kategori_reservasi', 'Fasilitas') }}" required>
                         </div>
-
-                        {{-- Tanggal --}}
-                        <div class="col-md-6 mb-3">
+                        <div class="input-item">
                             <label class="form-label">Tanggal Reservasi</label>
                             <input type="date" name="tanggal_reservasi" class="form-control"
                                 value="{{ old('tanggal_reservasi') }}" required>
                         </div>
+                    </div>
 
-                        {{-- Fasilitas --}}
-                        <div class="col-md-6 mb-3">
+                    <div class="kolom-input">
+                        <div class="input-item">
                             <label class="form-label">Fasilitas</label>
                             <select name="id_fasilitas" id="fasilitas" class="form-select">
                                 <option value="">-- Pilih Fasilitas --</option>
@@ -62,9 +57,7 @@
                                 @endforeach
                             </select>
                         </div>
-
-                        {{-- User --}}
-                        <div class="col-md-6 mb-3">
+                        <div class="input-item">
                             <label class="form-label">Nama Pemesan</label>
                             <select name="id_user" class="form-select">
                                 <option value="">-- Pilih User --</option>
@@ -76,82 +69,86 @@
                                 @endforeach
                             </select>
                         </div>
+                    </div>
 
-                        {{-- Metode Pembayaran --}}
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Metode Pembayaran</label>
-                            <select name="metode_pembayaran_reservasi" class="form-select" required>
-                                <option value="Debit">Debit</option>
-                                <option value="QRIS">QRIS</option>
-                            </select>
-                        </div>
+                    <div class="input-item">
+                        <label class="form-label">Status Reservasi</label>
+                        <select name="status_reservasi" class="form-select" required>
+                            <option value="Proses">Proses</option>
+                            <option value="Selesai">Selesai</option>
+                            <option value="Dibatalkan">Dibatalkan</option>
+                        </select>
+                    </div>
 
-                        {{-- Status --}}
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Status Reservasi</label>
-                            <select name="status_reservasi" class="form-select" required>
-                                <option value="Proses">Proses</option>
-                                <option value="Selesai">Selesai</option>
-                                <option value="Dibatalkan">Dibatalkan</option>
-                            </select>
-                        </div>
+                    <div class="mt-4 mb-3">
+                        <h6>Fasilitas Tambahan (Area Opsional)</h6>
+                        <div class="card p-3 shadow-sm border">Tambahkan logika fasilitas tambahan di sini...</div>
+                    </div>
 
-                        {{-- Harga --}}
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Total Harga Reservasi</label>
-                            <input type="text" id="harga_view" class="form-control" readonly>
-                            <input type="hidden" name="total_harga_reservasi" id="total_harga_reservasi"
-                                value="{{ old('total_harga_reservasi') }}">
-                        </div>
+                </div>
 
-                        {{-- Catatan --}}
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Catatan</label>
-                            <textarea name="catatan_user_reservasi" class="form-control" rows="3">{{ old('catatan_user_reservasi') }}</textarea>
-                        </div>
+                <div class="subsection-info">
+                    <div class="input-item">
+                        <label class="form-label">Metode Pembayaran</label>
+                        <select name="metode_pembayaran_reservasi" class="form-select" required>
+                            <option value="Debit">Debit</option>
+                            <option value="QRIS">QRIS</option>
+                        </select>
+                    </div>
+                    <div class="list-information">
+                        <label class="form-label">Harga Sewa</label>
+                        <input type="text" id="harga_reservasi_view" class="value-item" readonly value="Rp-">
+                    </div>
 
+                    <div class="list-information">
+                        <label class="form-label">Pajak (10%)</label>
+                        <input type="text" id="pajak_view" class="value-item" readonly value="Rp-">
                     </div>
 
                     <hr>
 
-                    {{-- Button --}}
-                    <div class="d-flex justify-content-end gap-2">
-                        <a href="{{ route('reservasi_fasilitas.index') }}" class="btn btn-secondary">
-                            Kembali
-                        </a>
-                        <button type="submit" class="btn btn-primary">
-                            Simpan
-                        </button>
+                    <div class="list-information">
+                        <label class="form-label fw-bold">Total Pembayaran</label>
+                        <input type="text" id="total_pembayaran_view" class="value-item fw-bold text-success" readonly
+                            value="Rp-">
                     </div>
 
-                </form>
+                    <input type="hidden" name="total_harga_reservasi" id="total_harga_reservasi"
+                        value="{{ old('total_harga_reservasi') }}">
+                </div>
             </div>
-        </div>
+
+        </form>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const fasilitas = document.getElementById('fasilitas');
-            const hargaView = document.getElementById('harga_view');
-            const hargaHidden = document.getElementById('total_harga_reservasi');
-
-            fasilitas.addEventListener('change', function() {
-                const option = this.options[this.selectedIndex];
-                const harga = option.dataset.harga;
-
-                if (!harga) {
-                    hargaView.value = '';
-                    hargaHidden.value = '';
-                    return;
-                }
-
-                hargaView.value = formatRupiah(harga);
-                hargaHidden.value = harga;
-            });
+            const fasilitasSelect = document.getElementById('fasilitas');
+            const hargaReservasiView = document.getElementById('harga_reservasi_view');
+            const pajakView = document.getElementById('pajak_view');
+            const totalPembayaranView = document.getElementById('total_pembayaran_view');
+            const totalHargaHidden = document.getElementById('total_harga_reservasi');
+            const pajakRate = 0.10;
 
             function formatRupiah(angka) {
+                if (!angka || angka == 0) return 'Rp-';
                 return 'Rp' + parseInt(angka).toLocaleString('id-ID');
             }
+
+            function updateSummary() {
+                const selectedOption = fasilitasSelect.options[fasilitasSelect.selectedIndex];
+                const hargaReservasi = parseInt(selectedOption.dataset.harga || 0);
+                const hargaTambahan = 0;
+                const totalDasar = hargaReservasi + hargaTambahan;
+                const pajak = totalDasar * pajakRate;
+                const totalPembayaran = totalDasar + pajak;
+                hargaReservasiView.value = formatRupiah(hargaReservasi);
+                pajakView.value = formatRupiah(pajak);
+                totalPembayaranView.value = formatRupiah(totalPembayaran);
+                totalHargaHidden.value = totalPembayaran;
+            }
+            fasilitasSelect.addEventListener('change', updateSummary);
+            updateSummary();
         });
     </script>
 @endsection
