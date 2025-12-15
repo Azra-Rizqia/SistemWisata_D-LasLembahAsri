@@ -24,7 +24,9 @@
     <link rel="stylesheet" href="{{ asset('css/table.css') }}">
     <link rel="stylesheet" href="{{ asset('css/badge.css') }}">
     <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
-    
+    <link rel="stylesheet" href="{{ asset('css/input.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/input.css') }}">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
     @stack('styles')
 </head>
