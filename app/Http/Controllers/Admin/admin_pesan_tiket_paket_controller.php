@@ -16,6 +16,6 @@ class admin_pesan_tiket_paket_controller extends Controller
                     ->orderBy('created_at', 'desc')
                     ->get();
 
-        return view('admin.pesan_tiket_paket.index', compact('pesanan'));
+        return view('pesan_tiket_paket.index', compact('pesanan'));
     }
 }

@@ -1,5 +1,5 @@
 
-@extends('admin.layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Tiket Paket')
 

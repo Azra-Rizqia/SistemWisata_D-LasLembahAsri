@@ -7,7 +7,7 @@
 </head>
 <body>
 
-    @include('admin.layouts.navbar')
+    @include('layouts.navbar')
 
     <main class="container">
         @yield('content')
