@@ -86,12 +86,12 @@
                                 </td>
                                 <td>
                                     <span
-                                        class="badge-pill
+                                        class="badge-pill font-T4-Regular
                                     {{ $item->status_reservasi === 'Selesai'
                                         ? 'badge-success'
                                         : ($item->status_reservasi === 'Proses'
                                             ? 'badge-secondary'
-                                            : 'badge-cancel') }}">
+                                            : 'badge-canceled') }}">
                                         {{ $item->status_reservasi }}
                                     </span>
                                 </td>
@@ -137,10 +137,10 @@
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-content" style="border-radius: 24px">
+                    <div class="modal-header d-flex justify-content-center">
+                        <div class="icon-card-delete items-center"><i class="ph ph-trash icon icon-md icon-danger"></i>
+                        </div>
                     </div>
                     <div class="modal-body">
                         ...

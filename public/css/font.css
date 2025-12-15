@@ -11,7 +11,6 @@
 }
 
 .font-T1-SemiBold{
-    /* T1/Semi Bold */
     font-family: Inter;
     font-size: 22px !important;
     font-style: normal;
@@ -23,7 +22,6 @@
 }
 
 .font-T3-Regular{
-    /* T3/Regular */
     font-family: Inter;
     font-size: 18px !important;
     font-style: normal;
@@ -36,7 +34,6 @@
 }
 
 .font-T4-Regular{
-    /* T3/Regular */
     font-family: Inter;
     font-size: 16px;
     font-style: normal;
