@@ -2,8 +2,6 @@
 
 @section('content')
 <div class="container">
-
-    {{-- Breadcrumb --}}
     <div class="mb-3">
         <a href="{{ route('sewa_kios.index') }}">Sewa Kios</a> / Edit Sewa
     </div>
@@ -20,7 +18,6 @@
 
                 <div class="row g-3">
 
-                    {{-- Tenant --}}
                     <div class="col-md-6">
                         <label class="form-label">Tenant / Nomor Kios</label>
                         <select name="id_tenant" class="form-select" required>
@@ -34,7 +31,6 @@
                         </select>
                     </div>
 
-                    {{-- User --}}
                     <div class="col-md-6">
                         <label class="form-label">Nama Pemesan</label>
                         <select name="id_user" class="form-select" required>
@@ -48,7 +44,6 @@
                         </select>
                     </div>
 
-                    {{-- Tanggal --}}
                     <div class="col-md-6">
                         <label class="form-label">Tanggal Mulai</label>
                         <input type="date"
@@ -67,7 +62,6 @@
                                required>
                     </div>
 
-                    {{-- Metode --}}
                     <div class="col-md-6">
                         <label class="form-label">Metode Pembayaran</label>
                         <input type="text"
@@ -76,7 +70,6 @@
                                disabled>
                     </div>
 
-                    {{-- Status --}}
                     <div class="col-md-6">
                         <label class="form-label">Status Pembayaran</label>
                         <select name="status_pembayaran_tenant" class="form-select">
@@ -90,16 +83,10 @@
 
                 <hr class="my-4">
 
-                {{-- Perhitungan --}}
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label class="form-label">Harga Sewa</label>
-                        <input type="number"
-                               id="harga"
-                               name="harga_sewa_tenant"
-                               class="form-control"
-                               value="{{ $sewa_kio->harga_sewa_tenant }}"
-                               required>
+                        <input type="number" id="harga" name="harga_sewa_tenant" class="form-control" value="{{ $sewa_kio->harga_sewa_tenant }}" required>
                     </div>
 
                     <div class="col-md-4">
@@ -113,7 +100,6 @@
                     </div>
                 </div>
 
-                {{-- Action --}}
                 <div class="d-flex justify-content-end gap-2 mt-4">
                     <a href="{{ route('sewa_kios.index') }}" class="btn btn-outline-secondary">
                         Kembali
