@@ -2,108 +2,83 @@
 
 @section('content')
 <div class="container">
-
-    {{-- Breadcrumb --}}
-    <nav aria-label="breadcrumb" class="mb-4">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-                <a href="{{ route('sewa_kios.index') }}">Sewa Kios</a>
-            </li>
-            <li class="breadcrumb-item active">Detail Sewa</li>
-        </ol>
-    </nav>
-
-    {{-- Content --}}
-    <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
-            <h5 class="mb-0">Detail Pesanan Sewa Tenant</h5>
-        </div>
-
-        <div class="card-body">
-            <h6 class="mb-3">Informasi Sewa</h6>
-            <table class="table table-bordered">
-                <tr>
-                    <th width="30%">No Sewa</th>
-                    <td>#{{ $sewa_kio->id }}</td>
-                </tr>
-                <tr>
-                    <th>Nama Pemesan</th>
-                    <td>{{ $sewa_kio->user->name ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th>Email Pemesan</th>
-                    <td>{{ $sewa_kio->user->email ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th>Tenant</th>
-                    <td>{{ $sewa_kio->tenant->lokasi_tenant ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th>Tanggal Mulai</th>
-                    <td>{{ \Carbon\Carbon::parse($sewa_kio->tanggal_mulai_sewa)->format('d M Y') }}</td>
-                </tr>
-                <tr>
-                    <th>Tanggal Selesai</th>
-                    <td>{{ \Carbon\Carbon::parse($sewa_kio->tanggal_selesai_sewa)->format('d M Y') }}</td>
-                </tr>
-                <tr>
-                    <th>Status Pembayaran</th>
-                    <td>
-                        <span class="badge
-                            {{ $sewa_kio->status_pembayaran_tenant === 'Dibayar' ? 'bg-success' :
-                            ($sewa_kio->status_pembayaran_tenant === 'Menunggu' ? 'bg-warning' : 'bg-danger') }}">
-                            {{ $sewa_kio->status_pembayaran_tenant }}
-                        </span>
-                    </td>
-                </tr>
-                <tr>
-                    <th>Metode Pembayaran</th>
-                    <td>{{ $sewa_kio->{'Metode Pembayaran'} ?? '-' }}</td>
-                </tr>
-                <tr>
-                    <th>Tanggal Dibuat</th>
-                    <td>{{ $sewa_kio->created_at->format('d M Y H:i') }}</td>
-                </tr>
-            </table>
-
-            <hr>
-
-            {{-- PERHITUNGAN --}}
-            @php
-                $harga = $sewa_kio->harga_sewa_tenant;
-                $pajak = $harga * 0.10;
-                $total = $harga + $pajak;
-            @endphp
-
-            <h6 class="mb-3">Rincian Pembayaran</h6>
-            <table class="table table-striped">
-                <tr>
-                    <th>Harga Sewa</th>
-                    <td>Rp{{ number_format($harga, 0, ',', '.') }}</td>
-                </tr>
-                <tr>
-                    <th>Pajak (10%)</th>
-                    <td>Rp{{ number_format($pajak, 0, ',', '.') }}</td>
-                </tr>
-                <tr class="table-success">
-                    <th>Total Pembayaran</th>
-                    <td class="fw-bold">
-                        Rp{{ number_format($total, 0, ',', '.') }}
-                    </td>
-                </tr>
-            </table>
-
-            {{-- BUTTON --}}
-            <div class="d-flex justify-content-end gap-2 mt-4">
-                <a href="{{ route('sewa_kios.index') }}" class="btn btn-secondary">
-                    Kembali
-                </a>
-                <a href="{{ route('sewa_kios.edit', $sewa_kio->id) }}"
-                   class="btn btn-warning">
+    @php
+        $harga = $sewa_kio->harga_sewa_tenant;
+        $pajak = $harga * 0.10;
+        $total = $harga + $pajak;
+    @endphp
+    <div class="head-page-breadcrumb">
+        <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('sewa_kios.index') }}">Sewa Kios</a>
+                    </li>
+                <li class="breadcrumb-item active">Detail Sewa</li>
+            </ol>
+        </nav>
+        <div class="d-flex justify-content-end gap-2 mt-4">
+                <a href="{{ route('sewa_kios.edit', $sewa_kio->id) }}" class="btn btn-secondary">
                     Edit
                 </a>
+                <form action="{{ route('sewa_kios.destroy', $sewa_kio->id) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-hapus" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        Hapus
+                    </button>
+                </form>
             </div>
-
+    </div>
+    <div class="content-detail-page">
+        <div class="section-main-information-detail-page">
+            <div class="item-main-information">
+                <div class="info-item-information">
+                    <p class="font-h7">{{$sewa_kio->tenant->lokasi_tenant}}</p>
+                    <p class="font-T3-Regular">Rp10.000</p>
+                </div>
+                <p class="font-T4-Regular">Status Pembelian</p>
+                <span class="badge
+                    {{ $sewa_kio->status_pembayaran_tenant === 'Dibayar' ? 'bg-success' :
+                    ($sewa_kio->status_pembayaran_tenant === 'Menunggu' ? 'bg-warning' : 'bg-danger') }}">
+                    {{ $sewa_kio->status_pembayaran_tenant }}
+                </span>
+            </div>
+            <div class="item-main-information">
+                <div class="info-item-information">
+                    <p class="font-h7">{{$sewa_kio->user->nama_user}}</p>
+                    <p class="font-T3-Regular">{{$sewa_kio->user->email_user}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="section-information-detail-page">
+            <div class="kolom-input">
+                <div class="info-item-information">
+                    <p class="font-T4-Regular">No Sewa</p>
+                    <p class="font-T1-SemiBold">#{{ $sewa_kio->id }}</p>
+                </div>
+                <div class="info-item-information">
+                    <p class="font-T4-Regular">Tanggal Dimulai</p>
+                    <p class="font-T1-SemiBold">{{ \Carbon\Carbon::parse($sewa_kio->tanggal_mulai_sewa)->format('d M Y') }}</p>
+                </div>
+                <div class="info-item-information">
+                    <p class="font-T4-Regular">Tanggal Berakhir</p>
+                    <p class="font-T1-SemiBold">{{ \Carbon\Carbon::parse($sewa_kio->tanggal_selesai_sewa)->format('d M Y') }}</p>
+                </div>
+            </div>
+            <div class="kolom-input">
+                <div class="info-item-information">
+                    <p class="font-T4-Regular">Total Pembayaran</p>
+                    <p class="font-T1-SemiBold">Rp{{ number_format($sewa_kio->harga_sewa_tenant, 0, ',', '.') }}</p>
+                </div>
+                <div class="info-item-information">
+                    <p class="font-T4-Regular">Metode Pembayaran</p>
+                    <p class="font-T1-SemiBold">{{ $sewa_kio->{'Metode Pembayaran'} ?? '-' }}</p>
+                </div>
+                <div class="info-item-information">
+                    <p class="font-T4-Regular">Tanggal Pemesanan</p>
+                    <p class="font-T1-SemiBold">{{ $sewa_kio->created_at->format('d M Y H:i') }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

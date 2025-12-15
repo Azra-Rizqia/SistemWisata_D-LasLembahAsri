@@ -81,7 +81,6 @@
                         <label class="form-label">Harga Sewa</label>
                         <input type="text" id="harga_sewa" class="value-item" style="border: none; width: fit-content;"
                             readonly>
-                        <input type="hidden" name="harga_sewa_tenant" id="harga_sewa_hidden">
                     </div>
 
                     <div class="list-information">
@@ -92,8 +91,10 @@
 
                     <div class="list-information">
                         <label class="form-label fw-bold">Total</label>
-                        <input type="text" id="total" class="value-item fw-bold text-success" readonly>
+                        <input type="text" id="total" class="value-item text-success" readonly>
+                        <input type="hidden" name="harga_sewa_tenant" id="total_hidden">
                     </div>
+
                 </div>
         </form>
     </div>
@@ -101,17 +102,23 @@
 
     {{-- SCRIPT HITUNG --}}
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', function () {
+
             const tarifPerMinggu = 10000;
             const pajakRate = 0.10;
 
-            const mulai = document.querySelector('[name="tanggal_mulai_sewa"]');
-            const selesai = document.querySelector('[name="tanggal_selesai_sewa"]');
+            const mulai = document.querySelector('input[name="tanggal_mulai_sewa"]');
+            const selesai = document.querySelector('input[name="tanggal_selesai_sewa"]');
 
             const harga = document.getElementById('harga_sewa');
-            const hargaHidden = document.getElementById('harga_sewa_hidden');
             const pajak = document.getElementById('pajak');
             const total = document.getElementById('total');
+            const totalHidden = document.getElementById('total_hidden');
+
+            if (!mulai || !selesai) {
+                console.error('Input tanggal tidak ditemukan');
+                return;
+            }
 
             function hitung() {
                 if (!mulai.value || !selesai.value) return;
@@ -121,25 +128,29 @@
 
                 if (end < start) return;
 
-                const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-                const weeks = Math.ceil(days / 7);
+                const diffTime = end - start;
+                const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const weeks = Math.max(1, Math.ceil(days / 7));
 
                 const hargaSewa = weeks * tarifPerMinggu;
                 const pajakVal = hargaSewa * pajakRate;
                 const totalVal = hargaSewa + pajakVal;
 
-                harga.value = rupiah(hargaSewa);
-                hargaHidden.value = hargaSewa;
-                pajak.value = rupiah(pajakVal);
-                total.value = rupiah(totalVal);
+                harga.value = formatRupiah(hargaSewa);
+                pajak.value = formatRupiah(pajakVal);
+                total.value = formatRupiah(totalVal);
+
+                // 🔥 INI YANG TERKIRIM KE SERVER
+                totalHidden.value = totalVal;
             }
 
-            function rupiah(num) {
-                return 'Rp' + num.toLocaleString('id-ID');
+            function formatRupiah(angka) {
+                return 'Rp ' + angka.toLocaleString('id-ID');
             }
 
             mulai.addEventListener('change', hitung);
             selesai.addEventListener('change', hitung);
         });
-    </script>
+        </script>
+
 @endsection

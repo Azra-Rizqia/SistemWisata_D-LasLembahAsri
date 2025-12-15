@@ -6,7 +6,6 @@
             @csrf
             @method('PUT')
             <div class="head-page-breadcrumb">
-                {{-- Breadcrumb --}}
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -81,8 +80,10 @@
                     </div>
                     <div class="list-information">
                         <label class="form-label">Harga Sewa</label>
-                        <input type="number" id="harga" name="harga_sewa_tenant" class=" value-item" value="{{ $sewa_kio->harga_sewa_tenant }}" readonly>
+                        <input type="text" id="harga_sewa" class="value-item" readonly>
                     </div>
+
+                    <input type="hidden" name="harga_sewa_tenant" id="total_hidden">
 
                     <div class="list-information">
                         <label class="form-label">Pajak (10%)</label>
@@ -93,20 +94,56 @@
                         <label class="form-label fw-bold">Total</label>
                         <input type="text" id="total" class="value-item fw-bold text-success" readonly>
                     </div>
+
                 </div>
         </form>
     </div>
     <script>
-        function hitung() {
-            let harga = parseFloat(document.getElementById('harga').value) || 0;
-            let pajak = harga * 0.10;
-            let total = harga + pajak;
+        document.addEventListener('DOMContentLoaded', function () {
 
-            document.getElementById('pajak').value = pajak.toLocaleString('id-ID');
-            document.getElementById('total').value = total.toLocaleString('id-ID');
-        }
+            const tarifPerMinggu = 10000;
+            const pajakRate = 0.10;
 
-        document.getElementById('harga').addEventListener('input', hitung);
-        hitung();
-    </script>
+            const mulai = document.querySelector('input[name="tanggal_mulai_sewa"]');
+            const selesai = document.querySelector('input[name="tanggal_selesai_sewa"]');
+
+            const harga = document.getElementById('harga_sewa');
+            const pajak = document.getElementById('pajak');
+            const total = document.getElementById('total');
+            const totalHidden = document.getElementById('total_hidden');
+
+            function hitung() {
+                if (!mulai.value || !selesai.value) return;
+
+                const start = new Date(mulai.value);
+                const end = new Date(selesai.value);
+
+                if (end < start) return;
+
+                const diffTime = end - start;
+                const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                const weeks = Math.max(1, Math.ceil(days / 7));
+
+                const hargaSewa = weeks * tarifPerMinggu;
+                const pajakVal = hargaSewa * pajakRate;
+                const totalVal = hargaSewa + pajakVal;
+
+                harga.value = formatRupiah(hargaSewa);
+                pajak.value = formatRupiah(pajakVal);
+                total.value = formatRupiah(totalVal);
+
+                totalHidden.value = totalVal;
+            }
+
+            function formatRupiah(num) {
+                return 'Rp ' + num.toLocaleString('id-ID');
+            }
+
+            mulai.addEventListener('change', hitung);
+            selesai.addEventListener('change', hitung);
+
+            hitung();
+        });
+        </script>
+
 @endsection
