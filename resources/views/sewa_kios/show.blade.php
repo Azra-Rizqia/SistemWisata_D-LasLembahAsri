@@ -13,14 +13,13 @@
         </ol>
     </nav>
 
+    {{-- Content --}}
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
             <h5 class="mb-0">Detail Pesanan Sewa Tenant</h5>
         </div>
 
         <div class="card-body">
-
-            {{-- INFORMASI UMUM --}}
             <h6 class="mb-3">Informasi Sewa</h6>
             <table class="table table-bordered">
                 <tr>
