@@ -22,24 +22,16 @@ class SewaTenant extends Model
         'id_user',
     ];
 
-    // public function getRouteKeyName()
-    // {
-    //     return 'id_sewa_tenant';
-    // }
-
-    // relasi ke tenant
     public function tenant()
     {
         return $this->belongsTo(Tenant::class, 'id_tenant');
     }
 
-    // relasi ke user
     public function user()
     {
         return $this->belongsTo(User::class, 'id_user');
     }
 
-    // kondisi
     protected static function booted()
     {
         static::saved(function ($sewa) {
@@ -47,7 +39,6 @@ class SewaTenant extends Model
 
             if (!$tenant) return;
 
-            // Jika pembayaran aktif & masih dalam masa sewa
             if (
                 $sewa->status_pembayaran_tenant === 'Dibayar' &&
                 $sewa->tanggal_selesai_sewa >= now()->toDateString()
@@ -56,7 +47,6 @@ class SewaTenant extends Model
                 return;
             }
 
-            // Jika masih menunggu pembayaran
             if (
                 $sewa->status_pembayaran_tenant === 'Menunggu' &&
                 $sewa->tanggal_mulai_sewa >= now()->toDateString()
@@ -65,7 +55,6 @@ class SewaTenant extends Model
                 return;
             }
 
-            // Jika masa sewa habis atau dibatalkan
             if (
                 $sewa->status_pembayaran_tenant === 'Dibatalkan' ||
                 $sewa->tanggal_selesai_sewa < now()->toDateString()

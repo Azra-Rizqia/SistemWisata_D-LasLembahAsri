@@ -1,8 +1,11 @@
+.btn{
+    border-radius: 100px !important;
+    gap: 10px !important;
+}
+
 .btn-primary {
     background-color: #238302 !important;
     border: none !important;
-    border-radius: 100px !important;
-    gap: 10px !important;
 }
 
 .btn-primary:hover {
@@ -10,15 +13,20 @@
 }
 
 .btn-primary:disabled {
-    background-color: #238302 !important;
-    opacity: 0.50 !important;
+    background-color: #238302A5 !important;
+}
+
+.btn-hapus {
+    background-color: #F00 !important;
+    border: none !important;
+    border-radius: 100px !important;
+    gap: 10px !important;
+    color: #fff;
 }
 
 .btn-secondary {
     background-color: #FEFEFE !important;
     border-color: #E8E8E8 !important;
-    border-radius: 100px !important;
-    gap: 10px !important;
     color: #101010 !important;
 }
 
@@ -28,6 +36,15 @@
 
 .btn-secondary:disabled {
     background-color: #238302 !important;
+}
+
+.btn-danger {
+    background-color: #FF383C !important;
+    border-color: none !important;
+}
+
+.btn-danger:hover {
+    background-color: #FF383CA1 !important;
 }
 
 .btn-logout {

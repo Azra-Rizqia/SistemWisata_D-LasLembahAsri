@@ -2,7 +2,6 @@ body {
     padding: 26px 52px 16px 52px;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
     gap: 42px;
     background: #F9F9F9;
 }
@@ -95,6 +94,18 @@ body {
     background: var(--Brand-Orange-Soft, rgba(254, 133, 7, 0.10));
 }
 
+.icon-card-delete{
+    display: flex;
+    width: 64px;
+    height: 64px;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 100px;
+    background: #FF383C1A !important;
+}
+
 .view-data{
     display: flex;
     padding: 24px 20px;
@@ -165,4 +176,50 @@ body {
 .value-item{
     border: none;
     width: fit-content;
+}
+
+/* detail */
+
+.content-detail-page{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    flex: 1 0 0;
+    align-self: stretch;
+}
+
+.section-main-information-detail-page{
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+}
+
+.item-main-information{
+    display: flex;
+    padding: var(--Padding-Padding-SS, 20px) var(--Padding-Padding-MX, 20px) var(--Padding-Padding-SS, 20px) var(--Padding-Padding-SS, 20px);
+    align-items: center;
+    gap: var(--Spacing-Gap-SX, 10px);
+    flex: 1 0 0;
+    border-radius: 20px;
+    background: #FFF;
+}
+
+.info-item-information{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 0 0;
+}
+
+.section-information-detail-page{
+    display: flex;
+    padding: var(--Padding-Padding-MX, 20px) var(--Padding-Padding-MX, 20px) var(--Spacing-Gap-MX, 20px) var(--Padding-Padding-MX, 20px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--Spacing-Gap-MX, 20px);
+    align-self: stretch;
+    border-radius: 20px;
+    background: var(--Neutral-White, #FEFEFE);
 }

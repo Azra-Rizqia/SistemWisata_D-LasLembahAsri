@@ -71,6 +71,7 @@
                     <div id="fasilitas-container" class="d-flex flex-wrap gap-3">
                         <div class="d-flex align-items-center bg-white border rounded-pill px-2 py-1 gap-2 shadow-sm" style="height: 50px; min-width: 200px; border: 1px solid #E8E8E8;">
                             <label class="cursor-pointer bg-light rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 position-relative overflow-hidden" style="width: 36px; height: 36px; background: #E8E8E8;">
+                            <label class="cursor-pointer bg-light rounded-circle d-flex align-items-center justify-content-center shrink-0 position-relative overflow-hidden" style="width: 36px; height: 36px; background: #E8E8E8;">
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
                                 <img id="img-preview-0" src="#" class="d-none w-100 h-100 object-fit-cover position-absolute">
                                 <input type="file" name="fasilitas[0][icon]" class="d-none" accept="image/*" onchange="previewIcon(this, 0)">
