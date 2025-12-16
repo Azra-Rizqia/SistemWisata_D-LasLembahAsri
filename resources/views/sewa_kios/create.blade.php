@@ -4,7 +4,6 @@
     <div class="container">
         <form action="{{ route('sewa_kios.store') }}" method="POST">
             <div class="head-page-breadcrumb">
-                {{-- Breadcrumb --}}
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -100,7 +99,6 @@
     </div>
     </div>
 
-    {{-- SCRIPT HITUNG --}}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
 
