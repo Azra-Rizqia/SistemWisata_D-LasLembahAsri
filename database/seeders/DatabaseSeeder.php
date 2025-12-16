@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TenantSeeder::class,
             UserSeeder::class,
-            FasilitasSeeder::class
+            FasilitasSeeder::class,
+            AdminSeeder::class
         ]);
         User::factory()->create([
             'name' => 'Test User',

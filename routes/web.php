@@ -2,7 +2,12 @@
 
 use App\Models\ReservasiFasilitas;
 use Illuminate\Support\Facades\Route;
+<<<<<<< HEAD
 use App\Http\Controllers\PesanTiketPaketController;
+=======
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
+>>>>>>> 34102b3cacc18ef5baa6694f3bf132c32d648331
 use App\Http\Controllers\ReservasiFasilitasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SewaTenantController;
@@ -34,3 +39,6 @@ Route::get('/wahana', [WahanaController::class, 'index'])->name('wahana.index');
 
 Route::resource('pesan-tiket', PesanTiketSatuanController::class);
 Route::get('/pesan-tiket', [PesanTiketSatuanController::class, 'index'])->name('pesan-tiket.index');
+Route::get('/', [AdminController::class, 'loginForm']) ->name('admin.login');
+Route::post('/', [AdminController::class, 'login'])->name('admin.login.post');
+

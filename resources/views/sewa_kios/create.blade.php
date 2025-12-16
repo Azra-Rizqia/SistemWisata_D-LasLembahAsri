@@ -90,14 +90,13 @@
 
                     <div class="list-information">
                         <label class="form-label fw-bold">Total</label>
-                        <input type="text" id="total" class="value-item fw-bold text-success" readonly>
+                        <input type="text" id="total" class="value-item text-success" readonly>
                     </div>
                 </div>
         </form>
     </div>
     </div>
 
-    {{-- SCRIPT HITUNG --}}
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const tarifPerMinggu = 10000;
