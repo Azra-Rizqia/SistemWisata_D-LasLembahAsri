@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->string('nama_wahana');
             $table->text('deskripsi_wahana');
-            $table->string('tentang_wahana')();
+            $table->string('tentang_wahana');
             $table->string('pengelola_wahana')->nullable();
             $table->enum('status_wahana', ['Tersedia', 'Tidak Tersedia'])->default('Tersedia');
             $table->Integer('harga_tiket_wahana')->default(0);

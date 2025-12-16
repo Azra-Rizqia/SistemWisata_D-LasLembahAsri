@@ -42,7 +42,7 @@
                             <div class="d-flex gap-2 mt-3">
                                 <a href="{{ route('wahana.edit', $item->id) }}"
                                    class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-                                    ✏️ Edit
+                                    Edit
                                 </a>
 
                                 <form action="{{ route('wahana.destroy', $item->id) }}" method="POST">
@@ -50,7 +50,7 @@
                                     @method('DELETE')
                                     <button class="btn btn-outline-danger btn-sm rounded-pill px-3"
                                             onclick="return confirm('Hapus wahana ini?')">
-                                        🗑️ Hapus
+                                        Hapus
                                     </button>
                                 </form>
                             </div>

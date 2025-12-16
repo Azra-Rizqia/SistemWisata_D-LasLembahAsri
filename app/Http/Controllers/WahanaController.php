@@ -4,68 +4,102 @@ namespace App\Http\Controllers;
 
 use App\Models\Wahana;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class WahanaController extends Controller
 {
+    /**
+     * Menampilkan seluruh data wahana
+     */
     public function index()
     {
-        $wahana = Wahana::all();
-        return view('wahana.index', compact('wahana'));
+        $wahana = Wahana::orderBy('created_at', 'desc')->get();
+
+        $totalWahana = Wahana::count();
+        $wahanaAktif = Wahana::where('status_wahana', 'Aktif')->count();
+
+        return view('wahana.index', compact(
+            'wahana',
+            'totalWahana',
+            'wahanaAktif'
+        ));
     }
 
+    /**
+     * Form tambah wahana
+     */
     public function create()
     {
         return view('wahana.create');
     }
 
+    /**
+     * Simpan data wahana
+     */
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_wahana' => 'required',
-            'deskripsi_wahana' => 'required',
-            'tentang_wahana' => 'required',
-            'harga_tiket_wahana' => 'required|integer',
+        $validated = $request->validate([
+            'nama_wahana' => 'required|string|max:255',
+            'deskripsi_wahana' => 'required|string',
+            'tentang_wahana' => 'required|string',
+            'pengelola_wahana' => 'required|string|max:255',
+            'status_wahana' => 'required|in:Aktif,Tidak Aktif',
+            'harga_tiket_wahana' => 'required|integer|min:0',
         ]);
 
-        Wahana::create($request->all());
+        Wahana::create(collect($validated)->except('status_wahana')->toArray());
 
-        return redirect()->route('wahana.index')
-            ->with('success', 'Wahana berhasil ditambahkan');
+        return redirect()
+            ->route('wahana.index')
+            ->with('success', 'Data wahana berhasil ditambahkan');
     }
 
+    /**
+     * Detail wahana
+     */
     public function show(Wahana $wahana)
-    {   
-        return view('wahana.show', [
-            'wahana' => $wahana,
-        ]);
+    {
+        return view('wahana.show', compact('wahana'));
     }
 
+    /**
+     * Form edit wahana
+     */
     public function edit(Wahana $wahana)
     {
         return view('wahana.edit', compact('wahana'));
     }
 
+    /**
+     * Update data wahana
+     */
     public function update(Request $request, Wahana $wahana)
     {
-        $request->validate([
-            'nama_wahana' => 'required',
-            'deskripsi_wahana' => 'required',
-            'tentang_wahana' => 'required',
-            'harga_tiket_wahana' => 'required|integer',
+        $validated = $request->validate([
+            'nama_wahana' => 'required|string|max:255',
+            'deskripsi_wahana' => 'required|string',
+            'tentang_wahana' => 'required|string',
+            'pengelola_wahana' => 'required|string|max:255',
+            'status_wahana' => 'required|in:Aktif,Nonaktif',
+            'harga_tiket_wahana' => 'required|integer|min:0',
         ]);
 
-        $wahana->update($request->all());
+        $wahana->update($validated);
 
-        return redirect()->route('wahana.index')
-            ->with('success', 'Wahana berhasil diperbarui');
+        return redirect()
+            ->route('wahana.index')
+            ->with('success', 'Data wahana berhasil diperbarui');
     }
 
+    /**
+     * Hapus data wahana
+     */
     public function destroy(Wahana $wahana)
     {
         $wahana->delete();
 
-        return redirect()->route('wahana.index')
-            ->with('success', 'Wahana berhasil dihapus');
+        return redirect()
+            ->route('wahana.index')
+            ->with('success', 'Data wahana berhasil dihapus');
     }
 }
