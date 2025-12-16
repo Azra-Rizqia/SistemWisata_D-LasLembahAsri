@@ -28,7 +28,7 @@ class fasilitasController extends Controller
             'status_fasilitas' => 'required|in:tersedia,tidak_tersedia',
             'fasilitas_tersedia' => 'nullable|array',
             'fasilitas_tambahan' => 'nullable|array',
-            'gambar_fasilitas' => 'nullable|string|max:255',
+            'url_gambar_fasilitas' => 'nullable|string|max:255',
         ]);
 
         Fasilitas::create($data);
