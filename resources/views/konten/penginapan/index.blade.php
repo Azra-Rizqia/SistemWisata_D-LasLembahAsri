@@ -105,7 +105,7 @@
                                             data-bs-toggle="modal" 
                                             data-bs-target="#delete-{{ $item->id }}"
                                             onclick="event.preventDefault()">
-                                        <i class="ph ph-trash me-1"></i> Hapus
+                                        <x-phosphor-trash class="icon-trash" /> Hapus
                                     </button>
                                 </div>
 
