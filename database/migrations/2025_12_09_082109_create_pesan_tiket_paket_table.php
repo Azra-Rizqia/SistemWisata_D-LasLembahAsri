@@ -12,10 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pesan_tiket_paket', function (Blueprint $table) {
-            $table->id('jumlah_tiket');
+            
+            $table->id('id');
+            $table->text('deskripsi_tiket');
             $table->integer('harga_pesanan');
-            $table->boolean('status_pesanan')->default(true);;
+            $table->integer('jumlah_tiket');
+            $table->enum('status', allowed: ['Tersedia','Tidak Tersedia'])->default('Tersedia');
+            $table->date('tanggal_pembelian');
             $table->string('qr_tiket');
+
             //fk
             $table->foreignId('id_user')->nullable()->constrained('users')->nullOnDelete();
             $table->foreignId('id_tiket_paket')->nullable()->constrained('tiket_paket')->nullOnDelete();

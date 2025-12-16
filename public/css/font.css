@@ -36,18 +36,6 @@
     padding: 0;
 }
 
-.font-T2-SemiBold {
-    color: var(--Neutral-Black, #101010);
-text-align: center;
-/* T2/Semi Bold */
-font-family: Inter;
-font-size: 20px;
-font-style: normal;
-font-weight: 600;
-line-height: 140%; /* 28px */
-letter-spacing: -0.5px;
-}
-
 .font-T3-Regular {
     /* T3/Regular */
     font-family: Inter;

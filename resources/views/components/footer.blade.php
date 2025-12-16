@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+<footer class="py-4 mt-auto">
+>>>>>>> d1b0185c9f57adc1f2b9934edac4ff499f564018
 <footer class="pb-4  mt-auto">
     <hr class="border-secondary opacity-25 mb-4">
     <div class="d-flex justify-content-between align-items-center">
@@ -18,6 +22,9 @@
             </a>
         </div>
 
+<<<<<<< HEAD
     
+=======
+>>>>>>> d1b0185c9f57adc1f2b9934edac4ff499f564018
     </div>
 </footer>

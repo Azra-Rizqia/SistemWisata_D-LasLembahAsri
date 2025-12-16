@@ -12,14 +12,18 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('fasilitas', function (Blueprint $table) {
-            $table->id('id_fasilitas');
-            $table->string('nama_fasilitas');
-            $table->text('deskripsi_fasilitas')->nullable();
-            $table->integer('harga_fasilitas');
-            $table->boolean('status_fasilitas')->default(true);
-            $table->foreignId('id_gambar')->nullable()->constrained('gambar')->nullOnDelete();
+            $table->id();
+            $table->string('nama_fasilitas', 150);
+            $table->string('deskripsi_singkat', 255)->nullable();
+            $table->text('tentang_fasilitas')->nullable();
+            $table->integer('harga_fasilitas')->default(0);
+            $table->enum('status_fasilitas', ['tersedia', 'tidak_tersedia'])->default('tersedia');
+            $table->json('fasilitas_tersedia')->nullable();
+            $table->json('fasilitas_tambahan')->nullable();
+            $table->string('url_gambar_fasilitas')->nullable();
             $table->timestamps();
         });
+
     }
 
     /**

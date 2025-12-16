@@ -4,33 +4,14 @@
     transition: color 0.2s;
 }
 
-.icon-sm {
-    font-size: 18px;
-}
+.icon-sm { font-size: 18px; }
+.icon-md { font-size: 24px; }
+.icon-lg { font-size: 32px; }
 
-.icon-md {
-    font-size: 24px;
-}
-
-.icon-lg {
-    font-size: 32px;
-}
-
-.icon-primary {
-    color: #238302;
-}
-
-.icon-success {
-    color: #198754;
-}
-
-.icon-danger {
-    color: #FF0000;
-}
-
-.icon-warning {
-    color: #FE8507;
-}
+.icon-primary   { color: #238302; }
+.icon-success   { color: #198754; } 
+.icon-danger    { color: #FF0000; }
+.icon-warning   { color: #FE8507; }
 
 .icon-hover:hover {
     color: #289702;

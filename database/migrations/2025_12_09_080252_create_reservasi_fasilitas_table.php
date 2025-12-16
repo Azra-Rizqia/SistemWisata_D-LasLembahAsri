@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reservasi_fasilitas', function (Blueprint $table) {
-            $table->id('id_reservasi_fasilitas');
+            $table->id();
             $table->string('kode_reservasi_fasilitas', 20)->unique();
             $table->string('kategori_reservasi');
             $table->date('tanggal_reservasi');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('metode_pembayaran_reservasi');
             $table->text('catatan_user_reservasi')->nullable();
             $table->foreignId('id_fasilitas')->nullable()->constrained('fasilitas')->nullOnDelete();
-            $table->foreignId('id_user')->constrained('users')->nullOnDelete();
+            $table->foreignId('id_user')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservasi');
+        Schema::dropIfExists('reservasi_fasilitas');
     }
 };

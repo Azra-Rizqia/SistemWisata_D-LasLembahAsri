@@ -8,4 +8,8 @@
 
 <a href="{{ Route::has($route) ? route($route) : '#' }}" class="{{ $classes }}">
     {{ $label }}
+<<<<<<< HEAD
 </a>
+=======
+</a>
+>>>>>>> d1b0185c9f57adc1f2b9934edac4ff499f564018
