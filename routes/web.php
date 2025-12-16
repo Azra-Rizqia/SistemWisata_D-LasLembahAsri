@@ -2,13 +2,16 @@
 
 use App\Models\ReservasiFasilitas;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PesanTiketPaketController;
 use App\Http\Controllers\ReservasiFasilitasController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SewaTenantController;
 use App\Http\Controllers\WahanaController;
 use App\Http\Controllers\PesanTiketSatuanController;
 use App\Http\Controllers\FasilitasController;
 use App\Http\Controllers\KontenPenginapanController;
+use App\Http\Controllers\TiketPaketController;
+
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -22,6 +25,9 @@ Route::put('/reservasi_fasilitas/{reservasi_fasilita}/edit', [ReservasiFasilitas
 
 Route::resource('sewa_kios', SewaTenantController::class);
 Route::get('/sewa_kios', [SewaTenantController::class, 'index'])->name('sewa_kios.index');
+
+Route::resource('tiket_paket', TiketPaketController::class);
+Route::resource('/pesan_tiket_paket', PesanTiketPaketController::class)->names('pesan_tiket_paket');
 
 Route::resource('wahana', WahanaController::class);
 Route::get('/wahana', [WahanaController::class, 'index'])->name('wahana.index');
