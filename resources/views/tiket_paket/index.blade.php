@@ -21,8 +21,6 @@
     @endif
 
     <div class="main-content">
-
-        {{-- STATISTIK --}}
         <div class="statistics">
             <div class="card-statistic">
                 <div class="icon-card-statistic1">
@@ -47,8 +45,7 @@
                 </div>
             </div>
         </div>
-
-        {{-- TABLE --}}
+        
         <div class="view-data">
             <div class="content-text-card">
                 <p class="font-T1-SemiBold">Daftar Tiket Paket</p>
