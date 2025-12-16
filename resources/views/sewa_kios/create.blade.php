@@ -13,7 +13,7 @@
                     </ol>
                 </nav>
                 <button type="submit" class="btn btn-primary">
-                    Simpan
+                    Tambahkan Reservasi
                 </button>
             </div>
 
@@ -25,7 +25,7 @@
                         <div class="input-item">
                             <label class="form-label">Tenant / Nomor Kios</label>
                             <select name="id_tenant" class="form-select" style="border-radius : 32px" required>
-                                <option value="">-- Pilih kios --</option>
+                                <option value="">Pilih kios</option>
 
                                 @foreach ($tenants as $tenant)
                                     <option value="{{ $tenant->id }}">
@@ -37,7 +37,7 @@
                         <div class="input-item">
                             <label class="form-label">Nama Pemesan</label>
                             <select name="id_user" class="form-select" style="border-radius : 32px" required>
-                                <option value="">-- Pilih User --</option>
+                                <option value="">Pilih User</option>
 
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}">
@@ -80,43 +80,35 @@
                         <label class="form-label">Harga Sewa</label>
                         <input type="text" id="harga_sewa" class="value-item" style="border: none; width: fit-content;"
                             readonly>
+                        <input type="hidden" name="harga_sewa_tenant" id="harga_sewa_hidden">
                     </div>
 
                     <div class="list-information">
                         <label class="form-label">Pajak (10%)</label>
-                        <input type="text" id="pajak" class="value-item"
-                            readonly>
+                        <input type="text" id="pajak" class="value-item" readonly>
                     </div>
 
                     <div class="list-information">
                         <label class="form-label fw-bold">Total</label>
-                        <input type="text" id="total" class="value-item text-success" readonly>
-                        <input type="hidden" name="harga_sewa_tenant" id="total_hidden">
+                        <input type="text" id="total" class="value-item fw-bold text-success" readonly>
                     </div>
-
                 </div>
         </form>
     </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-
+        document.addEventListener('DOMContentLoaded', () => {
             const tarifPerMinggu = 10000;
             const pajakRate = 0.10;
 
-            const mulai = document.querySelector('input[name="tanggal_mulai_sewa"]');
-            const selesai = document.querySelector('input[name="tanggal_selesai_sewa"]');
+            const mulai = document.querySelector('[name="tanggal_mulai_sewa"]');
+            const selesai = document.querySelector('[name="tanggal_selesai_sewa"]');
 
             const harga = document.getElementById('harga_sewa');
+            const hargaHidden = document.getElementById('harga_sewa_hidden');
             const pajak = document.getElementById('pajak');
             const total = document.getElementById('total');
-            const totalHidden = document.getElementById('total_hidden');
-
-            if (!mulai || !selesai) {
-                console.error('Input tanggal tidak ditemukan');
-                return;
-            }
 
             function hitung() {
                 if (!mulai.value || !selesai.value) return;
@@ -126,29 +118,25 @@
 
                 if (end < start) return;
 
-                const diffTime = end - start;
-                const days = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                const weeks = Math.max(1, Math.ceil(days / 7));
+                const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                const weeks = Math.ceil(days / 7);
 
                 const hargaSewa = weeks * tarifPerMinggu;
                 const pajakVal = hargaSewa * pajakRate;
                 const totalVal = hargaSewa + pajakVal;
 
-                harga.value = formatRupiah(hargaSewa);
-                pajak.value = formatRupiah(pajakVal);
-                total.value = formatRupiah(totalVal);
-
-                // 🔥 INI YANG TERKIRIM KE SERVER
-                totalHidden.value = totalVal;
+                harga.value = rupiah(hargaSewa);
+                hargaHidden.value = hargaSewa;
+                pajak.value = rupiah(pajakVal);
+                total.value = rupiah(totalVal);
             }
 
-            function formatRupiah(angka) {
-                return 'Rp ' + angka.toLocaleString('id-ID');
+            function rupiah(num) {
+                return 'Rp' + num.toLocaleString('id-ID');
             }
 
             mulai.addEventListener('change', hitung);
             selesai.addEventListener('change', hitung);
         });
-        </script>
-
+    </script>
 @endsection

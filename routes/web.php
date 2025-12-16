@@ -1,8 +1,9 @@
 <?php
 
+use App\Models\ReservasiFasilitas;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReservasiFasilitasController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ReservasiFasilitasController;
 use App\Http\Controllers\SewaTenantController;
 use App\Http\Controllers\KontenPenginapanController;
 

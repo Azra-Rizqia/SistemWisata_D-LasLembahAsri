@@ -29,9 +29,6 @@ class ReservasiFasilitasController extends Controller
         ));
     }
 
-    /**
-     * Form tambah reservasi
-     */
     public function create()
     {
         $fasilitas = Fasilitas::all();
@@ -40,9 +37,6 @@ class ReservasiFasilitasController extends Controller
         return view('reservasi_fasilitas.create', compact('fasilitas', 'users'));
     }
 
-    /**
-     * Simpan reservasi
-     */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -65,32 +59,23 @@ class ReservasiFasilitasController extends Controller
             ->with('success', 'Reservasi fasilitas berhasil ditambahkan');
     }
 
-    /**
-     * Detail reservasi
-     */
-    public function show(ReservasiFasilitas $reservasi_fasilitas)
+    public function show(ReservasiFasilitas $reservasi_fasilita)
     {
-        return view('reservasi_fasilitas.show', compact('reservasi_fasilitas'));
+        return view('reservasi_fasilitas.show', compact('reservasi_fasilita'));
     }
 
-    /**
-     * Form edit reservasi
-     */
-    public function edit(ReservasiFasilitas $reservasi_fasilitas)
+    public function edit(ReservasiFasilitas $reservasi_fasilita)
     {
         $fasilitas = Fasilitas::all();
         $users = User::all();
 
         return view('reservasi_fasilitas.edit', compact(
-            'reservasi_fasilitas',
+            'reservasi_fasilita',
             'fasilitas',
             'users'
         ));
     }
 
-    /**
-     * Update reservasi
-     */
     public function update(Request $request, ReservasiFasilitas $reservasi_fasilitas)
     {
         $validated = $request->validate([
@@ -111,13 +96,10 @@ class ReservasiFasilitasController extends Controller
             ->with('success', 'Reservasi fasilitas berhasil diperbarui');
     }
 
-    /**
-     * Hapus reservasi
-     */
-    public function destroy(ReservasiFasilitas $reservasi_fasilitas)
+    public function destroy($id)
     {
+        $reservasi_fasilitas = ReservasiFasilitas::findOrFail($id);
         $reservasi_fasilitas->delete();
-
         return redirect()
             ->route('reservasi_fasilitas.index')
             ->with('success', 'Reservasi fasilitas berhasil dihapus');

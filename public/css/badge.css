@@ -1,0 +1,27 @@
+.badge-pill {
+    border-radius: 100px !important;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.badge-success {
+    background-color: #237A3E1A !important;
+    color: #237A3E;
+}
+
+.badge-secondary {
+    background-color: #E8E8E8 !important;
+    color: #787878;
+}
+
+.badge-process {
+    background-color: #FE85071A !important;
+    color: #FE8507;
+}
+
+.badge-canceled {
+    background-color: #FF383C1A !important;
+    color: #FF383C;
+}
