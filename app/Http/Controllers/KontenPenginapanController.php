@@ -13,7 +13,8 @@ class KontenPenginapanController extends Controller
      */
     public function index()
     {
-        $penginapan = admin_konten_penginapan::all();
+        // $penginapan = admin_konten_penginapan::all();
+        $penginapan = admin_konten_penginapan::paginate(10);
         return view('konten.penginapan.index', compact('penginapan'));
     }
 
@@ -48,12 +49,12 @@ class KontenPenginapanController extends Controller
         if ($request->hasFile('url_gambar_penginapan')) {
             $pathFoto = $request->file('url_gambar_penginapan')->store('penginapan', 'public');
         }
-        
+
         $fasilitasData = [];
         if ($request->has('fasilitas')) {
             foreach ($request->fasilitas as $item) {
                 $iconPath = null;
-                
+
                 if (isset($item['icon']) && $item['icon'] instanceof \Illuminate\Http\UploadedFile) {
                     $iconPath = $item['icon']->store('penginapan/icon', 'public');
                 }
@@ -82,7 +83,8 @@ class KontenPenginapanController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $item = admin_konten_penginapan::findOrFail($id);
+        return view('konten.penginapan.show', compact('item'));
     }
 
     /**
@@ -119,12 +121,11 @@ class KontenPenginapanController extends Controller
         $oldFasilitas = $penginapan->fasilitas_tersedia ?? [];
         if ($request->has('fasilitas')) {
             foreach ($request->fasilitas as $index => $item) {
-                $iconPath = $oldFasilitas[$index]['icon'] ?? null;  
+                $iconPath = $oldFasilitas[$index]['icon'] ?? null;
                 if (isset($item['icon']) && $item['icon'] instanceof \Illuminate\Http\UploadedFile) {
                     $iconPath = $item['icon']->store('penginapan/icon', 'public');
-                }
-                else {
-                    $iconPath = $oldFasilitas[$index]['icon'] ?? null;  
+                } else {
+                    $iconPath = $oldFasilitas[$index]['icon'] ?? null;
                 }
                 $fasilitasBaru[] = [
                     'nama' => $item['nama'],

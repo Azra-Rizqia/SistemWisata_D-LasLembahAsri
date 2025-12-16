@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class admin_konten_penginapan extends Model
 {
     protected $table = 'penginapan';
-    protected $primaryKey = 'id_penginapan';
+    protected $primaryKey = 'id';
     protected $fillable = [
         'nama_penginapan',
         'deskripsi_penginapan',
