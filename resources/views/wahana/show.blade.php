@@ -1,103 +1,111 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="container mt-4">
 
-<div class="px-6 sm:px-8 lg:px-12 pt-6">
-    <div class="flex justify-between items-center mb-6">
-        
+    {{-- Header --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <p class="text-sm text-gray-500 mb-1">
-                Konten Website / 
-                <span class="font-semibold text-gray-700">Detail Data Wahana Satuan</span>
-            </p>
-            <h1 class="text-xl font-bold text-gray-900">Detail Data Wahana Satuan</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb bg-transparent p-0 mb-1">
+                    <li class="breadcrumb-item">
+                        <a href="{{ route('wahana.index') }}" class="text-decoration-none">
+                            Kelola Konten
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        Detail Data Wahana Satuan
+                    </li>
+                </ol>
+            </nav>
+            <h4 class="fw-semibold mb-0">Detail Data Wahana Satuan</h4>
         </div>
 
-        <div class="flex space-x-3">
-            <a href="{{ route('wahana.edit', $wahana->id) }}" class="bg-green-700 hover:bg-green-800 text-white font-medium py-3 px-6 rounded-lg shadow-md flex items-center transition duration-150">
-                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-7-7l-1-1m0 0l-5 5m5-5l5 5"></path></svg>
+        <div class="d-flex gap-2">
+            <a href="{{ route('wahana.edit', $wahana->id) }}"
+               class="btn btn-outline-secondary rounded-pill px-4">
                 Edit
             </a>
 
-            <form action="{{ route('wahana.destroy', $wahana->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus wahana ini?')">
+            <form action="{{ route('wahana.destroy', $wahana->id) }}" method="POST">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-6 rounded-lg shadow-md flex items-center transition duration-150">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                <button class="btn btn-danger rounded-pill px-4"
+                        onclick="return confirm('Yakin ingin menghapus wahana ini?')">
                     Hapus
                 </button>
             </form>
         </div>
     </div>
-</div>
 
-<div class="px-6 sm:px-8 lg:px-12 pb-10">
-    <div class="bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+    {{-- Card Detail --}}
+    <div class="card border-0 shadow-sm rounded-4 p-4">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-            
-            <div>
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Id_Wahana</span>
-                <p class="text-lg font-bold text-gray-900">{{ $wahana->id }}</p>
+        {{-- Info Utama --}}
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <p class="text-muted mb-1">ID Wahana</p>
+                <h6 class="fw-semibold">{{ $wahana->id }}</h6>
             </div>
 
-            <div>
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Nama Wahana</span>
-                <p class="text-lg font-bold text-gray-900">{{ $wahana->nama }}</p>
+            <div class="col-md-3">
+                <p class="text-muted mb-1">Nama Wahana</p>
+                <h6 class="fw-semibold">{{ $wahana->nama_wahana }}</h6>
             </div>
 
-            <div>
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Harga</span>
-                <p class="text-lg font-bold text-gray-900">Rp{{ number_format($wahana->harga, 0, ',', '.') }}</p>
+            <div class="col-md-3">
+                <p class="text-muted mb-1">Harga</p>
+                <h6 class="fw-semibold">
+                    Rp{{ number_format($wahana->harga_tiket_wahana, 0, ',', '.') }}
+                </h6>
             </div>
 
-            <div>
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Status</span>
-                <p class="text-lg font-bold {{ $wahana->status == 'Tersedia' ? 'text-green-600' : 'text-red-600' }}">
-                    {{ $wahana->status }}
-                </p>
+            <div class="col-md-3">
+                <p class="text-muted mb-1">Status</p>
+                <span class="badge-pill
+                    {{ $wahana->status_wahana == 'Aktif' ? 'badge-success' : 'badge-secondary' }}">
+                    {{ $wahana->status_wahana }}
+                </span>
             </div>
-            
-            @if(isset($wahana->pengelola))
-            <div class="col-span-1">
-                <span class="block text-sm font-semibold text-gray-700 mb-2">Pengelola Wahana</span>
-                <p class="text-lg font-bold text-gray-900">{{ $wahana->pengelola }}</p>
-            </div>
-            @endif
-
-        </div>
-        <div class="mb-8">
-            <span class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Singkat</span>
-            <p class="text-gray-800 leading-relaxed">{{ $wahana->deskripsi_singkat }}</p>
         </div>
 
-        <div class="mb-8">
-            <span class="block text-sm font-semibold text-gray-700 mb-2">Tentang Wahana</span>
-            <p class="text-gray-800 leading-relaxed whitespace-pre-line">{{ $wahana->tentang_wahana }}</p>
+        <hr>
+
+        {{-- Deskripsi --}}
+        <div class="mb-4">
+            <p class="text-muted mb-1">Deskripsi Singkat</p>
+            <p class="mb-0">
+                {{ $wahana->deskripsi_wahana }}
+            </p>
         </div>
 
-        <div class="mb-8">
-            <span class="block text-sm font-semibold text-gray-700 mb-2">Kumpulan Foto</span>
-            
-            <div class="flex items-center space-x-4 overflow-x-auto pb-2">
-                @if($wahana->gambar)
-                    @php 
-                        // Asumsi $wahana->gambar berisi path gambar (atau array path)
-                        $photos = is_array($wahana->gambar) ? $wahana->gambar : json_decode($wahana->gambar, true) ?? ['URL_GAMBAR_1'];
-                    @endphp
+        <hr>
 
-                    @foreach($photos as $photoPath)
-                    <div class="relative w-40 h-40 flex-shrink-0 rounded-lg overflow-hidden border border-gray-200 shadow-sm">
-                        <img src="{{ asset('storage/' . $photoPath) }}" alt="Foto Wahana" class="object-cover w-full h-full">
-                    </div>
-                    @endforeach
+        {{-- Tentang --}}
+        <div class="mb-4">
+            <p class="text-muted mb-1">Tentang Wahana</p>
+            <p class="mb-0" style="line-height: 1.7;">
+                {{ $wahana->tentang_wahana }}
+            </p>
+        </div>
+
+        <hr>
+
+        {{-- Foto --}}
+        <div>
+            <p class="text-muted mb-3">Foto Wahana</p>
+
+            <div class="d-flex gap-3 flex-wrap">
+                @if ($wahana->url_gambar_wahana)
+                    <img src="{{ asset('storage/' . $wahana->url_gambar_wahana) }}"
+                         class="rounded-4"
+                         style="width: 160px; height: 160px; object-fit: cover;">
                 @else
-                    <p class="text-gray-500 italic">Tidak ada foto yang tersedia.</p>
+                    <p class="text-muted">Belum ada foto</p>
                 @endif
             </div>
         </div>
-        
+
     </div>
 </div>
-
 @endsection

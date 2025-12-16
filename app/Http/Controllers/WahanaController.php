@@ -41,13 +41,13 @@ class WahanaController extends Controller
         $validated = $request->validate([
             'nama_wahana' => 'required|string|max:255',
             'deskripsi_wahana' => 'required|string',
-            'tentang_wahana' => 'required|string',
+            'tentang_wahana' => 'required|string|max:1000',
             'pengelola_wahana' => 'required|string|max:255',
             'status_wahana' => 'required|in:Aktif,Tidak Aktif',
             'harga_tiket_wahana' => 'required|integer|min:0',
         ]);
 
-        Wahana::create(collect($validated)->except('status_wahana')->toArray());
+        Wahana::create($validated);
 
         return redirect()
             ->route('wahana.index')
@@ -78,9 +78,9 @@ class WahanaController extends Controller
         $validated = $request->validate([
             'nama_wahana' => 'required|string|max:255',
             'deskripsi_wahana' => 'required|string',
-            'tentang_wahana' => 'required|string',
+            'tentang_wahana' => 'required|string|max:1000',
             'pengelola_wahana' => 'required|string|max:255',
-            'status_wahana' => 'required|in:Aktif,Nonaktif',
+            'status_wahana' => 'required|in:Aktif,Tidak Aktif',
             'harga_tiket_wahana' => 'required|integer|min:0',
         ]);
 

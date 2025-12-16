@@ -38,6 +38,17 @@
     background-color: #238302 !important;
 }
 
+.btn-secondary-danger {
+    background-color: #FEFEFE !important;
+    border-color: #FF383C !important;
+    color: #FF383C !important;
+}
+
+.btn-secondary-danger:hover {
+    background-color: #F9F9F9 !important;
+    border: 1px solid #FF383C !important;
+}
+
 .btn-danger {
     background-color: #FF383C !important;
     border-color: none !important;

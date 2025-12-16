@@ -15,18 +15,24 @@
     <div class="row g-4">
         @foreach ($wahana as $item)
         <div class="col-md-6">
+            
             <div class="card border-0 shadow-sm rounded-4 h-100">
                 <div class="row g-0">
 
-                    {{-- Image --}}
                     <div class="col-md-5 position-relative">
-                        <span class="badge bg-light text-success position-absolute m-2">
-                            {{ $item->status_wahana }}
+                        <span class="badge badge-pill 
+                            {{ $item->status_wahana === 'Aktif' ? 'badge-success' : 'badge-secondary' }}
+                            position-absolute m-2">
+                            {{ ucfirst($item->status_wahana) }}
                         </span>
-                        <img src="{{ asset('storage/' . $item->url_gambar_wahana) }}"
-                             class="img-fluid h-100 rounded-start"
-                             style="object-fit: cover;">
+
+                        <img src="{{ $item->url_gambar_wahana
+                            ? asset('storage/' . $item->url_gambar_wahana)
+                            : asset('assets/img/default-wahana.jpg') }}"
+                            class="img-fluid h-100 rounded-start"
+                            style="object-fit: cover;">
                     </div>
+
 
                     {{-- Content --}}
                     <div class="col-md-7">
@@ -40,19 +46,25 @@
                             <h6 class="fw-bold">Rp{{ number_format($item->harga_tiket_wahana) }}</h6>
 
                             <div class="d-flex gap-2 mt-3">
-                                <a href="{{ route('wahana.edit', $item->id) }}"
-                                   class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-                                    Edit
-                                </a>
-
-                                <form action="{{ route('wahana.destroy', $item->id) }}" method="POST">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button class="btn btn-outline-danger btn-sm rounded-pill px-3"
-                                            onclick="return confirm('Hapus wahana ini?')">
-                                        Hapus
-                                    </button>
-                                </form>
+                                <div class="d-flex justify-content-end gap-2 mt-4">
+                                    <a href="{{ route('wahana.show', $item->id) }}"
+                                       class="btn btn-secondary mb-3 d-flex align-items-center">
+                                        <i class="ph ph-eye icon icon-sm"></i>
+                                        Lihat
+                                    </a>
+                                    <a href="{{ route('wahana.edit', $item->id) }}"
+                                        class="btn btn-secondary mb-3 d-flex align-items-center"><i class="ph ph-pencil-line icon icon-sm"></i>
+                                        Edit
+                                    </a>
+                                    <button class="btn btn-secondary-danger mb-3 d-flex align-items-center" data-bs-toggle="modal"
+                                            data-bs-target="#delete-{{ $item->id }}">
+                                            <i class="ph ph-trash icon icon-sm icon-danger"></i>Hapus
+                                        </button>
+                                        <x-modal-delete id="delete-{{ $item->id }}"
+                                            action="{{ route('wahana.destroy', $item->id) }}"
+                                            title="Apakah Anda Yakin Untuk Menghapus?"
+                                            message="Jika anda menghapus pesanan ini, maka anda tidak dapat memulihkannya lagi" />
+                                </div>
                             </div>
 
                         </div>
