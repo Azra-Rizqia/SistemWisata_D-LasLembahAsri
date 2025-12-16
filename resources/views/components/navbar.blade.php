@@ -13,7 +13,7 @@
             <x-navbar-linked route="reservasi_fasilitas.index" label="Fasilitas" />
             <x-navbar-linked route="sewa_kios.index" label="Sewa Kios" /> 
             <x-navbar-linked route="pengunjung.index" label="Pengunjung" />
-            <x-navbar-linked route="kelola.index" label="Kelola Konten" />
+            <x-navbar-linked route="konten.penginapan.index" label="Kelola Konten" />
         </div>
 
         <div class="d-none d-lg-block">

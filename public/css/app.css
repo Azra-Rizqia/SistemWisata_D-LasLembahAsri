@@ -2,6 +2,7 @@ body {
     padding: 26px 52px 16px 52px;
     display: flex;
     flex-direction: column;
+    min-height: 100vh;
     gap: 42px;
     background: #F9F9F9;
 }
@@ -10,6 +11,12 @@ body {
   display: flex;
   flex-direction: column;
   gap: 42px;
+  max-width: 100% !important;
+}
+.container-2 {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
   max-width: 100% !important;
 }
 
@@ -119,18 +126,6 @@ body {
     gap: 10px;
     border-radius: 25px;
     background: var(--Brand-Orange-Soft, rgba(254, 133, 7, 0.10));
-}
-
-.icon-card-delete{
-    display: flex;
-    width: 64px;
-    height: 64px;
-    padding: 15px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    border-radius: 100px;
-    background: #FF383C1A !important;
 }
 
 .view-data{
