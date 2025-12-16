@@ -51,6 +51,7 @@
             <div class="form-group-input">
                 <label class="form-label font-T4-Regular">Deskripsi Singkat</label>
                 <input type="text" name="deskripsi_singkat" class="form-input-style font-T4-Regular" placeholder="Tambahkan deskripsi singkat" value="{{ old('deskripsi_singkat') }}">
+                @error('deskripsi_singkat') <small class="text-danger font-T5-Regular">{{ $message }}</small> @enderror
             </div>
 
             <div class="form-group-input">

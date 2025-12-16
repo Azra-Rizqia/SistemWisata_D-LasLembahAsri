@@ -24,10 +24,15 @@
     <link rel="stylesheet" href="{{ asset('css/input.css') }}">
     <link rel="stylesheet" href="{{ asset('css/icon.css') }}">
     <link rel="stylesheet" href="{{ asset('css/konten.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/table.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/badge.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/modal.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/input.css') }}">
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     {{-- Navbar --}}
     <x-navbar />
 
@@ -41,5 +46,6 @@
 
     @stack('scripts')
 </body>
+
 
 </html>

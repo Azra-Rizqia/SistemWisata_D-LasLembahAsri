@@ -33,6 +33,7 @@ class KontenPenginapanController extends Controller
     {
         $data = $request->validate([
             'nama_penginapan' => 'required|string|max:255',
+            'deskripsi_singkat' => 'nullable|string',
             'deskripsi_penginapan' => 'nullable|string',
             'harga_weekend' => 'required|integer',
             'harga_weekday' => 'required|integer',
@@ -49,12 +50,12 @@ class KontenPenginapanController extends Controller
         if ($request->hasFile('url_gambar_penginapan')) {
             $pathFoto = $request->file('url_gambar_penginapan')->store('penginapan', 'public');
         }
-
+        
         $fasilitasData = [];
         if ($request->has('fasilitas')) {
             foreach ($request->fasilitas as $item) {
                 $iconPath = null;
-
+                
                 if (isset($item['icon']) && $item['icon'] instanceof \Illuminate\Http\UploadedFile) {
                     $iconPath = $item['icon']->store('penginapan/icon', 'public');
                 }
@@ -68,6 +69,7 @@ class KontenPenginapanController extends Controller
 
         admin_konten_penginapan::create([
             'nama_penginapan' => $data['nama_penginapan'],
+            'deskripsi_singkat' => $data['deskripsi_singkat'] ?? null,
             'deskripsi_penginapan' => $data['deskripsi_penginapan'] ?? null,
             'harga_weekend' => $data['harga_weekend'],
             'harga_weekday' => $data['harga_weekday'],
@@ -104,6 +106,7 @@ class KontenPenginapanController extends Controller
         $penginapan = admin_konten_penginapan::findOrFail($id);
         $data = $request->validate([
             'nama_penginapan' => 'required|string|max:255',
+            'deskripsi_singkat' => 'nullable|string',
             'deskripsi_penginapan' => 'nullable|string',
             'harga_weekend' => 'required|integer',
             'harga_weekday' => 'required|integer',
@@ -119,14 +122,18 @@ class KontenPenginapanController extends Controller
 
         $fasilitasBaru = [];
         $oldFasilitas = $penginapan->fasilitas_tersedia ?? [];
+        
+        // Logika update fasilitas disederhanakan agar tidak error jika tidak ada upload baru
         if ($request->has('fasilitas')) {
             foreach ($request->fasilitas as $index => $item) {
-                $iconPath = $oldFasilitas[$index]['icon'] ?? null;
+                // Ambil path lama jika ada
+                $iconPath = $oldFasilitas[$index]['icon'] ?? null;  
+                
+                // Jika ada upload baru, timpa path
                 if (isset($item['icon']) && $item['icon'] instanceof \Illuminate\Http\UploadedFile) {
                     $iconPath = $item['icon']->store('penginapan/icon', 'public');
-                } else {
-                    $iconPath = $oldFasilitas[$index]['icon'] ?? null;
                 }
+                
                 $fasilitasBaru[] = [
                     'nama' => $item['nama'],
                     'icon' => $iconPath

@@ -28,7 +28,7 @@
             </a>
         </div>
 
-        <a href="{{ route('konten.penginapan.create') }}" class="btn btn-primary rounded-pill px-4 py-2 font-T5-Medium d-flex align-items-center gap-2 shadow-sm text-white">
+        <a href="{{ route('konten.penginapan.create') }}" class="btn btn-primary rounded-pill px-4 py-2 font-T4-Regular d-flex align-items-center gap-2 shadow-sm text-white">
             <i class="ph ph-plus fs-5"></i>
             <span>Tambah Data</span>
         </a>
@@ -99,10 +99,13 @@
                                         <x-phosphor-pencil class="icon-pencil" />Edit
                                     </a>
 
-                                    <button
-                                        onclick="openDeleteModal('{{ $item->id }}', '{{ $item->nama_penginapan }}')"
-                                        class="btn btn-danger-outline flex-fill rounded-pill py-2 font-T4-SemiBold btn-action">
-                                        <x-phosphor-trash-light class="icon-trash icon-trash:hover" /> Hapus
+                                    <button type="button" 
+                                            class="btn btn-outline-danger flex-fill rounded-pill py-2 font-T5-Medium btn-action position-relative" 
+                                            style="z-index: 2;"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#delete-{{ $item->id }}"
+                                            onclick="event.preventDefault()">
+                                        <i class="ph ph-trash me-1"></i> Hapus
                                     </button>
                                 </div>
 
@@ -110,6 +113,12 @@
                         </div>
                     </div>
                 </a>
+                <x-modal-delete 
+                    id="delete-{{ $item->id }}"
+                    action="{{ route('konten.penginapan.destroy', $item->id) }}"
+                    title="Apakah Anda Yakin Untuk Menghapus?"
+                    message="Jika anda menghapus data {{ $item->nama_penginapan }}, maka data tidak dapat dipulihkan kembali."
+                />
             </div>
             @empty
             <div class="col-12 py-5">
@@ -135,40 +144,4 @@
 
     </div>
 </div>
-
-<div id="deleteModal" class="modal fade" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content rounded-4 border-0 p-3 shadow-lg">
-            <div class="modal-body text-center p-4">
-                <div class="bg-danger bg-opacity-10 rounded-circle d-inline-flex p-3 mb-3 text-danger">
-                    <i class="ph ph-trash fs-2"></i>
-                </div>
-                <h5 class="font-h1 fs-5 mb-2 fw-bold">Hapus Data?</h5>
-                <p class="text-secondary mb-4">Apakah Anda yakin ingin menghapus <span id="deleteItemName" class="fw-bold text-dark"></span>? Data yang dihapus tidak dapat dikembalikan.</p>
-
-                <div class="d-flex gap-2 justify-content-center">
-                    <button type="button" class="btn btn-light rounded-pill px-4 py-2" data-bs-dismiss="modal">Batal</button>
-                    <form id="deleteForm" method="POST" action="">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger rounded-pill px-4 py-2">Hapus</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    function openDeleteModal(id, name) {
-        let url = "{{ route('konten.penginapan.destroy', ':id') }}";
-        url = url.replace(':id', id);
-
-        document.getElementById('deleteForm').action = url;
-        document.getElementById('deleteItemName').innerText = name;
-
-        var myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
-        myModal.show();
-    }
-</script>
 @endsection
