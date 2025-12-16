@@ -13,7 +13,9 @@ class PesanTiketPaketController extends Controller
     {
         $pesanan = PesanTiketPaket::with(['user', 'tiketPaket'])->get();
 
-        $totalPendapatan = PesanTiketPaket::selectRaw('SUM(harga_pesanan * jumlah_tiket) as total')->value('total') ?? 0;
+        $totalPendapatan = $pesanan->sum(function ($item) {
+        return $item->harga_pesanan * $item->jumlah_tiket;
+    });
 
         $totalData = $pesanan->count();
 
@@ -21,8 +23,9 @@ class PesanTiketPaketController extends Controller
             'pesanan',
             'totalPendapatan',
             'totalData'
-        ));
-}
+    ));
+    }
+
 
 
     public function create()
@@ -32,6 +35,7 @@ class PesanTiketPaketController extends Controller
 
         return view('pesan_tiket_paket.create', compact('tiketPaket', 'users'));
     }
+
 
     public function store(Request $request)
     {

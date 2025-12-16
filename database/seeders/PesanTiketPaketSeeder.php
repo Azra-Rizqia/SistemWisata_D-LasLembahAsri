@@ -4,26 +4,36 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\PesanTiketPaket;
-use App\Models\User;
-use App\Models\TiketPaket;
+use Carbon\Carbon;
 
 class PesanTiketPaketSeeder extends Seeder
 {
     public function run(): void
     {
-        // ambil 1 user & 1 tiket paket (pastikan sudah ada datanya)
-        $user = User::first();
-        $tiket = TiketPaket::first();
+        PesanTiketPaket::truncate();
 
         PesanTiketPaket::create([
-            'deskripsi_tiket'   => 'Pesanan tiket paket via seeder',
-            'harga_pesanan'     => $tiket->harga_tiket ?? 100000,
-            'jumlah_tiket'      => 2,
-            'status'            => 'Tersedia',
-            'tanggal_pembelian' => now()->toDateString(),
-            'qr_tiket'          => uniqid('QR-'),
-            'id_user'           => $user?->id,
-            'id_tiket_paket'    => $tiket?->id,
+            'kode_pesan_tiket' => 'KPT-00001',
+            'deskripsi_tiket'  => 'Pesanan Paket Hemat A',
+            'harga_pesanan'    => 70000,
+            'jumlah_tiket'     => 2,
+            'status'           => 'Selesai',
+            'tanggal_pembelian'=> Carbon::now(),
+            'qr_tiket'         => 'QR-KP-00001',
+            'id_user'          => 1,
+            'id_tiket_paket'   => 1,
+        ]);
+
+        PesanTiketPaket::create([
+            'kode_pesan_tiket' => 'KPT-00002',
+            'deskripsi_tiket'  => 'Pesanan Paket Keluarga',
+            'harga_pesanan'    => 150000,
+            'jumlah_tiket'     => 4,
+            'status'           => 'Proses',
+            'tanggal_pembelian'=> Carbon::now(),
+            'qr_tiket'         => 'QR-KP-00002',
+            'id_user'          => 1,
+            'id_tiket_paket'   => 1,
         ]);
     }
 }

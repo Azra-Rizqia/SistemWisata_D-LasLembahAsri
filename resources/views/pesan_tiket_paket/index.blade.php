@@ -58,7 +58,7 @@
             <table class="table">
                 <thead class="table-head">
                     <tr>
-                        <th><p class="font-T5-Medium" style="color: #727272">No Tiket Paket</p></th>
+                        <th><p class="font-T5-Medium" style="color: #727272">Kode</p></th>
                         <th><p class="font-T5-Medium" style="color: #727272">Nama Pemesan</p></th>
                         <th><p class="font-T5-Medium" style="color: #727272">Nama Paket</p></th>
                         <th><p class="font-T5-Medium" style="color: #727272">Jumlah Pesanan</p></th>
@@ -72,41 +72,25 @@
                 <tbody>
                     @forelse ($pesanan as $item)
                     <tr>
-                        {{-- Nomor Reservasi --}}
-                        <td>TKP-{{ str_pad($item->id, 5, '0', STR_PAD_LEFT) }}</td>
-
-                        {{-- Nama Pemesan --}}
+                        <td>{{ $item->kode_pesan_tiket }}</td>
                         <td>{{ $item->user->name ?? '-' }}</td>
-
-                        {{-- Nama Paket --}}
                         <td>{{ $item->tiketPaket->nama_tiket_paket ?? '-' }}</td>
-
-                        {{-- Jumlah Pesanan --}}
                         <td>{{ $item->jumlah_tiket }}</td>
-
-                        {{-- Total Pembayaran --}}
+                        <td>Rp{{ number_format($item->harga_pesanan * $item->jumlah_tiket, 0, ',', '.') }}</td>
                         <td>
-                            Rp{{ number_format($item->harga_pesanan * $item->jumlah_tiket, 0, ',', '.') }}
-                        </td>
-
-                        {{-- Status --}}
-                        <td>
-                            <span class="badge {{ $item->status === 'Tersedia' ? 'bg-success' : 'bg-danger' }}">
+                            <span class="badge 
+                                @if($item->status === 'Selesai') bg-success
+                                @elseif($item->status === 'Proses') bg-warning
+                                @else bg-danger
+                                @endif
+                            ">
                                 {{ $item->status }}
                             </span>
                         </td>
-
-                        {{-- Tanggal Pembelian --}}
                         <td>{{ \Carbon\Carbon::parse($item->tanggal_pembelian)->format('d M Y') }}</td>
-
-                        {{-- Action --}}
                         <td>
-                            <a href="{{ route('pesan_tiket_paket.show',$item->id) }}" class="btn btn-sm">
-                                👁
-                            </a>
-                            <a href="{{ route('pesan_tiket_paket.edit',$item->id) }}" class="btn btn-sm">
-                                ✏
-                            </a>
+                            <a href="{{ route('pesan_tiket_paket.show',$item->id) }}" class="btn btn-sm">👁</a>
+                            <a href="{{ route('pesan_tiket_paket.edit',$item->id) }}" class="btn btn-sm">✏</a>
                         </td>
                     </tr>
                     @empty
@@ -114,6 +98,7 @@
                         <td colspan="8" class="text-center">Belum ada pesanan tiket</td>
                     </tr>
                     @endforelse
+
                 </tbody>
 
             </table>

@@ -89,16 +89,22 @@
                 <div class="kolom-input" style="display: flex; gap: 20px; margin-bottom: 15px;">
                     <div class="input-item" style="flex: 1;">
                         <label class="form-label" style="font-weight: 500; margin-bottom: 5px;">Nama Paket</label>
+
                         <select name="id_tiket_paket" class="form-select" style="border-radius : 8px; padding: 10px;" required>
                             <option value="">-- Pilih Paket --</option>
 
                             @foreach ($tiketPaket as $paket)
-                                <option value="{{ $paket->id }}" 
-                                    {{ old('id_tiket_paket') == $paket->id ? 'selected' : '' }}
-                                    data-harga="{{ $paket->harga }}">
-                                    {{ $paket->nama_paket }} (Rp{{ number_format($paket->harga, 0, ',', '.') }})
+                                <option 
+                                    value="{{ $paket->id }}"
+                                    data-weekday="{{ $paket->harga_tiket_weekday }}"
+                                    data-weekend="{{ $paket->harga_tiket_weekend }}"
+                                >
+                                    {{ $paket->nama_tiket_paket }}
+                                    (Weekday: Rp{{ number_format($paket->harga_tiket_weekday,0,',','.') }},
+                                    Weekend: Rp{{ number_format($paket->harga_tiket_weekend,0,',','.') }})
                                 </option>
                             @endforeach
+
                         </select>
                     </div>
                     <div class="input-item" style="flex: 1;">
@@ -115,8 +121,8 @@
                             <option value="">-- Pilih User --</option>
 
                             @foreach ($users as $user)
-                                <option value="{{ $user->id }}" {{ old('id_user') == $user->id ? 'selected' : '' }}>
-                                    {{ $user->name }} ({{ $user->email }})
+                                <option value="{{ $user->id }}">
+                                    {{ $user->name }}
                                 </option>
                             @endforeach
                         </select>

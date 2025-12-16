@@ -6,9 +6,8 @@ use App\Http\Controllers\ReservasiFasilitasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SewaTenantController;
 use App\Http\Controllers\KontenPenginapanController;
+use App\Http\Controllers\TiketPaketController;
 
-Route::resource('pesan-tiket-paket', PesanTiketPaketController::class)
-    ->names('pesan_tiket_paket');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -21,3 +20,7 @@ Route::get('/reservasi_fasilitas', [ReservasiFasilitasController::class, 'index'
 
 Route::resource('sewa_kios', SewaTenantController::class);
 Route::get('/sewa_kios', [SewaTenantController::class, 'index'])->name('sewa_kios.index');
+
+
+Route::resource('tiket_paket', TiketPaketController::class);
+Route::resource('/pesan_tiket_paket', PesanTiketPaketController::class)->names('pesan_tiket_paket');

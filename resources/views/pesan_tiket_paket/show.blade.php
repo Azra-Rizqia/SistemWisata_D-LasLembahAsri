@@ -1,14 +1,10 @@
 @extends('layouts.app') 
-{{-- Asumsi Anda menggunakan layout yang sudah ada, atau menggunakan struktur HTML penuh --}}
 
 @section('content')
 
-{{-- Variabel data Pesanan Tiket Paket --}}
 @php
-    // Ganti variabel dummy ini dengan variabel yang Anda kirim dari controller
     $p = $pesananTiket; 
     
-    // Data Dummy jika $pesananTiket belum terisi atau Anda belum mengirimnya dari Controller
     if (empty($p)) {
         $p = (object)[
             'id' => 8291,
@@ -19,16 +15,14 @@
             'total_pembayaran' => 20000,
             'metode_pembayaran' => 'Bank Negara Indonesia',
             'created_at' => Carbon\Carbon::parse('2025-08-18 08:21'),
-            'qr_code_url' => 'path/to/qr_code_image.png' // Jika ada
+            'qr_code_url' => 'path/to/qr_code_image.png'
         ];
     }
 
-    // Penyesuaian Status untuk Class CSS
     $statusClass = strtolower(str_replace(' ', '', $p->status_pesanan ?? 'proses'));
 @endphp
 
 <style>
-    /* Styling Dasar untuk Show Page (Jika Anda tidak menggunakan CSS eksternal) */
     .detail-container {
         max-width: 1200px;
         margin: 0 auto;

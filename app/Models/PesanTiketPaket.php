@@ -10,6 +10,7 @@ class PesanTiketPaket extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
+        'kode_pesan_tiket',
         'deskripsi_tiket',
         'harga_pesanan',
         'jumlah_tiket',

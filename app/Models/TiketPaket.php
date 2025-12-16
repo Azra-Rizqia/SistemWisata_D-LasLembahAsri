@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class TiketPaket extends Model
 {
     protected $table = 'tiket_paket';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'nama_tiket_paket',
@@ -16,8 +17,13 @@ class TiketPaket extends Model
         'harga_tiket_weekend',
         'status_tiket',
         'qr_tiket',
-        'id_wahana'
+        'id_wahana',
     ];
+
+    public function wahana()
+    {
+        return $this->belongsTo(Wahana::class, 'id_wahana');
+    }
 
     public function pesanTiketPaket()
     {
