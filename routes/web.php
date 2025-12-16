@@ -2,14 +2,10 @@
 
 use App\Models\ReservasiFasilitas;
 use Illuminate\Support\Facades\Route;
-<<<<<<< HEAD
 use App\Http\Controllers\PesanTiketPaketController;
-=======
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
->>>>>>> 34102b3cacc18ef5baa6694f3bf132c32d648331
 use App\Http\Controllers\ReservasiFasilitasController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\SewaTenantController;
 use App\Http\Controllers\WahanaController;
 use App\Http\Controllers\PesanTiketSatuanController;
