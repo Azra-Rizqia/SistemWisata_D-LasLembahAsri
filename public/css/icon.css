@@ -1,0 +1,68 @@
+.icon {
+    vertical-align: middle;
+    font-size: 18px;
+    transition: color 0.2s;
+}
+
+.icon-sm {
+    font-size: 18px;
+}
+
+.icon-md {
+    font-size: 24px;
+}
+
+.icon-lg {
+    font-size: 32px;
+}
+
+.icon-primary {
+    color: #238302;
+}
+
+.icon-success {
+    color: #198754;
+}
+
+.icon-danger {
+    color: #FF0000;
+}
+
+.icon-warning {
+    color: #FE8507;
+}
+
+.icon-hover:hover {
+    color: #289702;
+    cursor: pointer;
+}
+
+.icon-trash {
+    width: 24px;
+    height: 24px;
+    color: #FF0000;
+    flex-shrink: 0;
+}
+
+.icon-upload-fasilitas {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
+    color: black;
+}
+
+.icon-upload-image {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+    aspect-ratio: 1/1;
+    color: black;
+}
+
+.icon-pencil {
+    width: 24px;
+    height: 24px;
+    color:black;
+    flex-shrink: 0;
+}
