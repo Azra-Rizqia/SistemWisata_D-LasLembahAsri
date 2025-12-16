@@ -7,8 +7,9 @@
             <h1 class="font-h1">Kelola Konten</h1>
             <p class="font-T3-Regular">Kelola konten yang ada di website</p>
         </div>
-        <a href="{{ route('sewa_kios.create') }}" class="btn btn-primary mb-3"> Tambah Wahana </a>
     </div>
+
+    <x-kelola-konten-nav />
 
     {{-- Card Grid --}}
     <div class="row g-4">

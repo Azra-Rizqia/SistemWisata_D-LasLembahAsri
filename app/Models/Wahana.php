@@ -14,6 +14,7 @@ class Wahana extends Model
     protected $fillable = [
         'nama_wahana',
         'deskripsi_wahana',
+        'tentang_wahana',
         'pengelola_wahana',
         'status_wahana',
         'harga_tiket_wahana',

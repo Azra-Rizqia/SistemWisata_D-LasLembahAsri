@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Wahana;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class WahanaController extends Controller
 {
@@ -23,6 +24,7 @@ class WahanaController extends Controller
         $request->validate([
             'nama_wahana' => 'required',
             'deskripsi_wahana' => 'required',
+            'tentang_wahana' => 'required',
             'harga_tiket_wahana' => 'required|integer',
         ]);
 
@@ -30,6 +32,13 @@ class WahanaController extends Controller
 
         return redirect()->route('wahana.index')
             ->with('success', 'Wahana berhasil ditambahkan');
+    }
+
+    public function show(Wahana $wahana)
+    {   
+        return view('wahana.show', [
+            'wahana' => $wahana,
+        ]);
     }
 
     public function edit(Wahana $wahana)
@@ -42,6 +51,7 @@ class WahanaController extends Controller
         $request->validate([
             'nama_wahana' => 'required',
             'deskripsi_wahana' => 'required',
+            'tentang_wahana' => 'required',
             'harga_tiket_wahana' => 'required|integer',
         ]);
 

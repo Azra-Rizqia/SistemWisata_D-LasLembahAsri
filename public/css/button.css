@@ -29,3 +29,23 @@
 .btn-secondary:disabled {
     background-color: #238302 !important;
 }
+
+.btn-logout {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 100px;
+    border: 1px solid #E8E8E8;
+    background: #FEFEFE;
+    box-shadow: 2px 3px 14px 0 rgba(0, 0, 0, 0.05);
+    padding: 0;
+}
+
+.btn-logout:hover {
+    border-color: #dc3545 !important;
+    background-color: #fff5f5 !important;
+    cursor: pointer;
+}

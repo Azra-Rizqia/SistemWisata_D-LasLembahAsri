@@ -1,0 +1,37 @@
+.form-input-style {
+    display: block;
+    width: 100%;
+    height: 48px;
+    padding: 12px 20px; 
+
+    color: #787878; 
+    
+    background-color: #FEFEFE; 
+    border: 1px solid #E8E8E8; 
+    border-radius: 100px; 
+    
+    box-sizing: border-box;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-input-style:focus {
+    border-color: #238302; 
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(35, 131, 2, 0.1);
+}
+
+textarea.form-input-style {
+    height: auto;
+    min-height: 120px;
+    border-radius: 20px;
+    resize: vertical;
+}
+
+select.form-input-style {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23787878' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 16px 12px;
+    cursor: pointer;
+}
