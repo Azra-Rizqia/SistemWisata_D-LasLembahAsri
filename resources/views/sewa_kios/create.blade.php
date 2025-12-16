@@ -4,7 +4,6 @@
     <div class="container">
         <form action="{{ route('sewa_kios.store') }}" method="POST">
             <div class="head-page-breadcrumb">
-                {{-- Breadcrumb --}}
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -14,7 +13,7 @@
                     </ol>
                 </nav>
                 <button type="submit" class="btn btn-primary">
-                    Simpan
+                    Tambahkan Reservasi
                 </button>
             </div>
 
@@ -26,7 +25,7 @@
                         <div class="input-item">
                             <label class="form-label">Tenant / Nomor Kios</label>
                             <select name="id_tenant" class="form-select" style="border-radius : 32px" required>
-                                <option value="">-- Pilih kios --</option>
+                                <option value="">Pilih kios</option>
 
                                 @foreach ($tenants as $tenant)
                                     <option value="{{ $tenant->id }}">
@@ -38,7 +37,7 @@
                         <div class="input-item">
                             <label class="form-label">Nama Pemesan</label>
                             <select name="id_user" class="form-select" style="border-radius : 32px" required>
-                                <option value="">-- Pilih User --</option>
+                                <option value="">Pilih User</option>
 
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}">
@@ -86,8 +85,7 @@
 
                     <div class="list-information">
                         <label class="form-label">Pajak (10%)</label>
-                        <input type="text" id="pajak" class="value-item"
-                            readonly>
+                        <input type="text" id="pajak" class="value-item" readonly>
                     </div>
 
                     <div class="list-information">

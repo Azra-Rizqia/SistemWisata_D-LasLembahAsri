@@ -7,7 +7,7 @@
                 <h1 class="font-h1">Reservasi Fasilitas</h1>
                 <p class="font-T3-Regular">Kelola Reservasi Fasilitas dari pengunjung</p>
             </div>
-            <a href="{{ route('reservasi_fasilitas.create') }}" class="btn btn-primary mb-3 align-items-center"><i
+            <a href="{{ route('reservasi_fasilitas.create') }}" class="btn btn-primary mb-3 d-flex align-items-center"><i
                     class="ph ph-plus icon icon-sm"></i>
                 Tambah Reservasi
             </a>
@@ -49,10 +49,10 @@
                 </div>
             </div>
 
-            <div class="view-data">
+            <div class="view-data table-responsive">
                 <div class="content-text-card">
                     <p class="font-T1-SemiBold">Reservasi Terakhir</p>
-                    <p class="font-T4-Regular" style="color:#727272">
+                    <p class="font-T5-Regular" style="color:#727272">
                         Daftar transaksi reservasi fasilitas terbaru
                     </p>
                 </div>
@@ -60,14 +60,15 @@
                 <table class="table">
                     <thead class="table-head">
                         <tr>
-                            <th>No Reservasi</th>
-                            <th>Nama Pemesan</th>
-                            <th>Nama Fasilitas</th>
-                            <th>Tanggal Penggunaan</th>
-                            <th>Kategori</th>
-                            <th>Total Pembayaran</th>
-                            <th>Status Reservasi</th>
-                            <th>Tanggal Pemesanan</th>
+                            <th><p class="font-T5-Medium" style="color: #727272">ID Reservasi</p></th>
+                            <th><p class="font-T5-Medium" style="color: #727272">Nama Pemesan</p></th>
+                            <th><p class="font-T5-Medium" style="color: #727272">Nama Fasilitas</p></th>
+                            <th><p class="font-T5-Medium" style="color: #727272">Tanggal Penggunaan</p></th>
+                            <th><p class="font-T5-Medium" style="color: #727272">Kategori</p></th>
+                            <th><p class="font-T5-Medium" style="color: #727272">Total Pembayaran</p></th>
+                            <th><p class="font-T5-Medium" style="color: #727272">Status Pembayaran</p></th>
+                            <th><p class="font-T5-Medium" style="color: #727272">Tanggal Pemesanan</p></th>
+                            <th><p class="font-T5-Medium" style="color: #727272"></p></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -75,27 +76,26 @@
                     <tbody>
                         @forelse ($reservasi as $item)
                             <tr>
-                                <td>#{{ $item->kode_reservasi_fasilitas }}</td>
-                                <td>{{ $item->user->nama_user ?? '-' }}</td>
-                                <td>{{ $item->fasilitas->nama_fasilitas ?? '-' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item->tanggal_reservasi)->locale('id')->translatedFormat('d F Y') }}
+                                <td><p class="font-T5-Regular data-table">{{ $item->id }}</p></td>
+                                <td><p class="font-T5-Regular data-table">{{ $item->user->nama_user ?? '-' }}</p></td>
+                                <td><p class="font-T5-Regular data-table">{{ $item->fasilitas->nama_fasilitas ?? '-' }}</p></td>
+                                <td><p class="font-T5-Regular data-table">{{ \Carbon\Carbon::parse($item->tanggal_reservasi)->locale('id')->translatedFormat('d F Y') }}</p>
                                 </td>
-                                <td>{{ $item->kategori_reservasi }}</td>
-                                <td>
-                                    Rp{{ number_format($item->total_harga_reservasi, 0, ',', '.') }}
+                                <td><p class="font-T5-Regular data-table">{{ $item->kategori_reservasi }}</p></td>
+                                <td><p class="font-T5-Regular data-table">Rp{{ number_format($item->total_harga_reservasi, 0, ',', '.') }}</p>
                                 </td>
                                 <td>
                                     <span
-                                        class="badge-pill
+                                        class="badge-pill font-T4-Regular
                                     {{ $item->status_reservasi === 'Selesai'
                                         ? 'badge-success'
                                         : ($item->status_reservasi === 'Proses'
-                                            ? 'badge-secondary'
-                                            : 'badge-cancel') }}">
+                                            ? 'badge-process'
+                                            : 'badge-canceled') }}">
                                         {{ $item->status_reservasi }}
                                     </span>
                                 </td>
-                                <td>{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F H:i') ?? '-' }}
+                                <td><p class="font-T5-Regular data-table">{{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F H:i') ?? '-' }}</p>
                                 </td>
                                 <td>
                                     <a href="{{ route('reservasi_fasilitas.show', $item->id) }}" class="btn btn-sm"><i
@@ -105,15 +105,14 @@
                                     <a href="{{ route('reservasi_fasilitas.edit', $item->id) }}" class="btn btn-sm"><i
                                             class="ph ph-pencil-line icon icon-sm"></i>
                                     </a>
-                                    <form action="{{ route('reservasi_fasilitas.destroy', $item->id) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop"><i
-                                                class="ph ph-trash icon icon-sm icon-danger"></i>
-                                        </button>
-                                    </form>
+                                    <button class="btn btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#delete-{{ $item->id }}">
+                                        <i class="ph ph-trash icon icon-sm icon-danger"></i>
+                                    </button>
+                                    <x-modal-delete id="delete-{{ $item->id }}"
+                                        action="{{ route('reservasi_fasilitas.destroy', $item->id) }}"
+                                        title="Apakah Anda Yakin Untuk Menghapus?"
+                                        message="Jika anda menghapus pesanan ini, maka anda tidak dapat memulihkannya lagi" />
                                 </td>
                             </tr>
                         @empty
@@ -125,31 +124,6 @@
                         @endforelse
                     </tbody>
                 </table>
-            </div>
-        </div>
-
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-            Launch static backdrop modal
-        </button>
-
-        <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        ...
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Understood</button>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
