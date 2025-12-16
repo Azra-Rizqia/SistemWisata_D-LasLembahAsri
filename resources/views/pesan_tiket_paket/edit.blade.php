@@ -2,16 +2,15 @@
 
 @section('content')
 
-{{-- Variabel data yang sedang diedit --}}
+
 @php
-    // Asumsi: Variabel data pesanan tiket yang sedang diedit dikirimkan sebagai $pesananTiket
+    
     $p = $pesananTiket; 
 @endphp
 
-{{-- Skrip AJAX untuk mendapatkan harga paket saat pemilihan --}}
+
 <script>
-    // Asumsi: Anda memiliki objek atau array PHP yang menyimpan harga paket
-    // Contoh data PHP yang harus tersedia (misal dikirim dari Controller)
+ 
     const hargaPaketList = {
         @foreach ($tiketPaket as $paket)
             '{{ $paket->id }}': {{ $paket->harga }},
@@ -19,7 +18,7 @@
     };
 
     document.addEventListener('DOMContentLoaded', () => {
-        const pajakRate = 0.10; // 10%
+        const pajakRate = 0.10; 
 
         const selectPaket = document.querySelector('[name="id_tiket_paket"]');
         const selectJumlah = document.querySelector('[name="jumlah_pesanan"]');
@@ -27,10 +26,9 @@
         const subtotalInput = document.getElementById('subtotal_input');
         const pajakOutput = document.getElementById('pajak_output');
         const totalOutput = document.getElementById('total_output');
-        const totalHidden = document.getElementById('total_hidden'); // Input untuk Total Pembayaran final
+        const totalHidden = document.getElementById('total_hidden'); 
 
         function rupiah(num) {
-            // Fungsi untuk memformat angka menjadi format Rupiah (Rp100.000)
             return 'Rp' + parseFloat(num).toLocaleString('id-ID', {
                 minimumFractionDigits: 0,
                 maximumFractionDigits: 0
@@ -42,7 +40,6 @@
             const jumlah = parseInt(selectJumlah.value) || 0;
 
             if (!paketId || jumlah <= 0) {
-                // Reset jika input tidak valid
                 subtotalInput.value = rupiah(0);
                 pajakOutput.value = rupiah(0);
                 totalOutput.value = rupiah(0);
@@ -55,19 +52,16 @@
             const pajakVal = subtotal * pajakRate;
             const totalVal = subtotal + pajakVal;
 
-            // Update Field
             subtotalInput.value = rupiah(subtotal);
             pajakOutput.value = rupiah(pajakVal);
             totalOutput.value = rupiah(totalVal);
-            totalHidden.value = totalVal; // Menyimpan nilai numerik total ke input hidden
-
+            totalHidden.value = totalVal; 
         }
 
         selectPaket.addEventListener('change', hitung);
         selectJumlah.addEventListener('change', hitung);
         selectJumlah.addEventListener('input', hitung);
 
-        // Panggil hitung saat halaman dimuat untuk nilai yang sudah ada
         hitung();
     });
 </script>
