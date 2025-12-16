@@ -7,7 +7,8 @@
             <h1 class="font-h1">Tiket Paket</h1>
             <p class="font-T3-Regular">Kelola data tiket paket yang tersedia</p>
         </div>
-        <a href="{{ route('tiket_paket.create') }}" class="btn btn-primary mb-3">
+        <a href="{{ route('tiket_paket.create') }}" class="btn btn-primary mb-3 d-flex align-items-center"><i
+                    class="ph ph-plus icon icon-sm"></i>
             Tambah Tiket Paket
         </a>
     </div>
@@ -78,42 +79,28 @@
                         <td>Rp{{ number_format($item->harga_tiket_weekday, 0, ',', '.') }}</td>
                         <td>Rp{{ number_format($item->harga_tiket_weekend, 0, ',', '.') }}</td>
                         <td>
-                            <span class="badge {{ $item->status_tiket === 'Tersedia' ? 'bg-success' : 'bg-danger' }}">
+                            <span class="badge-pill {{ $item->status_tiket === 'Tersedia' ? 'badge-success' : 'badge-canceled' }}">
                                 {{ $item->status_tiket }}
                             </span>
                         </td>
 
-                        {{-- ACTION --}}
                         <td>
-                            <div class="d-flex align-items-center gap-2">
-                                {{-- SHOW --}}
-                                <a href="{{ route('tiket_paket.show', $item->id) }}"
-                                class="btn btn-sm btn-light"
-                                title="Detail">
-                                    👁
-                                </a>
+                                    <a href="{{ route('tiket_paket.show', $item->id) }}" class="btn btn-sm"><i
+                                            class="ph ph-eye icon icon-sm"></i>
+                                    </a>
 
-                                {{-- EDIT --}}
-                                <a href="{{ route('tiket_paket.edit', $item->id) }}"
-                                class="btn btn-sm btn-light"
-                                title="Edit">
-                                    ✏
-                                </a>
-
-                                {{-- DELETE --}}
-                                <form action="{{ route('tiket_paket.destroy', $item->id) }}"
-                                    method="POST"
-                                    onsubmit="return confirm('Yakin ingin menghapus tiket paket ini?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                            class="btn btn-sm btn-light text-danger"
-                                            title="Hapus">
-                                        🗑
+                                    <a href="{{ route('tiket_paket.edit', $item->id) }}" class="btn btn-sm"><i
+                                            class="ph ph-pencil-line icon icon-sm"></i>
+                                    </a>
+                                    <button class="btn btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#delete-{{ $item->id }}">
+                                        <i class="ph ph-trash icon icon-sm icon-danger"></i>
                                     </button>
-                                </form>
-                            </div>
-                        </td>
+                                    <x-modal-delete id="delete-{{ $item->id }}"
+                                        action="{{ route('tiket_paket.destroy', $item->id) }}"
+                                        title="Apakah Anda Yakin Untuk Menghapus?"
+                                        message="Jika anda menghapus pesanan ini, maka anda tidak dapat memulihkannya lagi" />
+                                </td>
                     </tr>
                     @empty
                     <tr>
