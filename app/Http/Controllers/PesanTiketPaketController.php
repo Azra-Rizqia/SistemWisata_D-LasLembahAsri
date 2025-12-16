@@ -11,19 +11,19 @@ class PesanTiketPaketController extends Controller
 {
     public function index()
     {
-        $pesanan = PesanTiketPaket::with(['user', 'tiketPaket'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        $pesanan = PesanTiketPaket::with(['user', 'tiketPaket'])->get();
 
         $totalPendapatan = PesanTiketPaket::selectRaw('SUM(harga_pesanan * jumlah_tiket) as total')->value('total') ?? 0;
-        $totalData = PesanTiketPaket::count();
+
+        $totalData = $pesanan->count();
 
         return view('pesan_tiket_paket.index', compact(
             'pesanan',
             'totalPendapatan',
             'totalData'
         ));
-    }
+}
+
 
     public function create()
     {
@@ -36,30 +36,31 @@ class PesanTiketPaketController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'id_tiket_paket'   => 'required|exists:tiket_paket,id',
-            'id_user'          => 'required|exists:users,id',
-            'jumlah_pesanan'   => 'required|integer|min:1',
-            'tanggal_pembelian'=> 'required|date',
-            'status_pesanan'   => 'required|in:Proses,Selesai,Dibatalkan',
-            'total_pembayaran' => 'required|integer',
-            'metode_pembayaran'=> 'required|string',
+            'id_tiket_paket'    => 'required|exists:tiket_paket,id',
+            'id_user'           => 'required|exists:users,id',
+            'jumlah_tiket'      => 'required|integer|min:1',
+            'tanggal_pembelian' => 'required|date',
+            'status'            => 'required|in:Tersedia,Tidak Tersedia',
         ]);
 
+        $tiket = TiketPaket::findOrFail($validated['id_tiket_paket']);
+
         PesanTiketPaket::create([
-            'id_tiket_paket'   => $validated['id_tiket_paket'],
-            'id_user'          => $validated['id_user'],
-            'deskripsi_tiket'  => 'Pesanan tiket',
-            'harga_pesanan'     => 100000,
-            'jumlah_tiket'     => $validated['jumlah_pesanan'],
-            'tanggal_pembelian'=> $validated['tanggal_pembelian'],
-            'status'           => $validated['status_pesanan'],
-            'qr_tiket'         => uniqid('QR-'),
+            'id_tiket_paket'    => $validated['id_tiket_paket'],
+            'id_user'           => $validated['id_user'],
+            'deskripsi_tiket'   => 'Pesanan tiket paket',
+            'harga_pesanan'     => $tiket->harga_tiket,
+            'jumlah_tiket'      => $validated['jumlah_tiket'],
+            'tanggal_pembelian' => $validated['tanggal_pembelian'],
+            'status'            => $validated['status'],
+            'qr_tiket'          => uniqid('QR-'),
         ]);
 
         return redirect()
             ->route('pesan_tiket_paket.index')
             ->with('success', 'Pesanan tiket paket berhasil ditambahkan');
     }
+
 
     // SHOW
     public function show(PesanTiketPaket $pesan_tiket_paket)
