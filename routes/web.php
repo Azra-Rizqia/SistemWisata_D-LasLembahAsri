@@ -3,6 +3,7 @@
 use App\Models\ReservasiFasilitas;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReservasiFasilitasController;
 use App\Http\Controllers\SewaTenantController;
 use App\Http\Controllers\KontenPenginapanController;
@@ -18,3 +19,7 @@ Route::get('/reservasi_fasilitas', [ReservasiFasilitasController::class, 'index'
 
 Route::resource('sewa_kios', SewaTenantController::class);
 Route::get('/sewa_kios', [SewaTenantController::class, 'index'])->name('sewa_kios.index');
+
+Route::get('/', [AdminController::class, 'loginForm']) ->name('admin.login');
+Route::post('/', [AdminController::class, 'login'])->name('admin.login.post');
+
