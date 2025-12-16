@@ -64,13 +64,13 @@ class ReservasiFasilitasController extends Controller
         return view('reservasi_fasilitas.show', compact('reservasi_fasilita'));
     }
 
-    public function edit(ReservasiFasilitas $reservasi_fasilitas)
+    public function edit(ReservasiFasilitas $reservasi_fasilita)
     {
         $fasilitas = Fasilitas::all();
         $users = User::all();
 
         return view('reservasi_fasilitas.edit', compact(
-            'reservasi_fasilitas',
+            'reservasi_fasilita',
             'fasilitas',
             'users'
         ));

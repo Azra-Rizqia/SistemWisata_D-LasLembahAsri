@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="">
+    <div class="container">
         <form action="{{ route('reservasi_fasilitas.store') }}" method="POST">
             @csrf
 
@@ -15,7 +15,7 @@
                     </ol>
                 </nav>
                 <button type="submit" class="btn btn-primary">
-                    Simpan
+                    Tambahkan Reservasi
                 </button>
             </div>
 

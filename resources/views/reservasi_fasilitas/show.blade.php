@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="">
+    <div class="container">
         @php
             $harga = $reservasi_fasilita->harga_fasilitas;
             $pajak = $harga * 0.1;
@@ -42,7 +42,7 @@
                     {{ $reservasi_fasilita->status_reservasi === 'Selesai'
                         ? 'badge-success'
                         : ($reservasi_fasilita->status_reservasi === 'Proses'
-                            ? 'badge-secondary'
+                            ? 'badge-process'
                             : 'badge-canceled') }}">
                         {{ $reservasi_fasilita->status_reservasi }}
                     </span>
