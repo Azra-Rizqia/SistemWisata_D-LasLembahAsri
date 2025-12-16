@@ -8,9 +8,10 @@
             <x-navbar-linked route="dashboard.index" label="Dashboard" active="dashboard" />
             <x-navbar-linked route="tiketsatuan.index" label="Tiket Satuan" />
             <x-navbar-linked route="tiketpaket.index" label="Tiket Paket" />
+            <x-navbar-linked route="wahana.index" label="Wahana" />
             <x-navbar-linked route="penginapan.index" label="Penginapan" />
-            <x-navbar-linked route="fasilitas.index" label="Fasilitas" />
-            <x-navbar-linked route="sewa.index" label="Sewa Kios" />
+            <x-navbar-linked route="reservasi_fasilitas.index" label="Fasilitas" />
+            <x-navbar-linked route="sewa_kios.index" label="Sewa Kios" /> 
             <x-navbar-linked route="pengunjung.index" label="Pengunjung" />
             <x-navbar-linked route="kelola.index" label="Kelola Konten" />
         </div>

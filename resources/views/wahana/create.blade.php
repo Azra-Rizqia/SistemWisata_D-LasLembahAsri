@@ -78,5 +78,17 @@
                           rows="4"
                           required></textarea>
             </div>
+
+            <!-- Gambar Wahana -->
+            <div class="mb-3">
+                <label class="form-label">Gambar Wahana</label>
+                <input type="file"
+                    class="form-control"
+                    name="url_gambar_wahana"
+                    accept="image/*"
+                    required>
+            </div>
+
         </div>
     </form>
+@endsection
