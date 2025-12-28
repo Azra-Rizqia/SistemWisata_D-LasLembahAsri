@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PesanTiketSatuan;
+use App\Models\User;
 use App\Models\Wahana;
 use Illuminate\Http\Request;
 
@@ -11,13 +12,13 @@ class PesanTiketSatuanController extends Controller
     public function index()
     {
         $pesanan = PesanTiketSatuan::with('wahana')->get();
-        return view('pesan_tiket.index', compact('pesanan'));
+        return view('pesan_tiket_satuan.index', compact('pesanan'));
     }
 
     public function create()
     {
         $wahana = Wahana::where('status_wahana', 'Tersedia')->get();
-        return view('pesan_tiket.create', compact('wahana'));
+        return view('pesan_tiket_satuan.create', compact('wahana'));
     }
 
     public function store(Request $request)
@@ -31,26 +32,26 @@ class PesanTiketSatuanController extends Controller
 
         PesanTiketSatuan::create([
             'id_wahana' => $wahana->id,
-            'id_user' => auth()->id(),
+            'id_user' => $request->id(),
             'jumlah_tiket' => $request->jumlah_tiket,
             'harga_pesanan' => $wahana->harga_tiket_wahana * $request->jumlah_tiket,
             'status_pesanan' => 'Pending',
         ]);
 
-        return redirect()->route('pesan-tiket.index')
+        return redirect()->route('pesan_tiket_satuan.index')
             ->with('success', 'Pesanan tiket berhasil dibuat');
     }
 
     public function show(PesanTiketSatuan $pesanTiketSatuan)
     {
-        return view('pesan_tiket.show', compact('pesanTiketSatuan'));
+        return view('pesan_tiket_satuan.show', compact('pesanTiketSatuan'));
     }
 
     public function destroy(PesanTiketSatuan $pesanTiketSatuan)
     {
         $pesanTiketSatuan->delete();
 
-        return redirect()->route('pesan-tiket.index')
+        return redirect()->route('pesan_tiket_satuan.index')
             ->with('success', 'Pesanan tiket dibatalkan');
     }
 }

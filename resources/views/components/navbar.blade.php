@@ -1,17 +1,17 @@
 <nav class="container">
     <div class="d-flex justify-content-between align-items-center w-100">
-        <a href="{{ route('dashboard') ? route('dashboard') : '#' }}" class="text-decoration-none">
+        <a href="{{ route('dashboard.index') ? route('dashboard.index') : '#' }}" class="text-decoration-none">
             <img src="{{ asset('images/logo-dlas.png') }}" alt="D'Las Logo" height="50">
         </a>
 
         <div class="d-none d-lg-flex align-items-center" style="gap: 32px;">
             <x-navbar-linked route="dashboard.index" label="Dashboard" active="dashboard" />
-            <x-navbar-linked route="tiketsatuan.index" label="Tiket Satuan" />
+            <x-navbar-linked route="pesan_tiket.index" label="Tiket Satuan" />
             <x-navbar-linked route="tiket_paket.index" label="Tiket Paket" />
             <x-navbar-linked route="wahana.index" label="Wahana" />
-            <x-navbar-linked route="penginapan.index" label="Penginapan" />
+            <x-navbar-linked route="reservasi_penginapan.index" label="Penginapan" />
             <x-navbar-linked route="reservasi_fasilitas.index" label="Fasilitas" />
-            <x-navbar-linked route="sewa_kios.index" label="Sewa Kios" /> 
+            <x-navbar-linked route="sewa_kios.index" label="Sewa Kios" />
             <x-navbar-linked route="pengunjung.index" label="Pengunjung" />
             <x-navbar-linked route="konten.penginapan.index" label="Kelola Konten" />
         </div>
@@ -46,16 +46,17 @@
         <h5 class="offcanvas-title fw-bold font-T1-SemiBold" id="mobileMenuLabel">Menu Navigasi</h5>
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    
+
     <div class="offcanvas-body d-flex flex-column gap-3 p-4">
-        <x-navbar-linked route="dashboard" label="Dashboard" active="dashboard" />
-            <x-navbar-linked route="tiket.satuan" label="Tiket Satuan" />
-            <x-navbar-linked route="tiket.paket" label="Tiket Paket" />
-            <x-navbar-linked route="penginapan.index" label="Penginapan" />
-            <x-navbar-linked route="fasilitas.index" label="Fasilitas" />
-            <x-navbar-linked route="sewa.kios" label="Sewa Kios" />
-            <x-navbar-linked route="pengunjung.index" label="Pengunjung" />
-            <x-navbar-linked route="kelola.konten" label="Kelola Konten" />
+        <x-navbar-linked route="dashboard.index" label="Dashboard" active="dashboard" />
+        <x-navbar-linked route="pesan_tiket.index" label="Tiket Satuan" />
+        <x-navbar-linked route="tiket_paket.index" label="Tiket Paket" />
+        <x-navbar-linked route="wahana.index" label="Wahana" />
+        <x-navbar-linked route="reservasi_penginapan.index" label="Penginapan" />
+        <x-navbar-linked route="reservasi_fasilitas.index" label="Fasilitas" />
+        <x-navbar-linked route="sewa_kios.index" label="Sewa Kios" />
+        <x-navbar-linked route="pengunjung.index" label="Pengunjung" />
+        <x-navbar-linked route="konten.penginapan.index" label="Kelola Konten" />
         <hr>
 
         <form action="{{ Route::has('logout') ? route('logout') : '#' }}" method="POST">
