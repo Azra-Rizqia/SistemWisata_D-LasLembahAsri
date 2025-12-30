@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('reservasi', function (Blueprint $table) {
+        Schema::create('tenant', function (Blueprint $table) {
             $table->id();
+            $table->string('lokasi_tenant')->nullable();
+            $table->enum('status_tenant', ['Ditempati','Belum Dibayar','Tidak Digunakan','Perbaikan'])->default('Tidak Digunakan');
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('reservasi');
+        Schema::dropIfExists('tenant');
     }
 };

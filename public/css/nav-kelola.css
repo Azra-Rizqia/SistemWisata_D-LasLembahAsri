@@ -1,0 +1,17 @@
+.nav-active {
+    color: #2e7d32;
+    font-weight: 600;
+    position: relative;
+    text-decoration: none;
+}
+
+.nav-active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 2px;
+    background-color: #2e7d32;
+    border-radius: 2px;
+}
