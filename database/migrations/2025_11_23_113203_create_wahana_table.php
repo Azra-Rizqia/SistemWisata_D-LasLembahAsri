@@ -12,16 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('wahana', function (Blueprint $table) {
-            $table->id('id_wahana'); 
+            $table->id();
 
             $table->string('nama_wahana');
             $table->text('deskripsi_wahana');
+            $table->string('tentang_wahana');
             $table->string('pengelola_wahana')->nullable();
-            $table->enum('status_wahana', ['Tersedia', 'Tidak Tersedia'])->default('Tersedia');
-            $table->Integer('harga_tiket_wahana_wd')->default(0); 
-            $table->Integer('harga_tiket_wahana_we')->default(0); 
-
-            $table->foreignId('id_gambar')->nullable()->constrained('gambar')->nullonDelete();
+            $table->enum('status_wahana', ['Aktif', 'Tidak Aktif'])->default('Aktif');
+            $table->Integer('harga_tiket_wahana')->default(0);
+            $table->Integer('jumlah')->default(0);
+            $table->string('url_gambar_wahana')->nullable();
             $table->timestamps();
         });
     }

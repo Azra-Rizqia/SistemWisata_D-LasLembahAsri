@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tenant', function (Blueprint $table) {
-            $table->id('id_tenant');
+            $table->id();
             $table->string('lokasi_tenant')->nullable();
-            $table->integer('harga_sewa_tenant', 12, 2)->default(0);
+            $table->enum('status_tenant', ['Ditempati','Belum Dibayar','Tidak Digunakan','Perbaikan'])->default('Tidak Digunakan');
             $table->timestamps();
         });
     }

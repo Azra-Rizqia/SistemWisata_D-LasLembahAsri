@@ -1,0 +1,24 @@
+th{
+    background : #FFFFFF;
+    color: #787878;
+    border-bottom: 1px solid #E8E8E8 !important;
+    vertical-align: middle;
+}
+
+tr{
+    color: black !important;
+    background : #FFFFFF;
+    border-bottom: 1px solid #E8E8E8 !important;
+    height : 68px;
+    vertical-align: middle;
+}
+
+thead{
+    background : #FFFFFF;
+    border-bottom: 1px solid var(--Neutral-Gray-Line, #E8E8E8) !important;
+}
+
+.value-table-header{
+    color: #727272 !important;
+    font: var(--Font-T5-Regular, 14px) !important;
+}
