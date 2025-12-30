@@ -2,16 +2,20 @@
 
 @section('content')
 <div class="container">
+    {{-- Header --}}
     <div class="head-page">
         <div class="headline">
-            <h1 class="font-h1">Pesan Tiket Satuan</h1>
-            <p class="font-T3-Regular">Kelola data tiket satuan yang tersedia</p>
+            <h1 class="font-h1">Tiket Satuan</h1>
+            <p class="font-T3-Regular">Kelola pembelian tiket satuan pengunjung</p>
         </div>
-        <a href="{{ route('pesan_tiket_satuan.create') }}" class="btn btn-primary mb-3">
-            Tambah Tiket Satuan
+        <a href="{{ route('pesan-tiket.create') }}"
+            class="btn btn-primary mb-3 d-flex align-items-center">
+            <i class="ph ph-plus icon icon-sm"></i>
+            Tambah Tiket
         </a>
-    </div> 
+    </div>
 
+    {{-- Alert --}}
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show">
             {{ session('success') }}
@@ -21,16 +25,18 @@
 
     <div class="main-content">
 
-        {{-- STATISTIK --}}
+        {{-- Statistik --}}
         <div class="statistics">
             <div class="card-statistic">
                 <div class="icon-card-statistic1">
                     <i class="ph-fill ph-money-wavy icon icon-md icon-primary"></i>
                 </div>
                 <div class="content-text-card">
-                    <p class="font-T5-Regular" style="color:#727272">Total Nilai Tiket</p>
+                    <p class="font-T5-Regular" style="color:#727272">
+                        Total Pendapatan Tiket
+                    </p>
                     <p class="font-T1-SemiBold">
-                       Rp{{ number_format($totalPendapatan, 0, ',', '.') }}
+                        Rp{{ number_format($totalPendapatan, 0, ',', '.') }}
                     </p>
                 </div>
             </div>
@@ -40,107 +46,101 @@
                     <i class="ph-fill ph-ticket icon icon-md icon-warning"></i>
                 </div>
                 <div class="content-text-card">
-                    <p class="font-T5-Regular" style="color:#727272">Jumlah Tiket Satuan</p>
-                    <p class="font-T1-SemiBold">{{ $totalData ?? 0 }}</p>
+                    <p class="font-T5-Regular" style="color:#727272">
+                        Total Pembelian Tiket
+                    </p>
+                    <p class="font-T1-SemiBold">
+                        {{ $totalPembelian }}
+                    </p>
                 </div>
             </div>
         </div>
 
-        {{-- TABLE --}}
-        <div class="view-data">
+        {{-- Table --}}
+        <div class="view-data table-responsive">
             <div class="content-text-card">
-                <p class="font-T1-SemiBold">Daftar Tiket Satuan</p>
+                <p class="font-T1-SemiBold">Pembelian Tiket Terakhir</p>
                 <p class="font-T5-Regular" style="color:#727272">
-                    Data tiket satuan yang tersedia
+                    Daftar transaksi pembelian tiket satuan terbaru
                 </p>
             </div>
 
             <table class="table">
                 <thead class="table-head">
                     <tr>
-                        <th><p class="font-T5-Medium" style="color: #727272">No Tiket Paket</p></th>
-                        <th><p class="font-T5-Medium" style="color: #727272">Nama Pemesan</p></th>
-                        <th><p class="font-T5-Medium" style="color: #727272">Nama Paket</p></th>
-                        <th><p class="font-T5-Medium" style="color: #727272">Jumlah Pesanan</p></th>
-                        <th><p class="font-T5-Medium" style="color: #727272">Total Pembayaran</p></th>
-                        <th><p class="font-T5-Medium" style="color: #727272">Status</p></th>
-                        <th><p class="font-T5-Medium" style="color: #727272">Tanggal Dibuat</p></th>
-                        <th><p class="font-T5-Medium" style="color: #727272">Action</p></th>
+                        <th><p class="font-T5-Medium" style="color:#727272">ID</p></th>
+                        <th><p class="font-T5-Medium" style="color:#727272">Nama Pemesan</p></th>
+                        <th><p class="font-T5-Medium" style="color:#727272">Nama Tiket</p></th>
+                        <th><p class="font-T5-Medium" style="color:#727272">Tanggal Pembelian</p></th>
+                        <th><p class="font-T5-Medium" style="color:#727272">Jumlah</p></th>
+                        <th><p class="font-T5-Medium" style="color:#727272">Total Pembayaran</p></th>
+                        <th><p class="font-T5-Medium" style="color:#727272">Status</p></th>
+                        <th><p class="font-T5-Medium" style="color:#727272">Dibuat</p></th>
+                        <th></th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @forelse ($pesanan as $item)
-                    <tr>
-                        {{-- Nomor Reservasi --}}
-                        <td>TKP-{{ str_pad($item->id, 5, '0', STR_PAD_LEFT) }}</td>
+                        <tr>
+                            <td><p class="font-T5-Regular data-table">{{ $item->id }}</p></td>
+                            <td><p class="font-T5-Regular data-table">{{ $item->nama_pemesan }}</p></td>
+                            <td><p class="font-T5-Regular data-table">{{ $item->nama_tiket }}</p></td>
+                            <td>
+                                <p class="font-T5-Regular data-table">
+                                    {{ \Carbon\Carbon::parse($item->tanggal_pembelian)->locale('id')->translatedFormat('d F Y') }}
+                                </p>
+                            </td>
+                            <td><p class="font-T5-Regular data-table">{{ $item->jumlah_tiket }}</p></td>
+                            <td>
+                                <p class="font-T5-Regular data-table">
+                                    Rp{{ number_format($item->total_pembayaran, 0, ',', '.') }}
+                                </p>
+                            </td>
+                            <td>
+                                <span
+                                    class="badge-pill font-T4-Regular
+                                    {{ $item->status_pembayaran === 'selesai'
+                                        ? 'badge-success'
+                                        : 'badge-process' }}">
+                                    {{ ucfirst($item->status_pembayaran) }}
+                                </span>
+                            </td>
+                            <td>
+                                <p class="font-T5-Regular data-table">
+                                    {{ \Carbon\Carbon::parse($item->created_at)->locale('id')->translatedFormat('d F H:i') }}
+                                </p>
+                            </td>
+                            <td>
+                                <a href="{{ route('pesan-tiket.show', $item->id) }}" class="btn btn-sm">
+                                    <i class="ph ph-eye icon icon-sm"></i>
+                                </a>
+                                <a href="{{ route('pesan-tiket.edit', $item->id) }}" class="btn btn-sm">
+                                    <i class="ph ph-pencil-line icon icon-sm"></i>
+                                </a>
+                                <button class="btn btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#delete-{{ $item->id }}">
+                                    <i class="ph ph-trash icon icon-sm icon-danger"></i>
+                                </button>
 
-                        {{-- Nama Pemesan --}}
-                        <td>{{ $item->user->name ?? '-' }}</td>
-
-                        {{-- Nama Paket --}}
-                        <td>{{ $item->tiketPaket->nama_tiket_paket ?? '-' }}</td>
-
-                        {{-- Jumlah Pesanan --}}
-                        <td>{{ $item->jumlah_tiket }}</td>
-
-                        {{-- Total Pembayaran --}}
-                        <td>
-                            Rp{{ number_format($item->harga_pesanan * $item->jumlah_tiket, 0, ',', '.') }}
-                        </td>
-
-                        {{-- Status --}}
-                        <td>
-                            <span class="badge {{ $item->status === 'Tersedia' ? 'bg-success' : 'bg-danger' }}">
-                                {{ $item->status }}
-                            </span>
-                        </td>
-
-                        {{-- Tanggal Pembelian --}}
-                        <td>{{ \Carbon\Carbon::parse($item->tanggal_pembelian)->format('d M Y') }}</td>
-
-                        {{-- Action --}}
-                        <td>
-                            <a href="{{ route('pesan_tiket_satuan.show',$item->id) }}" class="btn btn-sm">
-                                👁
-                            </a>
-                            <a href="{{ route('pesan_tiket_satuan.edit',$item->id) }}" class="btn btn-sm">
-                                ✏
-                            </a>
-                        </td>
-                    </tr>
+                                <x-modal-delete
+                                    id="delete-{{ $item->id }}"
+                                    action="{{ route('pesan-tiket.destroy', $item->id) }}"
+                                    title="Apakah Anda Yakin?"
+                                    message="Data pembelian tiket akan dihapus permanen" />
+                            </td>
+                        </tr>
                     @empty
-                    <tr>
-                        <td colspan="8" class="text-center">Belum ada pesanan tiket</td>
-                    </tr>
+                        <tr>
+                            <td colspan="9" class="text-center">
+                                Data tiket satuan belum tersedia
+                            </td>
+                        </tr>
                     @endforelse
                 </tbody>
-
             </table>
         </div>
-    </div>
 
-    {{-- MODAL DELETE --}}
-    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>Hapus Data</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    Yakin ingin menghapus data tiket satuan ini?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                        Batal
-                    </button>
-                    <button type="button" class="btn btn-danger">
-                        Hapus
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 @endsection

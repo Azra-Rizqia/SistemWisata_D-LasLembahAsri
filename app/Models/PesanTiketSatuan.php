@@ -9,30 +9,29 @@ class PesanTiketSatuan extends Model
 {
     use HasFactory;
 
-    protected $table = 'pesan_tiket_satuan';
+    protected $table = 'tiket_satuan';
 
     protected $fillable = [
+        'nama_pemesan',
+        'nama_tiket',
+        'tanggal_pembelian',
         'jumlah_tiket',
-        'harga_pesanan',
-        'status_pesanan',
-        'qr_tiket',
-        'id_wahana',
-        'id_user',
+        'harga_satuan',
+        'total_pembayaran',
+        'status_pembayaran',
     ];
 
     /**
-     * Pesanan milik satu wahana
+     * Hitung total pembayaran otomatis
      */
-    public function wahana()
+    protected static function booted()
     {
-        return $this->belongsTo(Wahana::class, 'id_wahana');
-    }
+        static::creating(function ($tiket) {
+            $tiket->total_pembayaran = $tiket->jumlah_tiket * $tiket->harga_satuan;
+        });
 
-    /**
-     * Pesanan milik satu user
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'id_user');
+        static::updating(function ($tiket) {
+            $tiket->total_pembayaran = $tiket->jumlah_tiket * $tiket->harga_satuan;
+        });
     }
 }

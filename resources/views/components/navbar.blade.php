@@ -6,7 +6,7 @@
 
         <div class="d-none d-lg-flex align-items-center" style="gap: 32px;">
             <x-navbar-linked route="dashboard.index" label="Dashboard" active="dashboard" />
-            <x-navbar-linked route="pesan_tiket.index" label="Tiket Satuan" />
+            <x-navbar-linked route="pesan-tiket.index" label="Tiket Satuan" />
             <x-navbar-linked route="tiket_paket.index" label="Tiket Paket" />
             <x-navbar-linked route="wahana.index" label="Wahana" />
             <x-navbar-linked route="reservasi_penginapan.index" label="Penginapan" />

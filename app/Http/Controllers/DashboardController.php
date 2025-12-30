@@ -14,17 +14,16 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        // FILTER TAHUN & BULAN
         $tahun = $request->input('tahun', date('Y'));
-        $bulan = $request->input('bulan'); // boleh null
+        $bulan = $request->input('bulan'); 
 
-        // TIKET SATUAN
-        // $tiketSatuan = PesanTiketSatuan::whereYear('tanggal_pembelian', $tahun);
-        // if ($bulan) $tiketSatuan->whereMonth('tanggal_pembelian', $bulan);
+        //TIKET SATUAN
+        $tiketSatuan = PesanTiketSatuan::whereYear('tanggal_pembelian', $tahun);
+        if ($bulan) $tiketSatuan->whereMonth('tanggal_pembelian', $bulan);
 
-        // $sumTiketSatuan   = $tiketSatuan->sum('harga_pesanan');
-        // $countTiketSatuan = $tiketSatuan->count();
-        // $qtyTiketSatuan   = $tiketSatuan->sum('jumlah_tiket');
+        $sumTiketSatuan   = $tiketSatuan->sum('total_pembayaran');
+        $countTiketSatuan = $tiketSatuan->count();
+        $qtyTiketSatuan   = $tiketSatuan->sum('jumlah_tiket');
 
 
         $tiketPaket = PesanTiketPaket::whereYear('tanggal_pembelian', $tahun);
@@ -61,20 +60,20 @@ class DashboardController extends Controller
         $jumlahPengunjung  = $totalTiketTerjual;
 
         // DATA CHART PER BULAN
-        $months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'];
+        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
         $dataPendapatanChart = [];
         $dataPengunjungChart = [];
 
         for ($i = 1; $i <= 12; $i++) {
-            $pendapatan = 
-                // PesanTiketSatuan::whereYear('tanggal_kunjungan', $tahun)->whereMonth('tanggal_kunjungan', $i)->sum('harga_total') +
+            $pendapatan =
+                PesanTiketSatuan::whereYear('tanggal_pembelian', $tahun)->whereMonth('tanggal_pembelian', $i)->sum('total_pembayaran') +
                 PesanTiketPaket::whereYear('tanggal_pembelian', $tahun)->whereMonth('tanggal_pembelian', $i)->sum('harga_pesanan') +
                 reservasi_penginapan::whereYear('tanggal_pemesanan', $tahun)->whereMonth('tanggal_pemesanan', $i)->sum('total_pembayaran') +
                 ReservasiFasilitas::whereYear('tanggal_reservasi', $tahun)->whereMonth('tanggal_reservasi', $i)->sum('total_harga_reservasi') +
                 SewaTenant::whereYear('tanggal_mulai_sewa', $tahun)->whereMonth('tanggal_mulai_sewa', $i)->sum('harga_sewa_tenant');
 
             $pengunjung =
-                // PesanTiketSatuan::whereYear('tanggal_kunjungan', $tahun)->whereMonth('tanggal_kunjungan', $i)->sum('jumlah_tiket') +
+                PesanTiketSatuan::whereYear('tanggal_pembelian', $tahun)->whereMonth('tanggal_pembelian', $i)->sum('jumlah_tiket') +
                 PesanTiketPaket::whereYear('tanggal_pembelian', $tahun)->whereMonth('tanggal_pembelian', $i)->sum('jumlah_tiket');
 
             $dataPendapatanChart[] = $pendapatan;
@@ -85,64 +84,64 @@ class DashboardController extends Controller
             ->merge(
                 PesanTiketSatuan::latest()->limit(5)->get()->map(function ($item) {
                     return (object)[
-                        'tanggal' => $item->tanggal_kunjungan,
-                        'kategori' => 'Tiket Satuan',
-                        'nama_pemesan' => $item->nama_pemesan ?? 'Tamu',
-                        'total' => $item->harga_total,
+                        'kode' => $item->nomor_pesanan ?? $item->id,  
+                        'nama' => $item->nama_pemesan ?? 'Tamu',      
+                        'jenis' => 'Tiket Satuan',                    
+                        'total' => $item->total_pembayaran,
                         'status' => $item->status ?? null,
-                        'created_at' => $item->created_at
+                        'tanggal' => $item->tanggal_pembelian         
                     ];
                 })
             )
             ->merge(
                 PesanTiketPaket::latest()->limit(5)->get()->map(function ($item) {
                     return (object)[
-                        'tanggal' => $item->tanggal_kunjungan,
-                        'kategori' => 'Tiket Paket',
-                        'nama_pemesan' => $item->nama_pemesan ?? 'Tamu',
+                        'kode' => $item->nomor_pesanan ?? $item->id,
+                        'nama' => $item->nama_pemesan ?? 'Tamu',
+                        'jenis' => 'Tiket Paket',
                         'total' => $item->harga_total,
                         'status' => $item->status ?? null,
-                        'created_at' => $item->created_at
+                        'tanggal' => $item->tanggal_kunjungan
                     ];
                 })
             )
             ->merge(
                 reservasi_penginapan::latest()->limit(5)->get()->map(function ($item) {
                     return (object)[
-                        'tanggal' => $item->tanggal_mulai,
-                        'kategori' => 'Penginapan',
-                        'nama_pemesan' => $item->nama_pemesan ?? 'Tamu',
-                        'total' => $item->total_harga,
-                        'status' => $item->status ?? null,
-                        'created_at' => $item->created_at
+                        'kode' => $item->nomor_reservasi,  
+                        'nama' => $item->user->nama_user ?? 'Tamu',  
+                        'jenis' => 'Penginapan',
+                        'total' => $item->total_pembayaran,  
+                        'status' => $item->status_reservasi, 
+                        'tanggal' => $item->tanggal_masuk    
                     ];
                 })
             )
             ->merge(
                 ReservasiFasilitas::latest()->limit(5)->get()->map(function ($item) {
                     return (object)[
-                        'tanggal' => $item->tanggal_reservasi,
-                        'kategori' => 'Fasilitas',
-                        'nama_pemesan' => $item->nama_pemesan ?? 'Tamu',
-                        'total' => $item->total_harga,
+                        'kode' => $item->nomor_reservasi ?? $item->id,
+                        'nama' => $item->nama_pemesan ?? 'Tamu',
+                        'jenis' => 'Fasilitas',
+                        'total' => $item->total_harga_reservasi,
                         'status' => $item->status ?? null,
-                        'created_at' => $item->created_at
+                        'tanggal' => $item->tanggal_reservasi
                     ];
                 })
             )
             ->merge(
                 SewaTenant::latest()->limit(5)->get()->map(function ($item) {
                     return (object)[
-                        'tanggal' => $item->tanggal_mulai,
-                        'kategori' => 'Tenant',
-                        'nama_pemesan' => $item->nama_penyewa ?? 'Tamu',
-                        'total' => $item->harga_total,
+                        'kode' => $item->nomor_sewa ?? $item->id,
+                        'nama' => $item->nama_penyewa ?? 'Tamu',
+                        'jenis' => 'Tenant',
+                        'total' => $item->harga_sewa_tenant,  
                         'status' => $item->status ?? null,
-                        'created_at' => $item->created_at
+                        'tanggal' => $item->tanggal_mulai_sewa
                     ];
                 })
             )
-            ->sortByDesc('created_at')
+            ->sortByDesc('tanggal')  
             ->take(10)
             ->values();
 

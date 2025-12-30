@@ -5,7 +5,6 @@
         <form action="{{ route('reservasi_penginapan.store') }}" method="POST">
             @csrf
 
-            {{-- Header & Breadcrumb --}}
             <div class="head-page-breadcrumb">
                 <nav aria-label="breadcrumb" class="mb-4">
                     <ol class="breadcrumb">
@@ -20,7 +19,6 @@
                 </button>
             </div>
 
-            {{-- Alert Error --}}
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul class="mb-0">
@@ -34,7 +32,6 @@
             <div class="section-detail">
                 <div class="subsection-main">
                     
-                    {{-- 1. Informasi Tamu --}}
                     <div class="kolom-input">
                         <div class="input-item">
                             <label class="form-label">Nama Pemesan</label>
@@ -56,7 +53,6 @@
                         </div>
                     </div>
 
-                    {{-- 2. Tanggal Menginap --}}
                     <div class="kolom-input">
                         <div class="input-item">
                             <label class="form-label">Tanggal Check-In</label>
@@ -70,7 +66,6 @@
                         </div>
                     </div>
 
-                    {{-- 3. Pilih Penginapan --}}
                     <div class="kolom-input">
                         <div class="input-item">
                             <label class="form-label">Tipe Penginapan</label>
@@ -98,7 +93,6 @@
                     </div>
                 </div>
 
-                {{-- Kolom Kanan: Ringkasan Biaya (Live Calculation) --}}
                 <div class="subsection-info">
                     <div class="input-item">
                         <label class="form-label">Metode Pembayaran</label>
@@ -124,7 +118,6 @@
                         <input type="text" id="subtotal_view" class="value-item" readonly value="Rp0">
                     </div>
 
-                    {{-- Perhitungan Pajak --}}
                     <div class="list-information">
                         <label class="form-label">Pajak (10%)</label>
                         <input type="text" id="pajak_view" class="value-item" readonly value="Rp0">
@@ -137,7 +130,6 @@
                         <input type="text" id="total_pembayaran_view" class="value-item fw-bold text-success" readonly value="Rp0">
                     </div>
 
-                    {{-- Input Hidden untuk dikirim ke Controller --}}
                     <input type="hidden" name="total_harga" id="total_harga" value="{{ old('total_harga', 0) }}">
                 </div>
             </div>
@@ -147,12 +139,10 @@
     {{-- Script Perhitungan Otomatis --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Definisi Elemen
             const elKamar = document.getElementById('id_kamar');
             const elCheckIn = document.getElementById('tanggal_masuk');
             const elCheckOut = document.getElementById('tanggal_keluar');
             
-            // Elemen Display
             const viewHarga = document.getElementById('harga_kamar_view');
             const viewDurasi = document.getElementById('durasi_view');
             const viewSubtotal = document.getElementById('subtotal_view');
@@ -160,20 +150,16 @@
             const viewTotal = document.getElementById('total_pembayaran_view');
             const inputTotal = document.getElementById('total_harga');
 
-            const pajakRate = 0.10; // Pajak 10%
+            const pajakRate = 0.10; 
 
-            // 2. Fungsi Format Rupiah
             function formatRupiah(angka) {
                 return 'Rp' + new Intl.NumberFormat('id-ID').format(angka);
             }
 
-            // 3. Logic Utama Perhitungan
             function hitungTotal() {
-                // Ambil harga dari atribut data-harga di <option> yang dipilih
                 const selectedOption = elKamar.options[elKamar.selectedIndex];
                 const hargaPerMalam = parseInt(selectedOption.getAttribute('data-harga')) || 0;
 
-                // Hitung selisih hari
                 let durasi = 0;
                 if (elCheckIn.value && elCheckOut.value) {
                     const d1 = new Date(elCheckIn.value);
@@ -183,28 +169,22 @@
                     durasi = diffDays > 0 ? diffDays : 0;
                 }
 
-                // Kalkulasi
                 const subtotal = hargaPerMalam * durasi;
                 const pajak = subtotal * pajakRate;
                 const total = subtotal + pajak;
 
-                // Update Tampilan
                 viewHarga.value = formatRupiah(hargaPerMalam);
                 viewDurasi.value = durasi + " Malam";
                 viewSubtotal.value = formatRupiah(subtotal);
                 viewPajak.value = formatRupiah(pajak);
                 viewTotal.value = formatRupiah(total);
                 
-                // Update Nilai Hidden Input (Penting untuk backend)
                 inputTotal.value = total;
             }
 
-            // 4. Pasang Event Listener
             elKamar.addEventListener('change', hitungTotal);
             elCheckIn.addEventListener('change', hitungTotal);
             elCheckOut.addEventListener('change', hitungTotal);
-
-            // 5. Jalankan sekali saat load (jika ada old data)
             hitungTotal();
         });
     </script>

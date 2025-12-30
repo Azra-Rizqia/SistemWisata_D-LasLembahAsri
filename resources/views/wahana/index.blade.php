@@ -14,38 +14,31 @@
     <div class="row g-4">
         @foreach ($wahana as $item)
         <div class="col-md-6">
-            
             <div class="card border-0 shadow-sm rounded-4 h-100">
                 <div class="row g-0">
                     <div class="col-md-4">
-                        <div class="position-relative p-3 h-100">
+                    <div class="position-relative wahana-image-wrapper">
 
-                            <span class="badge badge-pill
-                                {{ $item->status_wahana === 'Aktif'
-                                    ? 'badge-success'
-                                    : 'badge-canceled' }}
-                                position-absolute top-0 start-0 m-4"
-                                style="z-index: 10;">
-                                {{ $item->status_wahana }}
-                            </span>
+                        <span class="badge badge-pill
+                            {{ $item->status_wahana === 'Aktif'
+                                ? 'badge-success'
+                                : 'badge-canceled' }}
+                            position-absolute top-0 start-0 m-3"
+                            style="z-index: 10;">
+                            {{ $item->status_wahana }}
+                        </span>
 
-                            <img
-                                src="{{ asset('storage/' . $item->url_gambar_wahana) }}"
-                                class="img-fluid w-100 h-100 rounded-4"
-                                style="object-fit: cover;">
-                        </div>
+                        <img src="{{ asset('storage/' . $item->url_gambar_wahana) }}">
                     </div>
-
+                </div>
                     <div class="col p-3">
                         <div class="card-body">
                             <h5 class="fw-semibold">{{ $item->nama_wahana }}</h5>
                             <p class="text-muted small">
                                 {{ Str::limit($item->deskripsi_wahana, 80) }}
                             </p>
-
                             <p class="mb-1 text-muted">Harga</p>
                             <h6 class="fw-bold">Rp{{ number_format($item->harga_tiket_wahana) }}</h6>
-
                             <div class="d-flex gap-2 mt-3">
                                 <div class="d-flex justify-content-end gap-2 mt-4">
                                     <a href="{{ route('wahana.show', $item->id) }}"
@@ -64,18 +57,15 @@
                                         <x-modal-delete id="delete-{{ $item->id }}"
                                             action="{{ route('wahana.destroy', $item->id) }}"
                                             title="Apakah Anda Yakin Untuk Menghapus?"
-                                            message="Jika anda menghapus pesanan ini, maka anda tidak dapat memulihkannya lagi" />
+                                            message="Jika anda menghapus wahana ini, maka anda tidak dapat memulihkannya lagi" />
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
         @endforeach
     </div>
-
 </div>
 @endsection

@@ -38,19 +38,16 @@
         <div class="section-detail">
             <div class="row">
                 
-                {{-- Kolom Kiri: Informasi Utama --}}
                 <div class="col-lg-8 mb-4">
                     <div class="card border-0 shadow-sm p-4" style="border-radius: 16px;">
                         <h5 class="font-T3-SemiBold mb-4">Informasi Reservasi</h5>
                         
                         <div class="row g-4">
-                            {{-- Nomor Reservasi --}}
                             <div class="col-md-6">
                                 <label class="text-muted small mb-1">Nomor ID Reservasi</label>
                                 <p class="font-T4-Medium text-primary mb-0">{{ $reservasi->nomor_reservasi }}</p>
                             </div>
 
-                            {{-- Status --}}
                             <div class="col-md-6">
                                 <label class="text-muted small mb-1">Status</label>
                                 <div>
@@ -64,7 +61,6 @@
 
                             <hr class="my-2 opacity-50">
 
-                            {{-- Nama Pemesan --}}
                             <div class="col-md-6">
                                 <label class="text-muted small mb-1">Nama Pemesan</label>
                                 <div class="d-flex align-items-center gap-2">
@@ -78,7 +74,6 @@
                                 </div>
                             </div>
 
-                            {{-- Penginapan --}}
                             <div class="col-md-6">
                                 <label class="text-muted small mb-1">Penginapan Dipilih</label>
                                 <div class="d-flex align-items-center gap-2">
@@ -87,7 +82,6 @@
                                     </div>
                                     <div>
                                         <p class="font-T4-Medium mb-0">{{ $reservasi->penginapan->nama_penginapan ?? 'Penginapan Dihapus' }}</p>
-                                        {{-- Ambil info jumlah tamu dari catatan --}}
                                         <small class="text-muted">
                                             {{ $reservasi->catatan_user_reservasi ?? '1 Tamu' }}
                                         </small>
@@ -97,7 +91,6 @@
 
                             <hr class="my-2 opacity-50">
 
-                            {{-- Tanggal Check-In --}}
                             <div class="col-md-6">
                                 <label class="text-muted small mb-1">Check-In</label>
                                 <p class="font-T4-Medium mb-0">
@@ -105,7 +98,6 @@
                                 </p>
                             </div>
 
-                            {{-- Tanggal Check-Out --}}
                             <div class="col-md-6">
                                 <label class="text-muted small mb-1">Check-Out</label>
                                 <p class="font-T4-Medium mb-0">
@@ -113,7 +105,6 @@
                                 </p>
                             </div>
 
-                            {{-- Durasi --}}
                             <div class="col-12">
                                 <div class="alert alert-light border d-flex align-items-center gap-2 mb-0">
                                     <i class="ph ph-clock text-muted"></i>
@@ -129,7 +120,6 @@
                     </div>
                 </div>
 
-                {{-- Kolom Kanan: Rincian Pembayaran --}}
                 <div class="col-lg-4">
                     <div class="card border-0 shadow-sm p-4 h-100" style="border-radius: 16px;">
                         <h5 class="font-T3-SemiBold mb-4">Rincian Pembayaran</h5>
@@ -146,7 +136,6 @@
 
                         <hr>
 
-                        {{-- Perhitungan (Disimulasikan dari Base Harga & Pajak di DB) --}}
                         <div class="d-flex justify-content-between mb-2">
                             <span class="text-muted">Harga Sewa</span>
                             <span class="font-T5-Regular">Rp{{ number_format($reservasi->base_harga, 0, ',', '.') }}</span>

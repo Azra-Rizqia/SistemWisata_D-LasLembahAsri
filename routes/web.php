@@ -11,10 +11,10 @@ use App\Http\Controllers\SewaTenantController;
 use App\Http\Controllers\KontenPenginapanController;
 use App\Http\Controllers\ReservasiPenginapanController;
 use App\Http\Controllers\WahanaController;
-use App\Http\Controllers\PesanTiketSatuanController;
 use App\Http\Controllers\TiketPaketController;
+use App\Http\Controllers\PesanTiketSatuanController;
 
-Route::resource('dashboard', DashboardController::class);
+Route::resource('dashboard', DashboardController::class)->only(['index']);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::get('/kelola_konten/penginapan', [KontenPenginapanController::class, 'index'])->name('konten.penginapan.index');
@@ -55,9 +55,8 @@ Route::resource('/pesan_tiket_paket', PesanTiketPaketController::class)->names('
 Route::resource('wahana', WahanaController::class);
 Route::get('/wahana', [WahanaController::class, 'index'])->name('wahana.index');
 
-Route::resource('pesan_tiket', PesanTiketSatuanController::class);
-Route::get('/pesan_tiket', [PesanTiketSatuanController::class, 'index'])->name('pesan_tiket.index');
-Route::get('/pesan-tiket-satuan/create', [PesanTiketSatuanController::class, 'create'])->name('pesan_tiket_satuan.create');
+Route::resource('pesan-tiket', PesanTiketSatuanController::class)->parameters(['pesan-tiket' => 'pesanTiketSatuan']);
+Route::get('/pesan-tiket', [PesanTiketSatuanController::class, 'index'])->name('pesan-tiket.index');
 
 Route::get('/', [AdminController::class, 'loginForm']) ->name('admin.login');
 Route::post('/', [AdminController::class, 'login'])->name('admin.login.post');
