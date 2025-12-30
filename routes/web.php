@@ -47,7 +47,7 @@ Route::resource('/pesan_tiket_paket', PesanTiketPaketController::class)->names('
 Route::resource('wahana', WahanaController::class);
 Route::get('/wahana', [WahanaController::class, 'index'])->name('wahana.index');
 
-Route::resource('pesan-tiket', PesanTiketSatuanController::class);
+Route::resource('pesan-tiket', PesanTiketSatuanController::class)->parameters(['pesan-tiket' => 'pesanTiketSatuan']);
 Route::get('/pesan-tiket', [PesanTiketSatuanController::class, 'index'])->name('pesan-tiket.index');
 Route::get('/', [AdminController::class, 'loginForm']) ->name('admin.login');
 Route::post('/', [AdminController::class, 'login'])->name('admin.login.post');
