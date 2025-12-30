@@ -16,12 +16,10 @@ class ReservasiPenginapanController extends Controller
      */
     public function index()
     {
-        // Pastikan relasi di model ReservasiPenginapan adalah 'penginapan' dan 'user'
         $reservasi = reservasi_penginapan::with(['penginapan', 'user'])
             ->orderBy('created_at', 'desc')
             ->paginate(10); 
 
-        // Sesuaikan dengan nama kolom baru: status_reservasi & total_pembayaran
         $totalPendapatan = reservasi_penginapan::where('status_reservasi', 'Selesai')->sum('total_pembayaran');
         $totalData = reservasi_penginapan::count();
 
@@ -60,37 +58,25 @@ class ReservasiPenginapanController extends Controller
             'total_harga' => 'required|numeric|min:0',
         ]);
 
-        // 2. Kalkulasi Data
         $nomorReservasi = 'RP-' . strtoupper(Str::random(8));
         
-        // Hitung mundur Base Harga & Pajak dari Total (Asumsi Pajak 10%)
-        // Rumus: Total = Base + (Base * 0.1) = Base * 1.1
-        // Maka: Base = Total / 1.1
         $totalPembayaran = $request->total_harga;
         $baseHarga = $totalPembayaran / 1.1; 
         $pajak = $totalPembayaran - $baseHarga;
 
-        // 3. Simpan (Mapping nama input form ke nama kolom database)
         reservasi_penginapan::create([
             'user_id' => $request->id_user,
             'id_penginapan' => $request->id_kamar,
             'nomor_reservasi' => $nomorReservasi,
-            
-            // Mapping Tanggal
             'tanggal_masuk' => $request->tanggal_checkin,
             'tanggal_keluar' => $request->tanggal_checkout,
-            
-            // Mapping Keuangan
             'base_harga' => $baseHarga,
             'pajak' => $pajak,
             'total_pembayaran' => $totalPembayaran,
-            
-            // Info Lain
             'status_reservasi' => $request->status_reservasi,
             'metode_pembayaran' => $request->metode_pembayaran_reservasi,
             'tanggal_pemesanan' => now(),
             
-            // Karena tidak ada kolom 'jumlah_tamu', kita simpan di catatan agar tidak hilang
             'catatan_user_reservasi' => 'Jumlah Tamu: ' . $request->jumlah_tamu,
         ]);
 

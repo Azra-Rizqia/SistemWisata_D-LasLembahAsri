@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable
 {
     protected $table = 'users';
+    protected $primaryKey = null;
+    public $incrementing = false;
 
     protected $fillable = [
         'nama_user',
@@ -26,8 +28,8 @@ class User extends Authenticatable
         return $this->password_user;
     }
 
-    public function pesanTiketPaket()
+    public function reservasiPenginapan()
     {
-        return $this->hasMany(PesanTiketPaket::class, 'id_user');
+        return $this->hasMany(reservasi_penginapan::class, 'user_id');
     }
 }

@@ -15,27 +15,24 @@ class reservasi_penginapan extends Model
         'nomor_reservasi',
         'user_id',
         'id_penginapan',
-        'tanggal_masuk',           // Sebelumnya tgl_checkin
-        'tanggal_keluar',          // Sebelumnya tgl_checkout
+        'tanggal_masuk',           
+        'tanggal_keluar',          
         'catatan_user_reservasi',
         'tanggal_pemesanan',
         'status_reservasi',
         'metode_pembayaran',
-        'base_harga',              // Tambahan dari schema
-        'pajak',                   // Tambahan dari schema
+        'base_harga',             
+        'pajak',                   
         'total_pembayaran'
     ];
 
-    // Relasi ke User
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    // Relasi ke Penginapan
     public function penginapan()
     {
-        // Sesuaikan 'id_penginapan' dengan foreign key di tabel kamu
-        return $this->belongsTo(admin_konten_penginapan::class, 'id');
+        return $this->belongsTo(admin_konten_penginapan::class, 'id_penginapan');
     }
 }

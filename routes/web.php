@@ -14,13 +14,15 @@ use App\Http\Controllers\WahanaController;
 use App\Http\Controllers\PesanTiketSatuanController;
 use App\Http\Controllers\TiketPaketController;
 
-
+Route::resource('dashboard', DashboardController::class);
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
 
 Route::get('/kelola_konten/penginapan', [KontenPenginapanController::class, 'index'])->name('konten.penginapan.index');
 Route::get('/kelola_konten/penginapan/tambah', [KontenPenginapanController::class, 'create'])->name('konten.penginapan.create');
 Route::get('/kelola_konten/penginapan/{id}/edit', [KontenPenginapanController::class, 'edit'])->name('konten.penginapan.edit');
+Route::put('/kelola_konten/penginapan/{id}', [KontenPenginapanController::class, 'update'])->name('konten.penginapan.update');
 Route::get('/kelola_konten/penginapan/{id}', [KontenPenginapanController::class, 'show'])->name('konten.penginapan.show');
+Route::delete('/kelola_konten/penginapan/{id}', [KontenPenginapanController::class, 'destroy'])->name('konten.penginapan.destroy');
 
 Route::resource('fasilitas', FasilitasController::class);
 Route::get('/fasilitas', [FasilitasController::class, 'index'])->name('fasilitas.index');

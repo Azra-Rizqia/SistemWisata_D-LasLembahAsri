@@ -75,8 +75,8 @@
                     <tbody>
                         @forelse ($reservasi as $item)
                             <tr>
-                                <td><p class="font-T5-Regular data-table">{{ $item->nomor_reservasi }}</p></td>
-                                <td><p class="font-T5-Regular data-table">{{ $item->user->nama_user ?? $item->user->name ?? '-' }}</p></td>
+                                <td><p class="font-T5-Regular data-table">{{ $item['nomor_reservasi'] }}</p></td>
+                                <td><p class="font-T5-Regular data-table">{{ $item['user']['nama_user'] ?? '-' }}</p></td>
                                 <td><p class="font-T5-Regular data-table">{{ $item->penginapan->nama_penginapan ?? '-' }}</p></td>
                                 <td>
                                     <p class="font-T5-Regular data-table">
@@ -105,22 +105,18 @@
                                 
                                 <td>
                                     <div class="d-flex gap-2">
-                                        {{-- Tombol Detail/Show (Jika ada routenya) --}}
                                         <a href="{{ route('reservasi_penginapan.show', $item->id) }}" class="btn btn-sm">
                                             <i class="ph ph-eye icon icon-sm"></i>
                                         </a>
 
-                                        {{-- Tombol Edit --}}
                                         <a href="{{ route('reservasi_penginapan.edit', $item->id) }}" class="btn btn-sm">
                                             <i class="ph ph-pencil-line icon icon-sm"></i>
                                         </a>
                                         
-                                        {{-- Tombol Hapus (Modal) --}}
                                         <button class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#delete-{{ $item->id }}">
                                             <i class="ph ph-trash icon icon-sm icon-danger"></i>
                                         </button>
                                         
-                                        {{-- Modal Component --}}
                                         <x-modal-delete id="delete-{{ $item->id }}"
                                             action="{{ route('reservasi_penginapan.destroy', $item->id) }}"
                                             title="Apakah Anda Yakin Untuk Menghapus?"
