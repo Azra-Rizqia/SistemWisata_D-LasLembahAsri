@@ -12,6 +12,7 @@ use App\Http\Controllers\WahanaController;
 use App\Http\Controllers\PesanTiketSatuanController;
 use App\Http\Controllers\KontenPenginapanController;
 use App\Http\Controllers\TiketPaketController;
+use App\Http\Controllers\API\WahanaAPI;
 
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -51,4 +52,13 @@ Route::resource('pesan-tiket', PesanTiketSatuanController::class)->parameters(['
 Route::get('/pesan-tiket', [PesanTiketSatuanController::class, 'index'])->name('pesan-tiket.index');
 Route::get('/', [AdminController::class, 'loginForm']) ->name('admin.login');
 Route::post('/', [AdminController::class, 'login'])->name('admin.login.post');
+
+
+// Route::prefix('api')->group(function () {
+//     Route::get('/wahana', [WahanaAPI::class, 'index']);
+//     Route::post('/wahana', [WahanaAPI::class, 'store']);
+//     Route::get('/wahana/{id}', [WahanaAPI::class, 'show']);
+//     Route::put('/wahana/{id}', [WahanaAPI::class, 'update']);
+//     Route::delete('/wahana/{id}', [WahanaAPI::class, 'destroy']);
+// });
 

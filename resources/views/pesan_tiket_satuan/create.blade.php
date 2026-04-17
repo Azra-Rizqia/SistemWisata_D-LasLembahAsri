@@ -84,8 +84,9 @@
                         <select name="status_pembayaran" class="form-select"
                             style="border-radius:32px" required>
                             <option value="">Pilih Status</option>
-                            <option value="pending">Pending</option>
-                            <option value="selesai">Selesai</option>
+                            <option value="pending">Menunggu</option>
+                            <option value="selesai">Dibayar</option>
+                            <option value="batal">Dibatalkan</option>
                         </select>
                     </div>
                 </div>

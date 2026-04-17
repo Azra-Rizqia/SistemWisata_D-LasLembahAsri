@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class PesanTiketSatuanController extends Controller
 {
-    /**
-     * Menampilkan halaman tiket satuan
-     */
     public function index()
     {
         $pesanan = PesanTiketSatuan::orderBy('created_at', 'desc')->get();
@@ -37,7 +34,7 @@ class PesanTiketSatuanController extends Controller
             'nama_pemesan' => 'required|string|max:255',
             'nama_tiket' => 'required|string|max:255',
             'tanggal_pembelian' => 'required|date',
-            'jumlah_tiket' => 'required|integer|min:1',
+            'jumlah_tiket' => 'required|integer|min:1|max:100',
             'harga_satuan' => 'required|integer|min:0',
             'status_pembayaran' => 'required|in:pending,selesai',
         ]);
@@ -49,39 +46,29 @@ class PesanTiketSatuanController extends Controller
             'jumlah_tiket' => $request->jumlah_tiket,
             'harga_satuan' => $request->harga_satuan,
             'status_pembayaran' => $request->status_pembayaran,
-            // total_pembayaran dihitung otomatis di model
         ]);
 
         return redirect()->route('pesan-tiket.index')
             ->with('success', 'Data tiket satuan berhasil ditambahkan');
     }
 
-    /**
-     * Detail transaksi tiket satuan
-     */
     public function show(PesanTiketSatuan $pesanTiketSatuan)
     {
         return view('pesan_tiket_satuan.show', compact('pesanTiketSatuan'));
     }
 
-    /**
-     * Form edit tiket satuan
-     */
     public function edit(PesanTiketSatuan $pesanTiketSatuan)
     {
         return view('pesan_tiket_satuan.edit', compact('pesanTiketSatuan'));
     }
 
-    /**
-     * Update transaksi tiket satuan
-     */
     public function update(Request $request, PesanTiketSatuan $pesanTiketSatuan)
     {
         $request->validate([
             'nama_pemesan' => 'required|string|max:255',
             'nama_tiket' => 'required|string|max:255',
             'tanggal_pembelian' => 'required|date',
-            'jumlah_tiket' => 'required|integer|min:1',
+            'jumlah_tiket' => 'required|integer|min:1|max:100',
             'harga_satuan' => 'required|integer|min:0',
             'status_pembayaran' => 'required|in:pending,selesai',
         ]);
@@ -92,9 +79,6 @@ class PesanTiketSatuanController extends Controller
             ->with('success', 'Data tiket satuan berhasil diperbarui');
     }
 
-    /**
-     * Hapus transaksi tiket satuan
-     */
     public function destroy(PesanTiketSatuan $pesanTiketSatuan)
     {
         $pesanTiketSatuan->delete();

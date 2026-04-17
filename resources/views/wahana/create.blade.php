@@ -1,94 +1,110 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-4"> 
+<div class="container">
 
     <form action="{{ route('wahana.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <nav aria-label="breadcrumb" class="mb-0">
-                <ol class="breadcrumb mb-0 p-0 bg-transparent"> 
+        <div class="head-page-breadcrumb">
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
                     <li class="breadcrumb-item">
-                        <a href="{{ route('wahana.index') }}" class="text-decoration-none">
-                            Kelola Konten
-                        </a>
+                        <a href="{{ route('wahana.index') }}">Kelola Konten</a>
                     </li>
-                    <li class="breadcrumb-item active">
-                        Tambah Data Wahana
-                    </li>
+                    <li class="breadcrumb-item active">Tambah Wahana</li>
                 </ol>
             </nav>
-
-            <button type="submit" class="btn btn-success">
-                Simpan Wahana
+            <button type="submit" class="btn btn-primary">
+                Tambahkan Wahana
             </button>
         </div>
 
-        <div class="card p-4 shadow-sm"> 
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Nama Wahana</label>
-                    <input type="text" class="form-control"
-                           name="nama_wahana"
-                           placeholder="Masukkan nama wahana"
-                           required>
+        <div class="section-detail">
+
+            <div class="subsection-main">
+
+                <div class="kolom-input">
+                    <div class="input-item">
+                        <label class="form-label">Nama Wahana</label>
+                        <input type="text" name="nama_wahana" id="nama_wahana" class="form-control"
+                            value="{{ old('nama_wahana') }}"
+                            placeholder="Masukkan nama wahana"
+                            style="border-radius:32px"
+                            required>
+
+                        <small id="nama_warning" class="text-danger"></small>
+                    </div>
+
+                    <div class="input-item">
+                        <label class="form-label">Harga Tiket</label>
+                        <input type="number" name="harga_tiket_wahana" class="form-control"
+                            value="{{ old('harga_tiket_wahana') }}"
+                            placeholder="Masukkan harga"
+                            style="border-radius:32px" required>
+                    </div>
                 </div>
 
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Harga Tiket</label>
-                    <input type="number" class="form-control"
-                           name="harga_tiket_wahana"
-                           placeholder="Masukkan harga"
-                           required>
+                <div class="kolom-input">
+                    <div class="input-item">
+                        <label class="form-label">Status</label>
+                        <select name="status_wahana" class="form-select"
+                            style="border-radius:32px" required>
+                            <option value="">Pilih status</option>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Tidak Aktif">Tidak Aktif</option>
+                        </select>
+                    </div>
+
+                    <div class="input-item">
+                        <label class="form-label">Pengelola Wahana</label>
+                        <input type="text" name="pengelola_wahana" class="form-control"
+                            value="{{ old('pengelola_wahana') }}"
+                            placeholder="Masukkan nama pengelola"
+                            style="border-radius:32px" required>
+                    </div>
                 </div>
 
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Status</label>
-                    <select class="form-select" name="status_wahana" required>
-                        <option value="">Pilih status</option>
-                        <option value="Aktif">Aktif</option>
-                        <option value="Tidak Aktif">Tidak Aktif</option>
-                    </select>
+                <div class="kolom-input">
+                    <div class="input-item">
+                        <label class="form-label">Deskripsi Wahana</label>
+                        <input type="text" name="deskripsi_wahana" class="form-control"
+                            value="{{ old('deskripsi_wahana') }}"
+                            placeholder="Deskripsi singkat"
+                            style="border-radius:32px" required>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="mb-3">
-                    <label class="form-label">Pengelola Wahana</label>
-                    <input type="text" class="form-control"
-                           name="pengelola_wahana"
-                           required>
+                <div class="kolom-input">
+                    <div class="input-item">
+                        <label class="form-label">Tentang Wahana</label>
+                        <textarea name="tentang_wahana" class="form-control"
+                            rows="4"
+                            style="border-radius:32px" required>{{ old('tentang_wahana') }}</textarea>
+                    </div>
                 </div>
-            </div>
 
-            <div class="mb-3">
-                <label class="form-label">Deskripsi Wahana</label>
-                <input type="text" class="form-control"
-                       name="deskripsi_wahana"
-                       placeholder="Deskripsi singkat"
-                       required>
-            </div>
+                <div class="kolom-input">
+                    <div class="input-item">
+                        <label class="form-label">Gambar Wahana</label>
+                        <input type="file" name="url_gambar_wahana" class="form-control"
+                            accept="image/*"
+                            style="border-radius:32px" required>
+                    </div>
+                </div>
 
-            <div class="mb-3">
-                <label class="form-label">Tentang Wahana</label>
-                <textarea class="form-control"
-                          name="tentang_wahana"
-                          rows="4"
-                          required></textarea>
             </div>
-
-            <!-- Gambar Wahana -->
-            <div class="mb-3">
-                <label class="form-label">Gambar Wahana</label>
-                <input type="file"
-                    class="form-control"
-                    name="url_gambar_wahana"
-                    accept="image/*"
-                    required>
-            </div>
-
         </div>
     </form>
+</div>
 @endsection

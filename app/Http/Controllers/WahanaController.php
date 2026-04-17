@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Wahana;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class WahanaController extends Controller
 {
-
     public function index()
     {
         $wahana = Wahana::orderBy('created_at', 'desc')->get();
@@ -32,13 +30,21 @@ class WahanaController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'nama_wahana' => 'required|string|max:255',
+            'nama_wahana' => 'required|string|min:5|max:20',
             'deskripsi_wahana' => 'required|string',
             'tentang_wahana' => 'required|string|max:1000',
             'pengelola_wahana' => 'required|string|max:255',
             'status_wahana' => 'required|in:Aktif,Tidak Aktif',
-            'harga_tiket_wahana' => 'required|integer|min:0',
+            'harga_tiket_wahana' => 'required|integer|min:1000',
             'url_gambar_wahana' => 'required|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'nama_wahana.required' => 'Nama wahana wajib diisi',
+            'nama_wahana.min' => 'Nama Wahana minimal 5 karakter',
+            'nama_wahana.max' => 'Nama Wahana maksimal 20 karakter',
+
+            'harga_tiket_wahana.required' => 'Harga tiket wajib diisi',
+            'harga_tiket_wahana.integer' => 'Harga harus berupa angka',
+            'harga_tiket_wahana.min' => 'Harga minimal Rp 1000',
         ]);
 
         if ($request->hasFile('url_gambar_wahana')) {
@@ -53,7 +59,6 @@ class WahanaController extends Controller
             ->with('success', 'Data wahana berhasil ditambahkan');
     }
 
-
     public function show(Wahana $wahana)
     {
         return view('wahana.show', compact('wahana'));
@@ -67,19 +72,21 @@ class WahanaController extends Controller
     public function update(Request $request, Wahana $wahana)
     {
         $validated = $request->validate([
-            'nama_wahana' => 'required|string|max:255',
+            'nama_wahana' => 'required|string|min:5|max:20',
             'deskripsi_wahana' => 'required|string',
             'tentang_wahana' => 'required|string|max:1000',
             'pengelola_wahana' => 'required|string|max:255',
             'status_wahana' => 'required|in:Aktif,Tidak Aktif',
-            'harga_tiket_wahana' => 'required|integer|min:0',
+            'harga_tiket_wahana' => 'required|integer|min:1000',
             'url_gambar_wahana' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'nama_wahana.required' => 'Nama wahana wajib diisi',
+            'nama_wahana.min' => 'Nama Wahana minimal 5 karakter',
+            'nama_wahana.max' => 'Nama Wahana maksimal 20 karakter',
         ]);
 
-        // jika upload gambar baru
         if ($request->hasFile('url_gambar_wahana')) {
 
-            // hapus gambar lama
             if ($wahana->url_gambar_wahana) {
                 Storage::disk('public')->delete($wahana->url_gambar_wahana);
             }
@@ -97,6 +104,10 @@ class WahanaController extends Controller
 
     public function destroy(Wahana $wahana)
     {
+        if ($wahana->url_gambar_wahana) {
+            Storage::disk('public')->delete($wahana->url_gambar_wahana);
+        }
+
         $wahana->delete();
 
         return redirect()

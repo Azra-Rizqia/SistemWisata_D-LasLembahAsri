@@ -22,9 +22,6 @@ class Wahana extends Model
         'url_gambar_wahana',
     ];
 
-    /**
-     * 1 wahana punya banyak pesanan tiket
-     */
     public function pesananTiket()
     {
         return $this->hasMany(PesanTiketSatuan::class, 'id_wahana');

@@ -16,7 +16,13 @@ class AdminController extends Controller
     {
         $request->validate([
             'email_admin' => 'required|email',
-            'password_admin' => 'required',
+            'password_admin' => 'required|string|min:8|max:20',
+        ], [
+            'email_admin.required' => 'Email wajib diisi',
+            'email_admin.email' => 'Format email tidak valid',
+            'password_admin.required' => 'Password wajib diisi',
+            'password_admin.min' => 'Password minimal 8 karakter',
+            'password_admin.max' => 'Password maksimal 20 karakter',
         ]);
 
         $credentials = [
@@ -31,7 +37,7 @@ class AdminController extends Controller
 
         return back()->withErrors([
             'email_admin' => 'Email atau password salah',
-        ]);
+        ])->withInput();
     }
 
     public function logout(Request $request)

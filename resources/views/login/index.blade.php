@@ -20,13 +20,20 @@
                             </div>
                             <div class="input-item">
                                 <label class="form-label">Email Anda</label>
-                                <input type="email" name="email_admin" class="form-control" placeholder="Masukan email anda"
-                                    value="{{ old('kategori_reservasi') }}" style="border-radius : 32px" required>
+                                <input type="email" name="email_admin" class="form-control"
+                                    placeholder="Masukan email anda"
+                                    value="{{ old('email_admin') }}" style="border-radius : 32px" minlength="8" maxlength="20" required>
+                                @error('email_admin')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <div class="input-item">
                                 <label class="form-label">Password Anda</label>
                                 <input type="password" name="password_admin" class="form-control" placeholder="Masukan password anda"
-                                    value="{{ old('kategori_reservasi') }}" style="border-radius : 32px" required>
+                                    value="{{ old('password_admin') }}" style="border-radius : 32px" minlength="8" maxlength="20" required>
+                                @error('password_admin')
+                                    <small class="text-danger">{{ $message }}</small>
+                                @enderror
                             </div>
                             <button type="submit" class="btn btn-primary" style="width: 100%">Login Sekarang</button>
                         </div>
