@@ -30,6 +30,7 @@ class ReservasiPenginapanController extends Controller
         ));
     }
 
+    //create
     public function create()
     {
         $kamar = admin_konten_penginapan::where('status_tersedia', true)->get();
