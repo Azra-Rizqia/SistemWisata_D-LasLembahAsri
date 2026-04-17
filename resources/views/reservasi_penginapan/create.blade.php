@@ -39,7 +39,6 @@
                                 <option value="">Pilih User</option>
                                 @foreach ($users as $user)
                                     <option value="{{ $user->id }}" {{ old('id_user') == $user->id ? 'selected' : '' }}>
-                                        {{-- Menyesuaikan dengan kolom di tabel users (nama_user atau name) --}}
                                         {{ $user->nama_user ?? $user->name }} ({{ $user->email_user ?? $user->email }})
                                     </option>
                                 @endforeach
@@ -72,7 +71,6 @@
                             <select name="id_kamar" id="id_kamar" class="form-select" style="border-radius : 32px" required>
                                 <option value="" data-harga="0">Pilih Penginapan</option>
                                 @foreach ($kamar as $item)
-                                    {{-- PENTING: data-harga diambil dari harga_weekday --}}
                                     <option value="{{ $item->id }}" 
                                             data-harga="{{ $item->harga_weekday }}" 
                                             {{ old('id_kamar') == $item->id ? 'selected' : '' }}>
@@ -119,7 +117,7 @@
                     </div>
 
                     <div class="list-information">
-                        <label class="form-label">Pajak (10%)</label>
+                        <label class="form-label">Pajak (12%)</label>
                         <input type="text" id="pajak_view" class="value-item" readonly value="Rp0">
                     </div>
 
@@ -136,7 +134,11 @@
         </form>
     </div>
 
-    {{-- Script Perhitungan Otomatis --}}
+    <div id="reservasi-data" 
+         data-json="{{ json_encode($reservasiAktif ?? []) }}" 
+         style="display:none">
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const elKamar = document.getElementById('id_kamar');
@@ -150,15 +152,62 @@
             const viewTotal = document.getElementById('total_pembayaran_view');
             const inputTotal = document.getElementById('total_harga');
 
-            const pajakRate = 0.10; 
+            const pajakRate = 0.12;
+
+            const reservasiAktif = JSON.parse(
+                document.getElementById('reservasi-data').getAttribute('data-json')
+            );
+
+            Array.from(elKamar.options).forEach(opt => {
+                if(opt.value !== "") {
+                    opt.setAttribute('data-original-text', opt.text);
+                }
+            });
 
             function formatRupiah(angka) {
                 return 'Rp' + new Intl.NumberFormat('id-ID').format(angka);
             }
 
+            function cekKetersediaanKamar() {
+                const checkInDate = elCheckIn.value;
+                const checkOutDate = elCheckOut.value;
+
+                Array.from(elKamar.options).forEach(opt => {
+                    if(opt.value !== "") {
+                        opt.disabled = false;
+                        opt.text = opt.getAttribute('data-original-text');
+                    }
+                });
+
+                if (checkInDate && checkOutDate) {
+                    const cIn = new Date(checkInDate);
+                    const cOut = new Date(checkOutDate);
+
+                    reservasiAktif.forEach(res => {
+                        const resIn = new Date(res.tanggal_masuk);
+                        const resOut = new Date(res.tanggal_keluar);
+
+                        if (cIn < resOut && cOut > resIn) {
+                            const optionToDisable = elKamar.querySelector(`option[value="${res.id_penginapan}"]`);
+                            if (optionToDisable) {
+                                optionToDisable.disabled = true;
+                                optionToDisable.text = optionToDisable.getAttribute('data-original-text') + ' (Penuh di Tanggal Ini)';
+                            }
+                        }
+                    });
+
+                    if (elKamar.options[elKamar.selectedIndex] && elKamar.options[elKamar.selectedIndex].disabled) {
+                        elKamar.value = "";
+                        alert("Kamar yang Anda pilih sudah dipesan pada tanggal tersebut. Silakan pilih kamar lain.");
+                    }
+                }
+            }
+
             function hitungTotal() {
                 const selectedOption = elKamar.options[elKamar.selectedIndex];
-                const hargaPerMalam = parseInt(selectedOption.getAttribute('data-harga')) || 0;
+                const hargaPerMalam = selectedOption && selectedOption.value !== "" 
+                                      ? parseInt(selectedOption.getAttribute('data-harga')) || 0 
+                                      : 0;
 
                 let durasi = 0;
                 if (elCheckIn.value && elCheckOut.value) {
@@ -183,8 +232,18 @@
             }
 
             elKamar.addEventListener('change', hitungTotal);
-            elCheckIn.addEventListener('change', hitungTotal);
-            elCheckOut.addEventListener('change', hitungTotal);
+            
+            elCheckIn.addEventListener('change', () => { 
+                cekKetersediaanKamar(); 
+                hitungTotal(); 
+            });
+            
+            elCheckOut.addEventListener('change', () => { 
+                cekKetersediaanKamar(); 
+                hitungTotal(); 
+            });
+            
+            cekKetersediaanKamar();
             hitungTotal();
         });
     </script>
