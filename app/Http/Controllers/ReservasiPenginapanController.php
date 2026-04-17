@@ -30,33 +30,46 @@ class ReservasiPenginapanController extends Controller
         ));
     }
 
-    /**
-     * Menampilkan form tambah reservasi
-     */
+    //create
     public function create()
     {
         $kamar = admin_konten_penginapan::where('status_tersedia', true)->get();
         $users = User::all();
+        
+        $reservasiAktif = reservasi_penginapan::whereIn('status_reservasi', ['Proses', 'Selesai'])
+            ->select('id_penginapan', 'tanggal_masuk', 'tanggal_keluar')
+            ->get();
 
-        return view('reservasi_penginapan.create', compact('kamar', 'users'));
+        return view('reservasi_penginapan.create', compact('kamar', 'users', 'reservasiAktif'));
     }
 
-    /**
-     * Menyimpan data ke database (SESUAI SCHEMA BARU)
-     */
     public function store(Request $request)
     {
-        // 1. Validasi Input Form
         $validated = $request->validate([
             'id_user' => 'required|exists:users,id',
             'id_kamar' => 'required|exists:penginapan,id', 
             'tanggal_checkin' => 'required|date|after_or_equal:today',
             'tanggal_checkout' => 'required|date|after:tanggal_checkin',
-            'jumlah_tamu' => 'required|integer|min:1', // Input ini ada di form
+            'jumlah_tamu' => 'required|integer|min:1',
             'status_reservasi' => 'required|in:Proses,Selesai,Dibatalkan',
             'metode_pembayaran_reservasi' => 'required|string', 
             'total_harga' => 'required|numeric|min:0',
         ]);
+
+        // 2. PROTEKSI BACKEND (Mencegah Double Booking)
+        // Rumus Overlap Waktu: (StartA < EndB) AND (EndA > StartB)
+        $isBooked = reservasi_penginapan::where('id_penginapan', $request->id_kamar)
+            ->whereIn('status_reservasi', ['Proses', 'Selesai'])
+            ->where(function ($query) use ($request) {
+                $query->where('tanggal_masuk', '<', $request->tanggal_checkout)
+                      ->where('tanggal_keluar', '>', $request->tanggal_checkin);
+            })->exists();
+
+        if ($isBooked) {
+            return back()->withInput()->withErrors([
+                'id_kamar' => 'Maaf, penginapan ini sudah dibooking pada tanggal yang Anda pilih. Silakan pilih tanggal atau penginapan lain.'
+            ]);
+        }
 
         $nomorReservasi = 'RP-' . strtoupper(Str::random(8));
         
@@ -76,7 +89,6 @@ class ReservasiPenginapanController extends Controller
             'status_reservasi' => $request->status_reservasi,
             'metode_pembayaran' => $request->metode_pembayaran_reservasi,
             'tanggal_pemesanan' => now(),
-            
             'catatan_user_reservasi' => 'Jumlah Tamu: ' . $request->jumlah_tamu,
         ]);
 
@@ -123,7 +135,6 @@ class ReservasiPenginapanController extends Controller
             'total_harga' => 'required|numeric|min:0',
         ]);
 
-        // Kalkulasi ulang keuangan jika ada perubahan harga
         $totalPembayaran = $request->total_harga;
         $baseHarga = $totalPembayaran / 1.1; 
         $pajak = $totalPembayaran - $baseHarga;
@@ -138,8 +149,6 @@ class ReservasiPenginapanController extends Controller
             'total_pembayaran' => $totalPembayaran,
             'status_reservasi' => $request->status_reservasi,
             'metode_pembayaran' => $request->metode_pembayaran_reservasi,
-            // Opsional: Update catatan jika ada input jumlah tamu di edit form
-            // 'catatan_user_reservasi' => ... 
         ]);
 
         return redirect()
