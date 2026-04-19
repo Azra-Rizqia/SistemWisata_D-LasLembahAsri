@@ -20,7 +20,6 @@ return new class extends Migration
             $table->date('tanggal_pembelian');
             $table->string('qr_tiket');
 
-            // RELASI
             $table->foreignId('id_user')
                   ->constrained('users')
                   ->cascadeOnDelete();

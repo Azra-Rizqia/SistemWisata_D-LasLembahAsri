@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\ReservasiFasilitas;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PesanTiketPaketController;
 use App\Http\Controllers\ReservasiFasilitasController;
@@ -34,3 +33,4 @@ Route::get('/wahana', [WahanaController::class, 'index'])->name('wahana.index');
 
 Route::resource('pesan-tiket', PesanTiketSatuanController::class);
 Route::get('/pesan-tiket', [PesanTiketSatuanController::class, 'index'])->name('pesan-tiket.index');
+

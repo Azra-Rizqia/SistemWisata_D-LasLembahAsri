@@ -48,7 +48,8 @@
 
                 <div class="mb-4">
                     <label for="yang_didapatkan" class="form-label text-muted">Benefit yang Didapatkan</label>
-                    <textarea name="yang_didapatkan" id="yang_didapatkan" class="form-control" rows="4" placeholder="Masukkan list wahana pada tiket ini . Contoh:&#10;*D'Las Zoo&#10;*Dino Land*&#10;dst"></textarea>
+                    <textarea name="yang_didapatkan" id="yang_didapatkan" class="form-control" rows="4" 
+                    placeholder="Masukkan list wahana pada tiket ini . Contoh:&#10;*D'Las Zoo&#10;*Dino Land*&#10;dst"></textarea>
                 </div>
 
                 <div class="mb-4">
