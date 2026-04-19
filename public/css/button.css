@@ -1,4 +1,4 @@
-.btn{
+.btn {
     border-radius: 100px !important;
     gap: 10px !important;
 }
@@ -7,6 +7,7 @@
     background-color: #238302 !important;
     border: none !important;
 }
+
 
 .btn-primary:hover {
     background-color: #289702 !important;
@@ -58,6 +59,23 @@
     background-color: #FF383CA1 !important;
 }
 
+.btn-danger-outline {
+    display: flex;
+    padding: var(--Padding-Padding-Vertical-Button, 12px) var(--Padding-Padding-MX, 20px);
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    background-color: #FEFEFE !important;
+    border-color: #E8E8E8 !important;
+    color: #FF0000 !important;
+}
+
+.btn-danger-outline:hover {
+    background-color: #FF0000 !important;
+    color: #FEFEFE !important;
+    cursor: pointer;
+}
+
 .btn-logout {
     display: flex;
     width: 48px;
@@ -76,4 +94,25 @@
     border-color: #dc3545 !important;
     background-color: #fff5f5 !important;
     cursor: pointer;
+}
+
+.btn-action {
+    font-size: 13px;
+    transition: all 0.2s;
+    border-radius: 100px;
+}
+
+.btn-light {
+    display: flex;
+    padding: var(--Padding-Padding-Vertical-Button, 12px) var(--Padding-Padding-MX, 20px);
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 0;
+    background: #FEFEFE;
+    border: 1px solid var(--Neutral-Gray-Line, #E8E8E8);
+}
+
+.btn-light:hover {
+    background: #E5E7EB;
+    color: #111827;
 }
