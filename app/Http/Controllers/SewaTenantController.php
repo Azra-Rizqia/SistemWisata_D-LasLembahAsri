@@ -29,18 +29,42 @@ class SewaTenantController extends Controller
         return view('sewa_kios.create', compact('tenants', 'users'));
     }
 
+    public function __construct()
+    {
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        \Midtrans\Config::$isProduction = config('midtrans.is_production', false);
+        \Midtrans\Config::$is3ds = config('midtrans.is_3ds', true);
+    }
+
     // Membuat sewa tenant
     public function store(Request $request)
     {
+        $totalPembayaran = $request->harga_sewa_tenant;
+        $id = $request->id;
         $validated = $request->validate([
+            'id',
             'tanggal_mulai_sewa' => 'required|date',
             'tanggal_selesai_sewa' => 'required|date|after_or_equal:tanggal_mulai_sewa',
-            'status_pembayaran_tenant' => 'nullable|in:Menunggu,Dibayar,Dibatalkan',
+            'status_pembayaran_tenant' => 'Unpaid',
             'metode_pembayaran' => 'required|in:Debit,QRIS',
             'harga_sewa_tenant' => 'required|integer',
             'id_tenant' => 'required|exists:tenant,id',
             'id_user' => 'required|exists:users,id',
         ]);
+
+        $user = User::findOrFail($request->id_user);
+        $params = [
+            'transaction_details' => [
+                'order_id' => $id,
+                'gross_amount' => $totalPembayaran,
+            ],
+            'customer_details' => [
+                'first_name' => $user->name ?? $user->nama_user ?? 'Tamu',
+                'email' => $user->email ?? $user->email_user ?? 'guest@example.com',
+            ],
+        ];
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
 
         $sewa = SewaTenant::create(
             collect($validated)->except('metode_pembayaran')->toArray()
