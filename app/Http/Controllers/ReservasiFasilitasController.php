@@ -76,20 +76,20 @@ class ReservasiFasilitasController extends Controller
         ));
     }
 
-    public function update(Request $request, ReservasiFasilitas $reservasi_fasilitas)
+    public function update(Request $request, ReservasiFasilitas $reservasi_fasilita)
     {
         $validated = $request->validate([
             'kategori_reservasi' => 'required|string',
             'tanggal_reservasi' => 'required|date',
             'total_harga_reservasi' => 'required|integer',
-            'status_reservasi' => 'required|in:Menunggu,Dibayar,Dibatalkan',
+            'status_reservasi' => 'required|in:Proses,Selesai,Dibatalkan',
             'metode_pembayaran_reservasi' => 'required|in:Debit,QRIS',
             'catatan_user_reservasi' => 'nullable|string',
             'id_fasilitas' => 'nullable|exists:fasilitas,id',
             'id_user' => 'nullable|exists:users,id',
         ]);
 
-        $reservasi_fasilitas->update($validated);
+        $reservasi_fasilita->update($validated);
 
         return redirect()
             ->route('reservasi_fasilitas.index')

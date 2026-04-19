@@ -21,8 +21,7 @@ return new class extends Migration
             $table->enum('status_tiket', allowed: ['Tersedia','Tidak Tersedia'])->default('Tersedia');
             $table->string('qr_tiket');
             $table->timestamps();
-
-            // Fk
+            
             $table->foreignId('id_wahana')
                 ->nullable()
                 ->constrained('wahana')

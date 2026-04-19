@@ -19,7 +19,7 @@
                                 <p class="font-T3-Regular">Masuk dan mulai kelola D'las Lembah Asri</p>
                             </div>
                             <div class="input-item">
-                                <label class="form-label">Password Anda</label>
+                                <label class="form-label">Email Anda</label>
                                 <input type="email" name="email_admin" class="form-control" placeholder="Masukan email anda"
                                     value="{{ old('kategori_reservasi') }}" style="border-radius : 32px" required>
                             </div>
