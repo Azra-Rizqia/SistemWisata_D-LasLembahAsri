@@ -67,7 +67,7 @@ class SewaTenantController extends Controller
         $tenants = Tenant::all();
         $users = User::all();
 
-        return view('sewa_kios.edit', compact('sewa_kio', 'tenants', 'users'));
+        return view('sewa_kios.edit', compact('sewa_kio', 'tenants', 'users')); 
     }
 
     // update sewa tenant

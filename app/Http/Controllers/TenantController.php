@@ -55,6 +55,15 @@ class TenantController extends Controller
         $tenant = Tenant::findOrFail($id);
         $tenant->delete();
 
-        return response()->json(['message' => 'Tenant berhasil dihapus']);
+        if (!$tenant) {
+            return response()->json([
+                'message' => 'Tenant tidak ditemukan'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Tenant berhasil dihapus'
+        ]);
     }
 }

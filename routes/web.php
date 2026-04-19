@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ReservasiFasilitasAPI;
+use App\Http\Controllers\FasilitasAPI;
 use App\Models\ReservasiFasilitas;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
@@ -28,3 +30,12 @@ Route::get('/wahana', [WahanaController::class, 'index'])->name('wahana.index');
 
 Route::resource('pesan-tiket', PesanTiketSatuanController::class);
 Route::get('/pesan-tiket', [PesanTiketSatuanController::class, 'index'])->name('pesan-tiket.index');
+
+Route::prefix('api')->group(function () {
+    Route::get('/reservasi_fasilitas', [ReservasiFasilitasAPI::class, 'index']);
+    Route::post('/reservasi_fasilitas', [ReservasiFasilitasAPI::class, 'store']);
+    Route::get('/reservasi_fasilitas/{id}', [ReservasiFasilitasAPI::class, 'show']);
+    Route::put('/reservasi_fasilitas/{id}', [ReservasiFasilitasAPI::class, 'update']);
+    Route::delete('/reservasi_fasilitas/{id}', [ReservasiFasilitasAPI::class, 'destroy']);
+});
+
