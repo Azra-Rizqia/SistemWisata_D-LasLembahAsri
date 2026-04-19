@@ -89,8 +89,13 @@ class TiketPaketController extends Controller
         return view('tiket_paket.show', compact('tiket_paket'));
     }
 
-    
+    public function destroy(TiketPaket $tiket_paket)
+    {
+        $tiket_paket->delete();
 
-
+        return redirect()
+            ->route('tiket_paket.index')
+            ->with('success', 'Data tiket paket berhasil dihapus');
+    }
 
 }

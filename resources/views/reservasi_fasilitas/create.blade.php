@@ -104,7 +104,7 @@
 
                     <div class="list-information">
                         <label class="form-label fw-bold">Total Pembayaran</label>
-                        <input type="text" id="total_pembayaran_view" class="value-item fw-bold text-success" readonly
+                        <input type="text" id="total_pembayaran_view" class="value-item text-success" readonly
                             value="Rp-">
                     </div>
 

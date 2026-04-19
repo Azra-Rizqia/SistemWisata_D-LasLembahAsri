@@ -17,7 +17,7 @@ class Fasilitas extends Model
         'status_fasilitas',
         'fasilitas_tersedia',
         'fasilitas_tambahan',
-        'gambar_fasilitas',
+        'url_gambar_fasilitas',
     ];
 
     protected $casts = [

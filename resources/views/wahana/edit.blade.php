@@ -85,6 +85,18 @@
                           rows="4"
                           required>{{ old('tentang_wahana', $wahana->tentang_wahana) }}</textarea>
             </div>
+
+            <div class="mb-3">
+                <label class="form-label">Gambar Wahana</label>
+                <input type="file"
+                    class="form-control"
+                    name="url_gambar_wahana"
+                    accept="image/*">
+                <small class="text-muted">
+                    Kosongkan jika tidak ingin mengganti gambar
+                </small>
+            </div>
+
         </div>
     </form>
 </div>

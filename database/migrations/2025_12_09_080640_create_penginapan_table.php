@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('penginapan', function (Blueprint $table) {
             $table->id();
             $table->string('nama_penginapan');
+            $table->text('deskripsi_singkat')->nullable();
             $table->text('deskripsi_penginapan')->nullable();
             $table->integer('harga_weekend');
             $table->integer('harga_weekday');

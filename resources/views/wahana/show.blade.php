@@ -3,7 +3,6 @@
 @section('content')
 <div class="container mt-4">
 
-    {{-- Header --}}
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <nav aria-label="breadcrumb">
@@ -38,10 +37,8 @@
         </div>
     </div>
 
-    {{-- Card Detail --}}
     <div class="card border-0 shadow-sm rounded-4 p-4">
 
-        {{-- Info Utama --}}
         <div class="row mb-4">
             <div class="col-md-3">
                 <p class="text-muted mb-1">ID Wahana</p>
@@ -71,7 +68,6 @@
 
         <hr>
 
-        {{-- Deskripsi --}}
         <div class="mb-4">
             <p class="text-muted mb-1">Deskripsi Singkat</p>
             <p class="mb-0">
@@ -81,7 +77,6 @@
 
         <hr>
 
-        {{-- Tentang --}}
         <div class="mb-4">
             <p class="text-muted mb-1">Tentang Wahana</p>
             <p class="mb-0" style="line-height: 1.7;">
@@ -91,7 +86,6 @@
 
         <hr>
 
-        {{-- Foto --}}
         <div>
             <p class="text-muted mb-3">Foto Wahana</p>
 

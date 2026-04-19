@@ -6,26 +6,26 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void
     {
         Schema::create('tiket_satuan', function (Blueprint $table) {
             $table->id();
 
+            $table->string('nama_pemesan');
             $table->string('nama_tiket');
-            $table->text('deskripsi_tiket');
-            $table->Integer('harga_tiket');
-            $table->string('url_gambar_wahana')->nullable();
-            $table->foreignId('id_wahana')->nullable()->constrained('wahana')->nullOnDelete();
+            $table->date('tanggal_pembelian');
+
+            $table->integer('jumlah_tiket');
+            $table->integer('harga_satuan');
+            $table->integer('total_pembayaran');
+
+            $table->enum('status_pembayaran', ['pending', 'selesai'])->default('pending');
+
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('tiket_satuan');
