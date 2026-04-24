@@ -27,40 +27,32 @@ class TiketPaketController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'id' => $request->id,
-            'nama_tiket_paket'       => $request->nama_tiket_paket,
-            'deskripsi_tiket'        => $request->deskripsi_wahana,
-            'pengelola_wahana'       => $request->pengelola_wahana,
-            'harga_tiket_weekday'    => $request->harga_tiket_weekday,
-            'harga_tiket_weekend'    => $request->harga_tiket_weekend,
-            'status_tiket'           => 'Unpaid',
-        ]);
+{
+    // Validasi: Kita kasih ATURAN (bukan variabel)
+    $validated = $request->validate([
+        'nama_tiket_paket'    => 'required|string|max:255',
+        'deskripsi_tiket'     => 'nullable',
+        'pengelola_wahana'    => 'required',
+        'harga_tiket_weekday' => 'required|numeric',
+        'harga_tiket_weekend' => 'required|numeric',
+        'status_tiket'        => 'required',
+    ]);
 
-        $user = User::findOrFail($request->id_user);
-        $params = [
-            'transaction_details' => [
-                'order_id' => $id,
-                'gross_amount' => $totalPembayaran,
-            ],
-            'customer_details' => [
-                'first_name' => $user->name ?? $user->nama_user ?? 'Tamu',
-                'email' => $user->email ?? $user->email_user ?? 'guest@example.com',
-            ],
-        ];
+    // Simpan ke database
+    TiketPaket::create([
+        'nama_tiket_paket'    => $request->nama_tiket_paket,
+        'deskripsi_tiket'     => $request->deskripsi_tiket,
+        'pengelola_wahana'    => $request->pengelola_wahana,
+        'harga_tiket_weekday' => $request->harga_tiket_weekday,
+        'harga_tiket_weekend' => $request->harga_tiket_weekend,
+        'status_tiket'        => $request->status_tiket,
+        'qr_tiket'            => 'QR-TP-' . strtoupper(uniqid()),
+    ]);
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-
-        TiketPaket::create([
-            ...$validated,
-            'qr_tiket' => 'QR-TP-' . uniqid(),
-        ]);
-
-        return redirect()
-            ->route('tiket_paket.index')
-            ->with('success', 'Tiket paket berhasil ditambahkan');
-    }
+    return redirect()
+        ->route('tiket_paket.index')
+        ->with('success', 'Tiket paket berhasil ditambahkan');
+}
     public function edit(TiketPaket $tiket_paket)
     {
         return view('tiket_paket.edit', compact('tiket_paket'));

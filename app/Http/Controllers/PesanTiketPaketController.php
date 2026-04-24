@@ -37,52 +37,76 @@ class PesanTiketPaketController extends Controller
     }
 
 
-    public function store(Request $request)
+        public function store(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'id_tiket_paket'    => 'required|exists:tiket_paket,id',
             'id_user'           => 'required|exists:users,id',
             'jumlah_tiket'      => 'required|integer|min:1',
-            'tanggal_pembelian' => 'required|date',
-            'status'            => 'required|in:Tersedia,Tidak Tersedia',
+            'tanggal_pembelian' => 'required',
+            'status_pesanan'    => 'required', 
+            'harga_pesanan'     => 'required|numeric', 
+        ], [
+            'id_user.required' => 'Harap Memilih Pengguna / User Terlebih Dahulu !!!',
+            'id_tiket_paket.required' => 'Harap Memasukkan Paket Terlebih Dahulu !!!',
         ]);
 
-        $tiket = TiketPaket::findOrFail($validated['id_tiket_paket']);
+        $tiket = \App\Models\TiketPaket::findOrFail($request->id_tiket_paket);
+        $kode_pesan_tiket = 'PSN-' . strtoupper(uniqid());
 
-        PesanTiketPaket::create([
-            'id_tiket_paket'    => $validated['id_tiket_paket'],
-            'id_user'           => $validated['id_user'],
-            'deskripsi_tiket'   => 'Pesanan tiket paket',
-            'harga_pesanan'     => $tiket->harga_tiket,
-            'jumlah_tiket'      => $validated['jumlah_tiket'],
-            'tanggal_pembelian' => $validated['tanggal_pembelian'],
-            'status'            => $validated['status'],
-            'qr_tiket'          => uniqid('QR-'),
+        // --- LOGIC MIDTRANS START ---
+        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
+        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $kode_pesan_tiket,
+                'gross_amount' => (int) $request->harga_pesanan,
+            ],
+            'customer_details' => [
+                'first_name' => 'Customer Arthur', // Bisa ganti jadi $request->user()->name jika login
+            ],
+        ];
+
+        $snapToken = \Midtrans\Snap::getSnapToken($params);
+        // --- LOGIC MIDTRANS END ---
+
+        \App\Models\PesanTiketPaket::create([
+            'kode_pesan_tiket'  => $kode_pesan_tiket,
+            'id_tiket_paket'    => $request->id_tiket_paket,
+            'id_user'           => $request->id_user,
+            'deskripsi_tiket'   => 'Pembelian ' . $tiket->nama_tiket_paket,
+            'harga_pesanan'     => $request->harga_pesanan,
+            'jumlah_tiket'      => $request->jumlah_tiket,
+            'tanggal_pembelian' => $request->tanggal_pembelian,
+            'status'            => $request->status_pesanan,
+            'qr_tiket'          => 'QR-' . uniqid(),
+            'snap_token'        => $snapToken, // Token tersimpan otomatis di phpMyAdmin
         ]);
 
-        return redirect()
-            ->route('pesan_tiket_paket.index')
-            ->with('success', 'Pesanan tiket paket berhasil ditambahkan');
-    }
+        return redirect()->route('pesan_tiket_paket.index')
+            ->with('success', 'Transaksi berhasil disimpan dan token pembayaran siap!');
+    }    
 
-
-    // SHOW
-    public function show(PesanTiketPaket $pesan_tiket_paket)
+    public function show($id)
     {
-        return view('pesan_tiket_paket.show', compact('pesan_tiket_paket'));
+        // Ambil data dengan relasi user dan tiketPaket
+        $pesananTiket = PesanTiketPaket::with(['user', 'tiketPaket'])->findOrFail($id);
+        
+        // Pastikan nama variabel di compact adalah 'pesananTiket'
+        return view('pesan_tiket_paket.show', compact('pesananTiket'));
     }
 
     // EDIT
-    public function edit(PesanTiketPaket $pesan_tiket_paket)
+    public function edit($id)
     {
-        $tiketPaket = TiketPaket::all();
+        $pesananTiket = PesanTiketPaket::findOrFail($id);
         $users = User::all();
-
-        return view('pesan_tiket_paket.edit', compact(
-            'pesan_tiket_paket',
-            'tiketPaket',
-            'users'
-        ));
+        $tiketPaket = TiketPaket::all();
+        
+        return view('pesan_tiket_paket.edit', compact('pesananTiket', 'users', 'tiketPaket'));
     }
 
     // UPDATE

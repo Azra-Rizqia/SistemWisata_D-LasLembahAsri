@@ -2,62 +2,85 @@
 
 @section('content')
 
+@error('id_user')
+    <small class="text-danger">{{ $message }}</small>
+@enderror
+
 <script>
-    const hargaPaketList = {
-        @foreach ($tiketPaket as $paket)
-            '{{ $paket->id }}': {{ $paket->harga }},
-        @endforeach
-    };
-
     document.addEventListener('DOMContentLoaded', () => {
-        const pajakRate = 0.10;
+        const pajakRate = 0.10; // Pajak 10%
 
+        // 1. Ambil inputan dari layar
         const selectPaket = document.querySelector('[name="id_tiket_paket"]');
-        const selectJumlah = document.querySelector('[name="jumlah_pesanan"]');
+        const selectJumlah = document.querySelector('[name="jumlah_tiket"]'); // Tadi sudah kita ubah namanya
+        const inputTanggal = document.querySelector('[name="tanggal_pembelian"]');
 
-        const harga = document.getElementById('harga_paket');
+        // 2. Ambil tempat buat nampilin angka (yang ada tulisan Rp)
+        const hargaDisplay = document.getElementById('harga_paket');
+        const pajakDisplay = document.getElementById('pajak');
+        const totalDisplay = document.getElementById('total');
+
+        // 3. Ambil inputan "rahasia" (Hidden) yang bakal dikirim ke database
         const hargaHidden = document.getElementById('harga_paket_hidden');
-        const pajak = document.getElementById('pajak');
-        const total = document.getElementById('total');
         const totalHidden = document.getElementById('total_hidden');
 
-
         function hitung() {
-            const paketId = selectPaket.value;
+            const selectedOption = selectPaket.options[selectPaket.selectedIndex];
             const jumlah = parseInt(selectJumlah.value) || 0;
+            const tanggalValue = inputTanggal.value;
 
-            if (!paketId || jumlah <= 0) {
-                // Reset jika input tidak valid
-                harga.value = rupiah(0);
-                hargaHidden.value = 0;
-                pajak.value = rupiah(0);
-                total.value = rupiah(0);
-                totalHidden.value = 0;
+            // Jika belum pilih paket atau jumlah, biarkan Rp0
+            if (!selectedOption.value || jumlah <= 0 || !tanggalValue) {
+                resetAngka();
                 return;
             }
 
-            const hargaSatuan = hargaPaketList[paketId] || 0;
+            // CEK HARI: Weekday vs Weekend
+            const tanggal = new Date(tanggalValue);
+            const hari = tanggal.getDay(); // 0 = Minggu, 6 = Sabtu
+            const isWeekend = (hari === 6 || hari === 0);
+
+            // AMBIL HARGA dari data- yang sudah ada di <option>
+            const hargaWeekday = parseInt(selectedOption.getAttribute('data-weekday')) || 0;
+            const hargaWeekend = parseInt(selectedOption.getAttribute('data-weekend')) || 0;
+
+            // Pilih harga yang sesuai hari
+            const hargaSatuan = isWeekend ? hargaWeekend : hargaWeekday;
+
+            // HITUNG TOTALNYA
             const subtotal = jumlah * hargaSatuan;
             const pajakVal = subtotal * pajakRate;
             const totalVal = subtotal + pajakVal;
 
-            harga.value = rupiah(subtotal);
-            hargaHidden.value = subtotal; // Nilai subtotal yang disimpan
-            pajak.value = rupiah(pajakVal);
-            total.value = rupiah(totalVal);
-            totalHidden.value = totalVal; // Nilai total yang disimpan
+            // TAMPILKAN DI LAYAR (Biar admin senang lihat ada Rp-nya)
+            hargaDisplay.value = formatKeRupiah(subtotal);
+            pajakDisplay.value = formatKeRupiah(pajakVal);
+            totalDisplay.value = formatKeRupiah(totalVal);
+
+            // MASUKKAN KE HIDDEN INPUT (Ini yang bakal masuk ke database kamu)
+            hargaHidden.value = subtotal; // Akan masuk ke kolom 'harga_pesanan'
+            totalHidden.value = totalVal; 
         }
 
-        function rupiah(num) {
-            return 'Rp' + num.toLocaleString('id-ID');
+        function formatKeRupiah(angka) {
+            return 'Rp' + angka.toLocaleString('id-ID');
         }
 
+        function resetAngka() {
+            hargaDisplay.value = 'Rp0';
+            pajakDisplay.value = 'Rp0';
+            totalDisplay.value = 'Rp0';
+            hargaHidden.value = 0;
+            totalHidden.value = 0;
+        }
+
+        // Pantau perubahan: Kalau admin klik/ngetik, langsung hitung ulang
         selectPaket.addEventListener('change', hitung);
         selectJumlah.addEventListener('change', hitung);
         selectJumlah.addEventListener('input', hitung);
+        inputTanggal.addEventListener('change', hitung);
 
-        // Panggil hitung saat halaman dimuat untuk nilai default (jika ada)
-        hitung();
+        hitung(); // Jalankan sekali saat awal buka halaman
     });
 </script>
 
@@ -109,21 +132,18 @@
                     </div>
                     <div class="input-item" style="flex: 1;">
                         <label class="form-label" style="font-weight: 500; margin-bottom: 5px;">Jumlah Pesanan</label>
-                        <input type="number" name="jumlah_pesanan" class="form-control"
-                            value="{{ old('jumlah_pesanan', 1) }}" min="1" style="border-radius : 8px; padding: 10px;" required>
+                        <input type="number" name="jumlah_tiket" class="form-control"
+                            value="{{ old('jumlah_tiket', 1) }}" min="1" style="border-radius : 8px; padding: 10px;" required>
                     </div>
                 </div>
 
                 <div class="kolom-input" style="display: flex; gap: 20px; margin-bottom: 15px;">
                     <div class="input-item" style="flex: 1;">
                         <label class="form-label" style="font-weight: 500; margin-bottom: 5px;">Nama Pemesan</label>
-                        <select name="id_user" class="form-select" style="border-radius : 8px; padding: 10px;" required>
+                        <select name="id_user" class="form-control" required>
                             <option value="">-- Pilih User --</option>
-
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">
-                                    {{ $user->name }}
-                                </option>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}">{{ $user->nama_user }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -162,7 +182,7 @@
                 <div class="list-information" style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #eee;">
                     <label class="form-label" style="font-weight: 500; margin: 0;">Subtotal Paket</label>
                     <input type="text" id="harga_paket" class="value-item" style="border: none; width: fit-content; text-align: right; font-weight: 600;" readonly value="Rp0">
-                    <input type="hidden" name="harga_sewa_tenant" id="harga_paket_hidden">
+                    <input type="hidden" name="harga_pesanan" id="harga_paket_hidden">
                 </div>
 
                 <div class="list-information" style="display: flex; justify-content: space-between; padding: 10px 0; border-top: 1px solid #eee;">

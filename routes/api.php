@@ -2,9 +2,12 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\TiketPaketControllerAPI; // Import yang baru
+use App\Http\Controllers\Api\TiketPaketControllerAPI;
+use App\Http\Controllers\Api\PesanTiketPaketControllerAPI;
+use App\Http\Controllers\MidtransCallbackController;
+use App\Http\Controllers\PaymentController;
 
-Route::get('/TiketPaket', [TiketPaketControllerAPI::class, 'index']);
-Route::post('/TiketPaket', [TiketPaketControllerAPI::class, 'store']);
-Route::put('/TiketPaket/{id}', [TiketPaketControllerAPI::class, 'update']);
-Route::delete('/TiketPaket/{id}', [TiketPaketControllerAPI::class, 'destroy']);
+Route::apiResource('TiketPaket', TiketPaketControllerAPI::class);
+Route::apiResource('pesan-tiket-paket', PesanTiketPaketControllerAPI::class);
+Route::post('/midtrans-callback', [MidtransCallbackController::class, 'callback']);
+Route::post('/payment-callback', [PaymentController::class, 'handleCallback']);

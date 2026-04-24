@@ -17,7 +17,6 @@ class TiketPaket extends Model
         'harga_tiket_weekend',
         'status_tiket',
         'qr_tiket',
-        'id_wahana',
     ];
 
     public function wahana()

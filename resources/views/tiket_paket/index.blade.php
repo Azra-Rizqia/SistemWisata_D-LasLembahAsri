@@ -82,22 +82,22 @@
                         </td>
 
                         <td>
-                                    <a href="{{ route('tiket_paket.show', $item->id) }}" class="btn btn-sm"><i
-                                            class="ph ph-eye icon icon-sm"></i>
-                                    </a>
 
-                                    <a href="{{ route('tiket_paket.edit', $item->id) }}" class="btn btn-sm"><i
-                                            class="ph ph-pencil-line icon icon-sm"></i>
-                                    </a>
-                                    <button class="btn btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#delete-{{ $item->id }}">
-                                        <i class="ph ph-trash icon icon-sm icon-danger"></i>
-                                    </button>
-                                    <x-modal-delete id="delete-{{ $item->id }}"
-                                        action="{{ route('tiket_paket.destroy', $item->id) }}"
-                                        title="Apakah Anda Yakin Untuk Menghapus?"
-                                        message="Jika anda menghapus pesanan ini, maka anda tidak dapat memulihkannya lagi" />
-                                </td>
+                            <a href="{{ route('tiket_paket.show', $item->id) }}" class="btn btn-sm"><i
+                            class="ph ph-eye icon icon-sm"></i>
+                            </a>
+                            <a href="{{ route('tiket_paket.edit', $item->id) }}" class="btn btn-sm"><i
+                             class="ph ph-pencil-line icon icon-sm"></i>
+                            </a>
+                            <button class="btn btn-sm" data-bs-toggle="modal"
+                            data-bs-target="#delete-{{ $item->id }}">
+                            <i class="ph ph-trash icon icon-sm icon-danger"></i>
+                            </button>
+                            <x-modal-delete id="delete-{{ $item->id }}
+                            action="{{ route('tiket_paket.destroy', $item->id) }}"
+                            title="Apakah Anda Yakin Untuk Menghapus?"
+                            message="Jika anda menghapus pesanan ini, maka anda tidak dapat memulihkannya lagi" />
+                        </td>
                     </tr>
                     @empty
                     <tr>

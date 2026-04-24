@@ -11,19 +11,20 @@ class PesanTiketPaket extends Model
 
     protected $fillable = [
         'kode_pesan_tiket',
+        'id_tiket_paket',
+        'id_user',
         'deskripsi_tiket',
         'harga_pesanan',
         'jumlah_tiket',
-        'status',
         'tanggal_pembelian',
+        'status',
         'qr_tiket',
-        'id_user',
-        'id_tiket_paket'
+        'snap_token'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'id_user');
+        return $this->belongsTo(User::class, 'id_user', 'id');
     }
 
     public function tiketPaket()
