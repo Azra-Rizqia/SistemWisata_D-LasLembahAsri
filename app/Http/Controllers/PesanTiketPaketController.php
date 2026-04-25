@@ -14,7 +14,7 @@ class PesanTiketPaketController extends Controller
         $pesanan = PesanTiketPaket::with(['user', 'tiketPaket'])->get();
 
         $totalPendapatan = $pesanan->sum(function ($item) {
-        return $item->harga_pesanan * $item->jumlah_tiket;
+        return $item->harga_pesanan;
     });
 
         $totalData = $pesanan->count();
@@ -54,36 +54,33 @@ class PesanTiketPaketController extends Controller
         $tiket = \App\Models\TiketPaket::findOrFail($request->id_tiket_paket);
         $kode_pesan_tiket = 'PSN-' . strtoupper(uniqid());
 
-        // --- LOGIC MIDTRANS START ---
-        \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
-        \Midtrans\Config::$isProduction = false;
-        \Midtrans\Config::$isSanitized = true;
-        \Midtrans\Config::$is3ds = true;
-
         $params = [
             'transaction_details' => [
                 'order_id' => $kode_pesan_tiket,
-                'gross_amount' => (int) $request->harga_pesanan,
+                'gross_amount' => (int) $request->total_pembayaran,
             ],
             'customer_details' => [
-                'first_name' => 'Customer Arthur', // Bisa ganti jadi $request->user()->name jika login
+                'first_name' => 'Customer Arthur',
             ],
         ];
+        \Midtrans\Config::$serverKey = config('midtrans.server_key');
+        \Midtrans\Config::$isProduction = config('midtrans.is_production');
+        \Midtrans\Config::$isSanitized = true;
+        \Midtrans\Config::$is3ds = true;
 
         $snapToken = \Midtrans\Snap::getSnapToken($params);
-        // --- LOGIC MIDTRANS END ---
 
         \App\Models\PesanTiketPaket::create([
             'kode_pesan_tiket'  => $kode_pesan_tiket,
             'id_tiket_paket'    => $request->id_tiket_paket,
             'id_user'           => $request->id_user,
             'deskripsi_tiket'   => 'Pembelian ' . $tiket->nama_tiket_paket,
-            'harga_pesanan'     => $request->harga_pesanan,
+            'harga_pesanan'     => $request->total_pembayaran,
             'jumlah_tiket'      => $request->jumlah_tiket,
             'tanggal_pembelian' => $request->tanggal_pembelian,
             'status'            => $request->status_pesanan,
             'qr_tiket'          => 'QR-' . uniqid(),
-            'snap_token'        => $snapToken, // Token tersimpan otomatis di phpMyAdmin
+            'snap_token'        => $snapToken,
         ]);
 
         return redirect()->route('pesan_tiket_paket.index')

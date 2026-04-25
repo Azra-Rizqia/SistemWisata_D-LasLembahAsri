@@ -37,7 +37,13 @@
                 <div class="info-item-information">
                     <p class="font-h7">{{ $pesananTiket->tiketPaket->nama_tiket_paket ?? 'Paket Tidak Ditemukan' }}</p>
                     <p class="font-T3-Regular">
-                        Rp{{ number_format($pesananTiket->harga_pesanan, 0, ',', '.') }}
+                        @php
+                            $subtotal = $pesananTiket->harga_pesanan;
+                            $pajak = $subtotal * 0.1;
+                            $total = $subtotal + $pajak;
+                        @endphp
+
+                        Rp{{ number_format($total, 0, ',', '.') }}
                     </p>
                 </div>
 
@@ -82,7 +88,7 @@
                 <div class="info-item-information">
                     <p class="font-T4-Regular">Total Pembayaran</p>
                     <p class="font-T1-SemiBold text-success">
-                        Rp{{ number_format($pesananTiket->harga_pesanan * $pesananTiket->jumlah_tiket, 0, ',', '.') }}
+                       Rp{{ number_format($total, 0, ',', '.') }}
                     </p>
                 </div>
 
@@ -110,8 +116,8 @@
     </div>
 </div>
 
-{{-- SCRIPT MIDTRANS --}}
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
+<script src="https://app.sandbox.midtrans.com/snap/snap.js" 
+data-client-key="{{ env('MIDTRANS_CLIENT_KEY') }}"></script>
 <script type="text/javascript">
     const payButton = document.getElementById('pay-button');
     if(payButton){
