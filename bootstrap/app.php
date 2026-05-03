@@ -11,7 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->validateCsrfTokens(except: [
+            '/callback', // Ganti dengan path route callback Anda
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

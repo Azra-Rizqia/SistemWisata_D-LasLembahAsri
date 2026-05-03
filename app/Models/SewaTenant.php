@@ -13,6 +13,7 @@ class SewaTenant extends Model
     protected $keyType = 'int';
 
     protected $fillable = [
+        'no_pembayaran',
         'tanggal_mulai_sewa',
         'tanggal_selesai_sewa',
         'status_pembayaran_tenant',

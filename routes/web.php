@@ -61,3 +61,5 @@ Route::get('/pesan-tiket', [PesanTiketSatuanController::class, 'index'])->name('
 Route::get('/', [AdminController::class, 'loginForm']) ->name('admin.login');
 Route::post('/', [AdminController::class, 'login'])->name('admin.login.post');
 
+Route::post('/midtrans/callback', [SewaTenantController::class, 'callback']);
+Route::post('/callback', [SewaTenantController::class, 'callback']);

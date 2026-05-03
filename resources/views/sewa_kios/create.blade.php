@@ -62,9 +62,7 @@
                     <div class="input-item">
                         <label class="form-label">Status Pembayaran</label>
                         <select name="status_pembayaran_tenant" class="form-select" style="border-radius : 32px">
-                            <option value="Menunggu">Menunggu</option>
-                            <option value="Dibayar">Dibayar</option>
-                            <option value="Dibatalkan">Dibatalkan</option>
+                            <option value="Menunggu">Proses</option>
                         </select>
                     </div>
                 </div>
@@ -72,25 +70,14 @@
                     <div class="input-item">
                         <label class="form-label">Metode Pembayaran</label>
                         <select name="metode_pembayaran" class="form-select" style="border-radius : 32px" required>
-                            <option value="Debit">Debit</option>
-                            <option value="QRIS">QRIS</option>
+                            <option value="Debit">NonTunai</option>
                         </select>
                     </div>
                     <div class="list-information">
-                        <label class="form-label">Harga Sewa</label>
+                        <label class="form-label fw-bold">Harga Sewa</label>
                         <input type="text" id="harga_sewa" class="value-item" style="border: none; width: fit-content;"
                             readonly>
                         <input type="hidden" name="harga_sewa_tenant" id="harga_sewa_hidden">
-                    </div>
-
-                    <div class="list-information">
-                        <label class="form-label">Pajak (10%)</label>
-                        <input type="text" id="pajak" class="value-item" readonly>
-                    </div>
-
-                    <div class="list-information">
-                        <label class="form-label fw-bold">Total</label>
-                        <input type="text" id="total" class="value-item text-success" readonly>
                     </div>
                 </div>
         </form>

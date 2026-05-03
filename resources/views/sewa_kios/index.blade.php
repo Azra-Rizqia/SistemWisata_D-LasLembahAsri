@@ -48,6 +48,9 @@
                                 <p class="font-T5-Medium" style="color: #727272">No Sewa</p>
                             </th>
                             <th>
+                                <p class="font-T5-Medium" style="color: #727272">No Pembayaran</p>
+                            </th>
+                            <th>
                                 <p class="font-T5-Medium" style="color: #727272">Nama Pemesan</p>
                             </th>
                             <th>
@@ -78,6 +81,9 @@
                             <tr>
                                 <td>
                                     <p class="font-T5-Regular data-table">#{{ $item->id }}</p>
+                                </td>
+                                <td>
+                                    <p class="font-T5-Regular data-table">#{{ $item->no_pembayaran }}</p>
                                 </td>
                                 <td>
                                     <p class="font-T5-Regular data-table">{{ $item->user->nama_user ?? '-' }}</p>

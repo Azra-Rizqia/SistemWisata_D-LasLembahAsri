@@ -6,6 +6,7 @@ use App\Models\SewaTenant;
 use App\Models\Tenant;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SewaTenantController extends Controller
 {
@@ -13,7 +14,7 @@ class SewaTenantController extends Controller
     public function index()
     {
         $sewa_kio = SewaTenant::with(['tenant', 'user'])
-            ->orderBy('created_at', 'desc') // ← DATA TERBARU DI ATAS
+            ->orderBy('created_at', 'desc')
             ->get();
         $totalPendapatan = SewaTenant::sum('harga_sewa_tenant');
         $totalData = SewaTenant::count('id_tenant');
@@ -36,48 +37,72 @@ class SewaTenantController extends Controller
         \Midtrans\Config::$is3ds = config('midtrans.is_3ds', true);
     }
 
-    // Membuat sewa tenant
+
     public function store(Request $request)
     {
-        $totalPembayaran = $request->harga_sewa_tenant;
-        $id = $request->id;
         $validated = $request->validate([
-            'id',
             'tanggal_mulai_sewa' => 'required|date',
             'tanggal_selesai_sewa' => 'required|date|after_or_equal:tanggal_mulai_sewa',
-            'status_pembayaran_tenant' => 'Unpaid',
-            'metode_pembayaran' => 'required|in:Debit,QRIS',
+            'status_pembayaran_tenant' => 'required|in:Menunggu,Dibayar,Dibatalkan',
+            'metode_pembayaran' => 'required',
             'harga_sewa_tenant' => 'required|integer',
             'id_tenant' => 'required|exists:tenant,id',
             'id_user' => 'required|exists:users,id',
         ]);
 
+        $no_pembayaran = 'PT-' . Str::random(8);
+
+        $validated['no_pembayaran'] = $no_pembayaran;
+
+        $sewatenant = SewaTenant::create($validated);
+
         $user = User::findOrFail($request->id_user);
+
+        // Konfigurasi Midtrans
         $params = [
             'transaction_details' => [
-                'order_id' => $id,
-                'gross_amount' => $totalPembayaran,
+                'order_id' => $no_pembayaran,
+                'gross_amount' => (int) $sewatenant->harga_sewa_tenant,
             ],
             'customer_details' => [
-                'first_name' => $user->name ?? $user->nama_user ?? 'Tamu',
-                'email' => $user->email ?? $user->email_user ?? 'guest@example.com',
+                'first_name' => $user->nama_user,
+                'email' => $user->email_user,
             ],
         ];
 
-        $snapToken = \Midtrans\Snap::getSnapToken($params);
-
-        $sewa = SewaTenant::create(
-            collect($validated)->except('metode_pembayaran')->toArray()
-        );
-
-        $sewa->setAttribute('Metode Pembayaran', $validated['metode_pembayaran']);
-        $sewa->save();
-
-        return redirect()
-            ->route('sewa_kios.index')
-            ->with('success', 'Sewa tenant berhasil ditambahkan');
+        try {
+            $snapToken = \Midtrans\Snap::getSnapToken($params);
+            return view('sewa_kios.pay', compact('snapToken', 'sewatenant'));
+        } catch (\Exception $e) {
+            return "Error Midtrans: " . $e->getMessage();
+        }
     }
 
+    public function callback(Request $request)
+    {
+        $serverKey = config('midtrans.server_key') ?? env('MIDTRANS_SERVER_KEY');
+        $hashed = hash("sha512", $request->order_id . $request->status_code . $request->gross_amount . $serverKey);
+
+        if ($hashed == $request->signature_key) {
+            $reservasi = SewaTenant::where('no_pembayaran', $request->order_id)->first();
+
+            if ($reservasi) {
+                $status = $request-> transaction_status;
+                if ($status == 'capture' || $status == 'settlement') {
+                    $reservasi->update(['status_pembayaran_tenant' => 'Dibayar']);
+                } else if ($status == 'expire' || $status == 'cancel') {
+                    $reservasi->update([
+                        'status_pembayaran_tenant' => 'Dibatalkan'
+                    ]);
+                } else if ($status == 'pending') {
+                    $reservasi->update([
+                        'status_pembayaran_tenant' => 'Menunggu'
+                    ]);
+                }
+            }
+        }
+        return response()->json(['message' => 'Notifikasi diterima']);
+    }
 
 
     // detail  sewa tenant
