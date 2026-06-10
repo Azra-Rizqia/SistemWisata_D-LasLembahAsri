@@ -12,18 +12,12 @@ class MidtransCallbackController extends Controller
 {
     public function callback(Request $request)
 {
-    // ✅ WAJIB DI ATAS
     \Midtrans\Config::$serverKey = config('midtrans.server_key');
     \Midtrans\Config::$isProduction = false;
-
     \Log::info('CALLBACK MASUK', $request->all());
-
-    // ⬇️ BARU INI
     $notif = new \Midtrans\Notification();
-
     $orderId = $notif->order_id;
     $status = $notif->transaction_status;
-
     $pesanan = PesanTiketPaket::where('kode_pesan_tiket', $orderId)->first();
 
     if (!$pesanan) {
